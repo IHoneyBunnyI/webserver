@@ -1,3 +1,4 @@
 a.out
 *.o
 a.out.dSYM
+compile_flags.txt
