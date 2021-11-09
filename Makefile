@@ -36,3 +36,5 @@ fclean : clean
 	rm -rf $(OBJDIR)
 
 re: fclean all
+
+.PHONY: all clean fclean re
