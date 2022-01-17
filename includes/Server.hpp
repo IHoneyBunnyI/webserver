@@ -13,7 +13,6 @@ public:
 	Server& operator = (const Server& ref);
 
 private:
-	int port;
 
 };
 

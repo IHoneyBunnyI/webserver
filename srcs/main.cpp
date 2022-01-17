@@ -1,10 +1,9 @@
 #include <iostream>
-#include "Server.hpp"
 
-int main(int ac, char **av)
+#define SERVER_PORT 8080
+
+int main(int argc, char** argv)
 {
-	(void)ac;
-	(void)av;
-	Server server;
-	return 0;
+	(void) argc;
+	(void)argv;
 }

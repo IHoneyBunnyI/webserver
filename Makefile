@@ -5,7 +5,7 @@ CXX = clang++
 
 INCLUDES = -Iincludes/
 
-CXXFLAGS = -Wall -Wextra -Werror $(INCLUDES)
+CXXFLAGS = $(INCLUDES) #-Wall -Wextra -Werror $(INCLUDES)
 
 CPP_FILES = main.cpp\
 			Server.cpp\
