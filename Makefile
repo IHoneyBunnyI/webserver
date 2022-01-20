@@ -9,6 +9,7 @@ CXXFLAGS = $(INCLUDES) #-Wall -Wextra -Werror $(INCLUDES)
 
 CPP_FILES = main.cpp\
 			Server.cpp\
+			utils.cpp\
 
 
 HPP_FILES = Server.hpp\
@@ -29,7 +30,7 @@ objs/%.o : %.cpp Makefile $(HEADERS)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 	@$(eval PERCENT=$(shell expr $(INDEX) '*' 100 / $(NB)))
 	@$(eval PROGRESS=$(shell expr $(INDEX) '*' 30 / $(NB)))
-	@printf "\r\033[38;5;219mMAKE SERVER %2d%%\033[0m \033[48;5;129m%*s\033[0m %s\033[K" $(PERCENT) $(PROGRESS) #"" $(notdir $@)
+	@printf "\r\033[38;5;219mMAKE SERVER %2d%%\033[0m \033[48;5;129m%*s\033[0m %s\033[K" $(PERCENT) $(PROGRESS) "" $(notdir $@)
 	@$(eval INDEX=$(shell echo $$(($(INDEX)+1))))
 
 $(OBJDIR):
