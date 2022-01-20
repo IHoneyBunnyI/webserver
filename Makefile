@@ -10,6 +10,7 @@ CXXFLAGS = $(INCLUDES) #-Wall -Wextra -Werror $(INCLUDES)
 CPP_FILES = main.cpp\
 			Server.cpp\
 			utils.cpp\
+			Server_parseConfig.cpp\
 
 
 HPP_FILES = Server.hpp\
@@ -23,6 +24,7 @@ NB = $(words $(CPP_FILES))
 INDEX = 0
 
 VPATH = srcs/\
+		srcs/parser\
 
 all: $(OBJDIR) $(NAME)
 
@@ -43,6 +45,7 @@ $(NAME) : $(OBJS)
 clean:
 	@rm -rf $(OBJS)
 	@printf "\033[38;5;196mCLEAN\033[0m\n"
+	@rm -rf logs.webserv
 
 fclean : clean
 	@rm -rf $(NAME)

@@ -1,23 +1,6 @@
+#include <iostream>
 #include "Server.hpp"
 #include <fstream>
-
-Server::Server() {}
-Server::~Server() {}
-Server::Server(const Server& ref)
-{
-	this->configFile = ref.configFile;
-}
-
-Server& Server::operator = (const Server& ref)
-{
-	if (this != &ref)
-	{
-		this->configFile = ref.configFile;
-	}
-	return *this;
-}
-
-Server::Server(std::string conf): configFile(conf) {}
 
 void Server::parseConfig()
 {
@@ -36,9 +19,4 @@ void Server::parseConfig()
 		std::cout << "Error config file!" << std::endl;
 	}
 	// пишем логи в файл 'logs.webserv', если в файле конфига есть проблемы
-}
-
-void Server::start()
-{
-
 }

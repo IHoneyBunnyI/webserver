@@ -8,11 +8,16 @@ class Server
 
 public:
 	Server();
+	Server(std::string);
 	~Server();
 	Server(const Server& ref);
 	Server& operator = (const Server& ref);
 
+	void parseConfig();
+	void start();
+
 private:
+	std::string configFile;
 
 };
 
