@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#define SERVER_PORT 2121
+
 class Server
 {
 

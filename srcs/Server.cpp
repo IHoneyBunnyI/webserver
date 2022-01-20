@@ -1,9 +1,5 @@
 #include "Server.hpp"
 #include <fstream>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
-#define SERVER_PORT 2121
 
 Server::Server() {}
 Server::~Server() {}
@@ -31,11 +27,3 @@ Parser Server::getParser()
 	return this->parser;
 }
 
-void Server::start()
-{
-	struct sockaddr_in socket;
-
-	socket.sin_family = PF_INET;
-	socket.sin_port = htons(SERVER_PORT);
-	//socket.sin_addr = htonl();
-}

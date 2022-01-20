@@ -11,6 +11,7 @@ CPP_FILES = main.cpp\
 			Server.cpp\
 			utils.cpp\
 			Parser.cpp\
+			Server_start.cpp\
 
 
 HPP_FILES = Server.hpp\
