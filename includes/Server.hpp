@@ -1,5 +1,6 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
+#include "Parser.hpp"
 
 #include <iostream>
 
@@ -15,10 +16,10 @@ public:
 
 	void parseConfig();
 	void start();
+	Parser getParser();
 
 private:
-	std::string configFile;
-
+	Parser parser;
 };
 
 #endif

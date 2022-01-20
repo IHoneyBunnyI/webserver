@@ -1,44 +1,41 @@
 #include "Server.hpp"
 #include <fstream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+#define SERVER_PORT 2121
 
 Server::Server() {}
 Server::~Server() {}
+Server::Server(std::string conf)
+{
+	parser.setConfigFile(conf);
+}
 Server::Server(const Server& ref)
 {
-	this->configFile = ref.configFile;
+	(void)ref;
+	//this->pathConfigFile = ref.pathConfigFile;
 }
 
 Server& Server::operator = (const Server& ref)
 {
 	if (this != &ref)
 	{
-		this->configFile = ref.configFile;
+		//this->pathConfigFile = ref.pathConfigFile;
 	}
 	return *this;
 }
 
-Server::Server(std::string conf): configFile(conf) {}
-
-void Server::parseConfig()
+Parser Server::getParser()
 {
-	std::ofstream log("logs.webserv");
-	if (!log)
-	{
-		std::cout << "error create logs.webserv!" << std::endl;
-		exit (1);
-	}
-	log << "PARSING!" << std::endl;
-
-	int problem = 0;
-	if (problem)
-	{
-		log << "ERRROR AAAAA PROBLEM!!!!" << std::endl;
-		std::cout << "Error config file!" << std::endl;
-	}
-	// пишем логи в файл 'logs.webserv', если в файле конфига есть проблемы
+	return this->parser;
 }
 
 void Server::start()
 {
+	struct sockaddr_in socket;
 
+	socket.sin_family = PF_INET;
+	socket.sin_port = htons(SERVER_PORT);
+	//socket.sin_addr = htonl();
 }

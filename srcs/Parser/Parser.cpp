@@ -1,8 +1,28 @@
 #include <iostream>
-#include "Server.hpp"
+#include "Parser.hpp"
 #include <fstream>
 
-void Server::parseConfig()
+Parser::Parser() {}
+Parser::~Parser() {}
+Parser::Parser(const Parser& ref)
+{
+	this->configFile = ref.configFile;
+}
+Parser& Parser::operator = (const Parser& ref)
+{
+	if (this != &ref)
+	{
+		this->configFile = ref.configFile;
+	}
+	return *this;
+}
+
+void Parser::setConfigFile(std::string conf)
+{
+	this->configFile = conf;
+}
+
+void Parser::parseConfig()
 {
 	std::ofstream log("logs.webserv");
 	if (!log)

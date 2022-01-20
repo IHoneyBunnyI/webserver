@@ -5,12 +5,12 @@ CXX = clang++
 
 INCLUDES = -Iincludes/
 
-CXXFLAGS = $(INCLUDES) #-Wall -Wextra -Werror $(INCLUDES)
+CXXFLAGS = $(INCLUDES) -Wall -Wextra -Werror
 
 CPP_FILES = main.cpp\
 			Server.cpp\
 			utils.cpp\
-			Server_parseConfig.cpp\
+			Parser.cpp\
 
 
 HPP_FILES = Server.hpp\
