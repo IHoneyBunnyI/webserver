@@ -17,7 +17,7 @@ void log(std::string message)
 	time_t	tt = std::chrono::system_clock::to_time_t(time_point);
 	tm local_tm = *localtime(&tt);
 
-	logfile << std::put_time(&local_tm, "[%Y:%m:%d %H:%M:%S] ");
+	logfile << std::put_time(&local_tm, "[%H:%M:%S %d-%m-%Y] ");
 	logfile << message << std::endl;
 
 	logfile.close();
