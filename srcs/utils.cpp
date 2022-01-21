@@ -1,6 +1,8 @@
 #include <iostream>
+#include <chrono>
+#include <iomanip>
 
-int argc_error(void)
+int fatal(void)
 {
 	std::cout << "Error argument!" << std::endl;
 	return 2;

@@ -25,7 +25,8 @@ NB = $(words $(CPP_FILES))
 INDEX = 0
 
 VPATH = srcs/\
-		srcs/parser\
+		srcs/Parser\
+		srcs/Server\
 
 all: $(OBJDIR) $(NAME)
 
