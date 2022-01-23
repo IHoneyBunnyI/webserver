@@ -7,6 +7,28 @@
 #include "Server.hpp"
 #include "webserv.hpp"
 
+void send_response(int fd)
+{
+	std::string response =
+	"HTTP/1.1 200 OK\r\n"
+	"Content-Type: text/html; charset=UTF-8\r\n\r\n"
+	"<doctype !html>\n"
+	"	<html>\n"
+	"		<head>\n"
+	"			<title>Webserv</title>\n"
+	"			<style>body { background-color: #112 }\n"
+	"				   h1 { font-size:4cm; text-align: center; color: black;\n"
+	"						text-shadow: 0 0 2mm red}\n"
+	"			</style>\n"
+	"		</head>\n"
+	"<body>\n"
+	"		<h1>HELLO, world!</h1>\n"
+	"</body>\n"
+	"</html>\r\n";
+
+	write(fd, response.c_str(), response.length());
+}
+
 int create_listen_socket(int port)
 {
 	struct sockaddr_in socket_in;
@@ -69,6 +91,7 @@ void Server::start()
 	fds[0].fd = sock_fd;
 	fds[0].events = POLLIN;
 
+	int close_connect = 0;
 	int rpoll = 0;
 	while (1)
 	{
@@ -90,11 +113,10 @@ void Server::start()
 		{
 			if (fds[i].revents == 0)
 				continue;
-			//if (fds[i].revents != POLLIN)
-			//{
-				//printf("\033[32mERROR!!!\033[0m\n");
-				//exit(1);
-			//}
+			if (fds[i].revents != POLLIN)
+			{
+				printf("\033[32mClient disconnect\033[0m\n");
+			}
 			if (fds[i].fd == sock_fd)
 			{
 				int new_sd = 0;
@@ -110,13 +132,56 @@ void Server::start()
 			}
 			else
 			{
-				char buffer[20];
+				char buffer[500];
 				printf("Descriptor %d is readable\n", fds[i].fd);
-				int rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
+				while (1)
+				{
+					int rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
+					if (rc < 0)
+					{
+						printf("recv() error\n");
+						close_connect = 1;
+						break;
+					}
+					if (rc == 0)
+					{
+						printf("Connection closed\n");
+						close_connect = 1;
+						break;
+					}
 
-				int len = rc;
-				printf("	%d bytes received\n", len);
+					//send_response(sock_fd);
+					std::string response =
+					"HTTP/1.1 200 OK\r\n"
+					"Content-Type: text/html; charset=UTF-8\r\n\r\n"
+					"<doctype !html>\n"
+					"	<html>\n"
+					"		<head>\n"
+					"			<title>Webserv</title>\n"
+					"			<style>body { background-color: #444 }\n"
+					"				   h1 { font-size:4cm; text-align: center; color: black;\n"
+					"						text-shadow: 0 0 2mm red}\n"
+					"			</style>\n"
+					"		</head>\n"
+					"<body>\n"
+					"		<h1>HELLO, world!</h1>\n"
+					"</body>\n"
+					"</html>\r\n";
+
+					//write(fds[i].fd, response.c_str(), response.length());
+					rc = send(fds[i].fd, response.c_str(), response.length(), 0);
+					//int len = rc;
+					//printf("\033[31m%d bytes received\033[0m\n", len);
+				}
+
+				if (close_connect)
+				{
+					std::cout << "AAAA" <<std::endl;
+					close(fds[i].fd);
+					fds[i].fd = -1;
+				}
 			}
 		}
 	}
+
 }
