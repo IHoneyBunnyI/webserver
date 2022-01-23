@@ -3,27 +3,27 @@
 
 Server::Server() {}
 Server::~Server() {}
-Server::Server(std::string conf)
-{
-	parser.setConfigFile(conf);
-}
+
 Server::Server(const Server& ref)
 {
-	(void)ref;
-	//this->pathConfigFile = ref.pathConfigFile;
+	this->port = ref.port;
 }
 
 Server& Server::operator = (const Server& ref)
 {
 	if (this != &ref)
 	{
-		//this->pathConfigFile = ref.pathConfigFile;
+		this->port = ref.port;
 	}
 	return *this;
 }
 
-Parser Server::getParser()
+void Server::setPort(int port)
 {
-	return this->parser;
+	this->port = port;
 }
 
+int Server::getPort()
+{
+	return (this->port);
+}

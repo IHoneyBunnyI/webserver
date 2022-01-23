@@ -6,6 +6,7 @@ class Parser //FOR MARIA
 {
 public:
 	Parser();
+	Parser(std::string);
 	~Parser();
 	Parser(const Parser& ref);
 	Parser& operator = (const Parser& ref);

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include "Server.hpp"
+#include "Parser.hpp"
 #include "webserv.hpp"
 
 
@@ -30,7 +32,21 @@ int main(int argc, char** av)
 		return (fatal());
 	if (argc == 2)
 		configFile = av[1];
-	Server server(configFile);
-	server.getParser().parseConfig(); // MARIA
+
+	//идея заключается в том, чтобы парсер брал все данные о серверах (а их может быть любое кол-во)
+	//Server со всеми данными, где будет вектор портов, location'ов и т.д.
+	//поэтому было принято решение вынести класс Parser из поля класса Server,
+	//далее внутри класса Server будет поле класса HttpRequest, который уже будет парсить каждый запрос отдельно
+	
+	Parser parser(configFile);
+	parser.parseConfig(); // MARIA
+	// create all Servers
+	// Server.ports = Parser.getPorts()
+	// Server.locations = Parser.getLocations()
+	// Server.roots = Parser.getRoots()
+	// create all Servers
+	
+	Server server;
+	server.setPort(8080);
 	server.start(); // POGNALI
 }

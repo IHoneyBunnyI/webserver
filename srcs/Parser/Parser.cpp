@@ -3,6 +3,7 @@
 #include "webserv.hpp"
 
 Parser::Parser() {}
+Parser::Parser(std::string conf): configFile(conf) {}
 Parser::~Parser() {}
 Parser::Parser(const Parser& ref)
 {

@@ -12,17 +12,17 @@ class Server
 
 public:
 	Server();
-	Server(std::string);
 	~Server();
 	Server(const Server& ref);
 	Server& operator = (const Server& ref);
 
 	void parseConfig();
 	void start();
-	Parser getParser();
+	void setPort(int port);
+	int getPort();
 
 private:
-	Parser parser;
+	int port;
 };
 
 #endif
