@@ -41,6 +41,7 @@ int main(int argc, char** av)
 	Parser parser(configFile);
 	parser.parseConfig(); // MARIA
 	// create all Servers
+	// Server.ports = std::vector<int> ports // пример
 	// Server.ports = Parser.getPorts()
 	// Server.locations = Parser.getLocations()
 	// Server.roots = Parser.getRoots()
