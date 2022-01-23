@@ -140,7 +140,7 @@ void Server::start()
 					if (rc < 0)
 					{
 						printf("recv() error\n");
-						close_connect = 1;
+						//close_connect = 1;
 						break;
 					}
 					if (rc == 0)
@@ -151,6 +151,11 @@ void Server::start()
 					}
 
 					//send_response(sock_fd);
+					//rc = send(fds[i].fd, response.c_str(), response.length(), 0);
+					int len = rc;
+					printf("\033[31m%d bytes received\033[0m\n", len);
+				}
+
 					std::string response =
 					"HTTP/1.1 200 OK\r\n"
 					"Content-Type: text/html; charset=UTF-8\r\n\r\n"
@@ -168,11 +173,7 @@ void Server::start()
 					"</body>\n"
 					"</html>\r\n";
 
-					//write(fds[i].fd, response.c_str(), response.length());
-					rc = send(fds[i].fd, response.c_str(), response.length(), 0);
-					//int len = rc;
-					//printf("\033[31m%d bytes received\033[0m\n", len);
-				}
+					write(fds[i].fd, response.c_str(), response.length());
 
 				if (close_connect)
 				{
