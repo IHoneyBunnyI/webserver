@@ -23,6 +23,7 @@ public:
 
 private:
 	int port;
+	std::string request;
 };
 
 #endif

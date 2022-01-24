@@ -5,7 +5,7 @@ CXX = clang++
 
 INCLUDES = -Iincludes/
 
-CXXFLAGS = $(INCLUDES) -Wall -Wextra -Werror
+CXXFLAGS = $(INCLUDES) -Wall -Wextra -Werror -fsanitize=address -g
 
 CPP_FILES = main.cpp\
 			Server.cpp\
@@ -15,6 +15,8 @@ CPP_FILES = main.cpp\
 
 
 HPP_FILES = Server.hpp\
+			Parser.hpp\
+			webserv.hpp\
 
 O_FILES = $(addprefix objs/, $(CPP_FILES))
 SRCS = $(addprefix srcs/, $(CPP_FILES))

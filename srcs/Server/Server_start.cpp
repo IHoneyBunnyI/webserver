@@ -7,28 +7,6 @@
 #include "Server.hpp"
 #include "webserv.hpp"
 
-void send_response(int fd)
-{
-	std::string response =
-	"HTTP/1.1 200 OK\r\n"
-	"Content-Type: text/html; charset=UTF-8\r\n\r\n"
-	"<doctype !html>\n"
-	"	<html>\n"
-	"		<head>\n"
-	"			<title>Webserv</title>\n"
-	"			<style>body { background-color: #112 }\n"
-	"				   h1 { font-size:4cm; text-align: center; color: black;\n"
-	"						text-shadow: 0 0 2mm red}\n"
-	"			</style>\n"
-	"		</head>\n"
-	"<body>\n"
-	"		<h1>HELLO, world!</h1>\n"
-	"</body>\n"
-	"</html>\r\n";
-
-	write(fd, response.c_str(), response.length());
-}
-
 int create_listen_socket(int port)
 {
 	struct sockaddr_in socket_in;
@@ -68,7 +46,6 @@ int create_listen_socket(int port)
 		exit(1);
 	}
 
-
 	if ((listen(sock_fd, 1024)) < 0) //Слушаем сокет
 	{
 		log("listen() error");
@@ -92,39 +69,45 @@ void Server::start()
 	fds[0].events = POLLIN;
 
 	int close_connect = 0;
+	int compress_array = 0;
 	int rpoll = 0;
 	while (1)
 	{
-		printf("Poll()\n\n");
+		std::cout << "Poll()" << std::endl;
 		rpoll = poll(fds, nfds, -1);
+		std::cout << "rpoll = " << rpoll << std::endl;
 		if (rpoll < 0)
 		{
-			printf("Poll() error");
-			exit(1);
+			std::cout << "Poll() error" << std::endl;
+			continue;
 		}
 		if (rpoll == 0)
 		{
-			printf("Poll() timeout");
+			std:: cout << "Poll() timeout" << std::endl;
 			continue;
 		}
 		
 		int current_size = nfds;
+		std::cout << "current_size = " << current_size << std::endl;
 		for (int i = 0; i < current_size; i++)
 		{
 			if (fds[i].revents == 0)
 				continue;
-			if (fds[i].revents != POLLIN)
+			else if (fds[i].revents != POLLIN)
 			{
 				printf("\033[32mClient disconnect\033[0m\n");
+				close(fds[i].fd);
+				compress_array = 1;
 			}
-			if (fds[i].fd == sock_fd)
+			else if (fds[i].fd == sock_fd)
 			{
 				int new_sd = 0;
 				while (new_sd != -1)
 				{
 					new_sd = accept(sock_fd, 0, 0);
-					//if (new_sd < 0)
-					printf("New connection\n");
+					if (new_sd < 0)
+						break;
+					std::cout << GREEN "New connection" WHITE << std::endl;
 					fds[nfds].fd = new_sd;
 					fds[nfds].events = POLLIN;
 					nfds++;
@@ -132,30 +115,26 @@ void Server::start()
 			}
 			else
 			{
-				char buffer[500];
-				printf("Descriptor %d is readable\n", fds[i].fd);
+				char buffer[1000];
+				std::cout << "Descriptor to read=\t" <<  fds[i].fd << std::endl;
 				while (1)
 				{
 					int rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
 					if (rc < 0)
 					{
-						printf("recv() error\n");
-						//close_connect = 1;
+						std::cout << YELLOW "full data read" WHITE << std::endl;
 						break;
 					}
 					if (rc == 0)
 					{
-						printf("Connection closed\n");
+						std::cout << "Connection closed" << std::endl;
 						close_connect = 1;
 						break;
 					}
-
-					//send_response(sock_fd);
-					//rc = send(fds[i].fd, response.c_str(), response.length(), 0);
-					int len = rc;
-					printf("\033[31m%d bytes received\033[0m\n", len);
+					this->request += buffer;
+					memset(buffer, 0, 1000);
 				}
-
+					//std::cout << "\033[38;5;207m" << this->request << "\033[0m" << std::endl;
 					std::string response =
 					"HTTP/1.1 200 OK\r\n"
 					"Content-Type: text/html; charset=UTF-8\r\n\r\n"
@@ -173,16 +152,39 @@ void Server::start()
 					"</body>\n"
 					"</html>\r\n";
 
-					write(fds[i].fd, response.c_str(), response.length());
+					if ((send(fds[i].fd, response.c_str(), response.length(), 0)) < 0)
+					{
+						std::cout << "send() failed" << std::endl;
+						close_connect = 1;
+						break;
+					}
 
 				if (close_connect)
 				{
 					std::cout << "AAAA" <<std::endl;
 					close(fds[i].fd);
 					fds[i].fd = -1;
+					compress_array = 1;
 				}
 			}
 		}
+
+		if (compress_array)
+		{
+			std::cout << "AAAAAAA" << std::endl;
+			compress_array = 0;
+			for (int i = 0; i < nfds; i++)
+			{
+				if (fds[i].fd == -1)
+				{
+					for(int j = i; j < nfds-1; j++)
+						fds[j].fd = fds[j+1].fd;
+					i--;
+					nfds--;
+				}
+			}
+		}
+		std::cout << RED "===========" WHITE << std::endl;
 	}
 
 }
