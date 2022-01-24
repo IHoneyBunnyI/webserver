@@ -7,6 +7,14 @@
 #include "Server.hpp"
 #include "webserv.hpp"
 
+std::string get_path_from_GET(std::string request) // временный костыль
+{
+	std::string::iterator begin = request.begin() + (request.find("/"));
+	std::string::iterator end = request.begin() + request.find(" ", request.find("/")) ;
+	std::string res(begin, end);
+	return res;
+}
+
 int create_listen_socket(int port)
 {
 	struct sockaddr_in socket_in;
@@ -93,12 +101,6 @@ void Server::start()
 		{
 			if (fds[i].revents == 0)
 				continue;
-			//else if (fds[i].revents != POLLIN)
-			//{
-				//std::cout << GREEN "Client disconnect" WHITE << std::endl;
-				//close(fds[i].fd);
-				//compress_array = 1;
-			//}
 			else if (fds[i].fd == sock_fd)
 			{
 				int new_sd = 0;
@@ -116,6 +118,7 @@ void Server::start()
 			else
 			{
 				char buffer[1000];
+				memset(buffer, 0, 1000);
 				std::cout << "Descriptor to read=\t" <<  fds[i].fd << std::endl;
 				close_connect = 0;
 				while (1)
@@ -135,7 +138,9 @@ void Server::start()
 					this->request += buffer;
 					memset(buffer, 0, 1000);
 				}
-					//std::cout << "\033[38;5;207m" << this->request << "\033[0m" << std::endl;
+					std::cout << PURPLE "Request: " << this->request << WHITE;
+					std::string path = get_path_from_GET(this->request);
+
 					std::string response =
 					"HTTP/1.1 200 OK\r\n"
 					"Content-Type: text/html; charset=UTF-8\r\n\r\n"
@@ -159,6 +164,7 @@ void Server::start()
 						close_connect = 1;
 						break;
 					}
+					this->request.clear();
 
 				if (close_connect)
 				{
