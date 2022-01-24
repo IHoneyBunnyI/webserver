@@ -93,12 +93,12 @@ void Server::start()
 		{
 			if (fds[i].revents == 0)
 				continue;
-			else if (fds[i].revents != POLLIN)
-			{
-				printf("\033[32mClient disconnect\033[0m\n");
-				close(fds[i].fd);
-				compress_array = 1;
-			}
+			//else if (fds[i].revents != POLLIN)
+			//{
+				//std::cout << GREEN "Client disconnect" WHITE << std::endl;
+				//close(fds[i].fd);
+				//compress_array = 1;
+			//}
 			else if (fds[i].fd == sock_fd)
 			{
 				int new_sd = 0;
@@ -117,6 +117,7 @@ void Server::start()
 			{
 				char buffer[1000];
 				std::cout << "Descriptor to read=\t" <<  fds[i].fd << std::endl;
+				close_connect = 0;
 				while (1)
 				{
 					int rc = recv(fds[i].fd, buffer, sizeof(buffer), 0);
@@ -161,6 +162,7 @@ void Server::start()
 
 				if (close_connect)
 				{
+					close_connect = 0;
 					std::cout << "AAAA" <<std::endl;
 					close(fds[i].fd);
 					fds[i].fd = -1;
