@@ -11,5 +11,7 @@
 
 void log(std::string);
 int fatal(void);
+std::string send_http(std::string html);
+std::string get_file(std::string root, std::string path);
 
 #endif

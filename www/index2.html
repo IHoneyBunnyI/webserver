@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>ft_services</title>
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.min.js"></script>
+	<style>
+		main {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		canvas {
+			border: 2px solid black;
+		}
+	</style>
+</head>
+<body>
+	<div>
+	<script>
+		function setup() {
+		  createCanvas(1920, 1080);
+		  colorMode(HSB, 1.0);
+		  background(1.);
+		  noStroke();
+		  textSize(400);
+		  textAlign(CENTER, CENTER);
+		}
+
+		function draw() {
+		  if (mouseIsPressed) {
+			fill(mouseX / width, 1., .8);
+			circle(mouseX, mouseY, 80);
+		  }
+		  fill(1.);
+		  text("42", 860, 540);
+		}
+	</script>
+	</div>
+</body>
+</html>

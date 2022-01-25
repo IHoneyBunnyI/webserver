@@ -45,7 +45,7 @@ int create_listen_socket(int port)
 	memset(&socket_in, 0, sizeof(socket_in));
 	socket_in.sin_family = PF_INET;
 	socket_in.sin_port = htons(port); //Задаем порт, который будем слушать
-	socket_in.sin_addr.s_addr = inet_addr("127.0.0.1"); //IP
+	socket_in.sin_addr.s_addr = inet_addr("0.0.0.0"); //IP
 
 	if (bind(sock_fd, (const struct sockaddr *)&socket_in, sizeof(socket_in)) < 0) // связываем сокет с именем ??
 	{
@@ -138,38 +138,34 @@ void Server::start()
 					this->request += buffer;
 					memset(buffer, 0, 1000);
 				}
-					std::cout << PURPLE "Request: " << this->request << WHITE;
-					std::string path = get_path_from_GET(this->request);
 
-					std::string response =
-					"HTTP/1.1 200 OK\r\n"
-					"Content-Type: text/html; charset=UTF-8\r\n\r\n"
-					"<doctype !html>\n"
-					"	<html>\n"
-					"		<head>\n"
-					"			<title>Webserv</title>\n"
-					"			<style>body { background-color: #444 }\n"
-					"				   h1 { font-size:4cm; text-align: center; color: black;\n"
-					"						text-shadow: 0 0 2mm red}\n"
-					"			</style>\n"
-					"		</head>\n"
-					"<body>\n"
-					"		<h1>HELLO, world!</h1>\n"
-					"</body>\n"
-					"</html>\r\n";
+				//std::cout << PURPLE "Request: " << this->request << WHITE;
+				std::string path = get_path_from_GET(this->request);
+				if (path == "/")
+					std::cout << "default!" << std::endl;
+				
+				std::string html = get_file("./www", path);
+				std::string headers = send_http(html);
+				std::string response;
+					//"HTTP/1.1 200 OK\n"
+					//"Host: site.com\n"
+					////"Connection: Close\n"
+					//"Content-Type: text/html; charset=UTF-8\n"
+					//"Content-Length: 21\n\n";
+				response = headers + html;
+				std::cout << PURPLE << this->request <<WHITE << std::endl;
 
-					if ((send(fds[i].fd, response.c_str(), response.length(), 0)) < 0)
-					{
-						std::cout << "send() failed" << std::endl;
-						close_connect = 1;
-						break;
-					}
-					this->request.clear();
-
+				if ((send(fds[i].fd, response.c_str(), response.length(), 0)) < 0)
+				{
+					std::cout << "send() failed" << std::endl;
+					close_connect = 1;
+					break;
+				}
+				this->request.clear();
 				if (close_connect)
 				{
+					std::cout << RED"Close connection with fd: " << fds[i].fd << WHITE << std::endl;
 					close_connect = 0;
-					std::cout << "AAAA" <<std::endl;
 					close(fds[i].fd);
 					fds[i].fd = -1;
 					compress_array = 1;
@@ -179,7 +175,6 @@ void Server::start()
 
 		if (compress_array)
 		{
-			std::cout << "AAAAAAA" << std::endl;
 			compress_array = 0;
 			for (int i = 0; i < nfds; i++)
 			{

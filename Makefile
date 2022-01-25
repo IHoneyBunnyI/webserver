@@ -12,6 +12,7 @@ CPP_FILES = main.cpp\
 			utils.cpp\
 			Parser.cpp\
 			Server_start.cpp\
+			send_http.cpp\
 
 
 HPP_FILES = Server.hpp\
