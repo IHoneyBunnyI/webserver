@@ -5,7 +5,6 @@
 #include "Parser.hpp"
 #include "webserv.hpp"
 
-
 void log(std::string message)
 {
 	std::ofstream logfile("logs.webserv", std::ios::app | std::ios::ate);
