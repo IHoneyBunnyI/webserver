@@ -47,7 +47,7 @@ int main(int argc, char** av)
 	// create all Servers
 	
 	Server server;
-	server.addPort(8080);
+	server.addPort(8080); //можно добавлять нужные Порты
 	server.addPort(8090);
-	server.start(); // POGNALI
+	server.start();
 }

@@ -2,6 +2,7 @@
 #define SERVER_HPP
 #include <iostream>
 #include <vector>
+#include <poll.h>
 #include "Parser.hpp"
 
 class Server
@@ -18,6 +19,10 @@ public:
 	void setPorts(std::vector<int> ports);
 	void addPort(int port);
 	std::vector<int> getPort();
+
+	void openConnection(pollfd *fds, int &nfds, int i);
+	int closeConnection(int &close_connect, pollfd *fds, int i);
+
 
 private:
 	std::vector<int> ports;

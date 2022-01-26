@@ -70,11 +70,9 @@ void Server::start()
 	log("Start Server");
 
 	for (std::vector<int>::iterator begin = this->ports.begin(); begin != this->ports.end(); begin++)
-	{
 		this->sockets.push_back(create_listen_socket(*begin));
-	}
 
-	pollfd fds[100];
+	pollfd fds[1000];
 	//int sock_fd = this->sockets[0];
 	int nfds = this->sockets.size();
 	//int nfds = 1;
@@ -108,27 +106,15 @@ void Server::start()
 			continue;
 		}
 		
-		int current_size = nfds;
-		std::cout << "current_size = " << current_size << std::endl;
-		for (int i = 0; i < current_size; i++)
+		unsigned int current_size = nfds;
+		//std::cout << "current_size = " << current_size << std::endl;
+		for (unsigned int i = 0; i < current_size; i++)
 		{
 			if (fds[i].revents == 0)
 				continue;
 			//else if (fds[i].fd == sock_fd)
 			else if (std::find(this->sockets.begin(), this->sockets.end(), fds[i].fd) != this->sockets.end())
-			{
-				int new_sd = 0;
-				while (new_sd != -1)
-				{
-					new_sd = accept(fds[i].fd, 0, 0); // тут на счет 1 параметра не уверен до конца
-					if (new_sd < 0)
-						break;
-					std::cout << GREEN "New connection" WHITE << std::endl;
-					fds[nfds].fd = new_sd;
-					fds[nfds].events = POLLIN;
-					nfds++;
-				}
-			}
+				openConnection(fds, nfds, i);
 			else
 			{
 				char buffer[1000];
@@ -170,13 +156,10 @@ void Server::start()
 					break;
 				}
 				this->request.clear();
+
 				if (close_connect)
 				{
-					std::cout << RED"Close connection with fd: " << fds[i].fd << WHITE << std::endl;
-					close_connect = 0;
-					close(fds[i].fd);
-					fds[i].fd = -1;
-					compress_array = 1;
+					compress_array = closeConnection(close_connect, fds, i);
 				}
 			}
 		}
