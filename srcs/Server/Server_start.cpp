@@ -142,17 +142,11 @@ void Server::start()
 				//std::cout << PURPLE "Request: " << this->request << WHITE;
 				std::string path = get_path_from_GET(this->request);
 				if (path == "/")
-					std::cout << "default!" << std::endl;
+					path = "/index.html";
 				
 				std::string html = get_file("./www", path);
 				std::string headers = send_http(html);
-				std::string response;
-					//"HTTP/1.1 200 OK\n"
-					//"Host: site.com\n"
-					////"Connection: Close\n"
-					//"Content-Type: text/html; charset=UTF-8\n"
-					//"Content-Length: 21\n\n";
-				response = headers + html;
+				std::string response = headers + html;
 				std::cout << PURPLE << this->request <<WHITE << std::endl;
 
 				if ((send(fds[i].fd, response.c_str(), response.length(), 0)) < 0)

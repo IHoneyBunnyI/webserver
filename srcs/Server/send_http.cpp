@@ -17,12 +17,17 @@ std::string get_file(std::string root, std::string path)
 
 	std::cout << root << path << std::endl;
 	std::ifstream stream(root + path);
+	if (!stream)
+		return "<h1>Error</h1>"; // Временный костыль
 	while (stream)
 	{
 		std::string tmp;
-		stream >> tmp;
+		std::getline(stream, tmp);
+		tmp += "\n";
 		file += tmp;
 	}
 	//std::cout << YELLOW "file " << file << WHITE << std::endl;
+	// Сейчас файл отправляется сразу весь, но это не правильно, в случае если подать серваку 
+	// файл на Гиг или просто какой-то нереально большой, то все упадет, поэтому отправлять нужно кусками
 	return (file);
 }
