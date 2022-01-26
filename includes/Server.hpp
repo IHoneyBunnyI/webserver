@@ -2,6 +2,7 @@
 #define SERVER_HPP
 #include <iostream>
 #include <vector>
+#include <map>
 #include <poll.h>
 #include "Parser.hpp"
 
@@ -28,6 +29,7 @@ private:
 	std::vector<int> ports;
 	std::vector<int> sockets;
 	std::string request;
+	std::map<int, std::string> fd_ip; //в будущем для печенья (cookies)
 };
 
 #endif

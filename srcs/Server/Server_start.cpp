@@ -11,8 +11,8 @@ std::string get_path_from_GET(std::string request) // временный кос�
 {
 	std::string::iterator begin = request.begin() + (request.find("/"));
 	std::string::iterator end = request.begin() + request.find(" ", request.find("/")); // тут request.find возвраает npos
-	if (begin == end)
-		std::cout << "AAAAAAAAAAAAAAAAAA" << std::endl;
+	//if (begin == end)
+		//std::cout << "AAAAAAAAAAAAAAAAAA" << std::endl;
 	std::string res(begin, end); // тут бага если дать через nc что-то с '/' без пробела
 	return res;
 }
@@ -131,7 +131,7 @@ void Server::start()
 					}
 					if (rc == 0)
 					{
-						std::cout << "Connection closed" << std::endl;
+						std::cout << RED "Connection closed" << std::endl;
 						close_connect = 1;
 						break;
 					}
@@ -147,7 +147,7 @@ void Server::start()
 				std::string html = get_file("./www", path);
 				std::string headers = send_http(html);
 				std::string response = headers + html;
-				std::cout << PURPLE << this->request <<WHITE << std::endl;
+				//std::cout << PURPLE << response <<WHITE << std::endl;
 
 				if ((send(fds[i].fd, response.c_str(), response.length(), 0)) < 0)
 				{

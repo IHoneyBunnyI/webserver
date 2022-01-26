@@ -15,7 +15,7 @@ std::string get_file(std::string root, std::string path)
 {
 	std::string file;
 
-	std::cout << root << path << std::endl;
+	//std::cout << root << path << std::endl;
 	std::ifstream stream(root + path);
 	if (!stream)
 		return "<h1>Error</h1>"; // Временный костыль
