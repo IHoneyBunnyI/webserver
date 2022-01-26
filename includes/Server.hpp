@@ -1,11 +1,8 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
-#include "Parser.hpp"
-
 #include <iostream>
-
-#define SERVER_PORT 8080
-
+#include <vector>
+#include "Parser.hpp"
 
 class Server
 {
@@ -18,11 +15,13 @@ public:
 
 	void parseConfig();
 	void start();
-	void setPort(int port);
-	int getPort();
+	void setPorts(std::vector<int> ports);
+	void addPort(int port);
+	std::vector<int> getPort();
 
 private:
-	int port;
+	std::vector<int> ports;
+	std::vector<int> sockets;
 	std::string request;
 };
 

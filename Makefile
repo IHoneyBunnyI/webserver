@@ -7,16 +7,20 @@ INCLUDES = -Iincludes/
 
 CXXFLAGS = $(INCLUDES) -Wall -Wextra -Werror -fsanitize=address -g
 
-CPP_FILES = main.cpp\
-			Server.cpp\
-			utils.cpp\
+CPP_FILES = CGI.cpp\
+			HttpRequest.cpp\
 			Parser.cpp\
-			Server_start.cpp\
 			send_http.cpp\
+			Server.cpp\
+			Server_start.cpp\
+			main.cpp\
+			utils.cpp\
 
 
-HPP_FILES = Server.hpp\
+HPP_FILES = CGI.hpp\
+			HttpRequest.hpp\
 			Parser.hpp\
+			Server.hpp\
 			webserv.hpp\
 
 O_FILES = $(addprefix objs/, $(CPP_FILES))
@@ -28,8 +32,10 @@ NB = $(words $(CPP_FILES))
 INDEX = 0
 
 VPATH = srcs/\
-		srcs/Parser\
-		srcs/Server\
+		srcs/Parser/\
+		srcs/Server/\
+		srcs/CGI/\
+		srcs/HttpRequest/\
 
 all: $(OBJDIR) $(NAME)
 

@@ -1,12 +1,12 @@
 #include "Server.hpp"
 #include <fstream>
 
-Server::Server(): port(0), request("") {}
+Server::Server(): ports(0), sockets(0), request("") {}
 Server::~Server() {}
 
 Server::Server(const Server& ref)
 {
-	this->port = ref.port;
+	this->ports = ref.ports;
 	this->request = ref.request;
 }
 
@@ -14,18 +14,23 @@ Server& Server::operator = (const Server& ref)
 {
 	if (this != &ref)
 	{
-		this->port = ref.port;
+		this->ports = ref.ports;
 		this->request = ref.request;
 	}
 	return *this;
 }
 
-void Server::setPort(int port)
+void Server::setPorts(std::vector<int> ports)
 {
-	this->port = port;
+	this->ports = ports;
 }
 
-int Server::getPort()
+void Server::addPort(int port)
 {
-	return (this->port);
+	this->ports.push_back(port);
+}
+
+std::vector<int> Server::getPort()
+{
+	return (this->ports);
 }

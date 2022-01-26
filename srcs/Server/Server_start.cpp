@@ -10,8 +10,10 @@
 std::string get_path_from_GET(std::string request) // временный костыль
 {
 	std::string::iterator begin = request.begin() + (request.find("/"));
-	std::string::iterator end = request.begin() + request.find(" ", request.find("/")) ;
-	std::string res(begin, end);
+	std::string::iterator end = request.begin() + request.find(" ", request.find("/")); // тут request.find возвраает npos
+	if (begin == end)
+		std::cout << "AAAAAAAAAAAAAAAAAA" << std::endl;
+	std::string res(begin, end); // тут бага если дать через nc что-то с '/' без пробела
 	return res;
 }
 
@@ -67,14 +69,25 @@ void Server::start()
 {
 	log("Start Server");
 
-	int sock_fd = create_listen_socket(this->port);
-
+	for (std::vector<int>::iterator begin = this->ports.begin(); begin != this->ports.end(); begin++)
+	{
+		this->sockets.push_back(create_listen_socket(*begin));
+	}
 
 	pollfd fds[100];
-	int nfds = 1;
+	//int sock_fd = this->sockets[0];
+	int nfds = this->sockets.size();
+	//int nfds = 1;
 	memset(fds, 0 , sizeof(fds));
-	fds[0].fd = sock_fd;
-	fds[0].events = POLLIN;
+
+
+	int i = 0;
+	for (std::vector<int>::iterator begin = this->sockets.begin(); begin != this->sockets.end(); begin++)
+	{
+		fds[i].fd = *begin;
+		fds[i].events = POLLIN;
+		i++;
+	}
 
 	int close_connect = 0;
 	int compress_array = 0;
@@ -101,12 +114,13 @@ void Server::start()
 		{
 			if (fds[i].revents == 0)
 				continue;
-			else if (fds[i].fd == sock_fd)
+			//else if (fds[i].fd == sock_fd)
+			else if (std::find(this->sockets.begin(), this->sockets.end(), fds[i].fd) != this->sockets.end())
 			{
 				int new_sd = 0;
 				while (new_sd != -1)
 				{
-					new_sd = accept(sock_fd, 0, 0);
+					new_sd = accept(fds[i].fd, 0, 0); // тут на счет 1 параметра не уверен до конца
 					if (new_sd < 0)
 						break;
 					std::cout << GREEN "New connection" WHITE << std::endl;

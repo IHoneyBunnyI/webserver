@@ -47,6 +47,7 @@ int main(int argc, char** av)
 	// create all Servers
 	
 	Server server;
-	server.setPort(8080);
+	server.addPort(8080);
+	server.addPort(8090);
 	server.start(); // POGNALI
 }
