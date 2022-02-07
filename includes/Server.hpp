@@ -23,6 +23,7 @@ public:
 
 	void openConnection(pollfd *fds, int &nfds, int i);
 	int closeConnection(int &close_connect, pollfd *fds, int i);
+	std::string readRequest(int fd, int &close_connect);
 
 
 private:

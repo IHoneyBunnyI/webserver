@@ -57,7 +57,7 @@ void Server::openConnection(pollfd *fds, int &nfds, int i)
 		if (new_sd < 0)
 			break;
 		fds[nfds].fd = new_sd;
-		std::cout << GREEN "New connection with fd: " << new_sd << WHITE << std::endl;
+		//std::cout << GREEN "New connection with fd: " << new_sd << WHITE << std::endl;
 		fds[nfds].events = POLLIN;
 
 		char bits[100];
