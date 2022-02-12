@@ -39,11 +39,6 @@ void Server::addPort(int port)
 	this->ports.push_back(port);
 }
 
-std::vector<int> Server::getPort()
-{
-	return (this->ports);
-}
-
 void Server::openConnection(pollfd *fds, int &nfds, int i)
 {
 
@@ -79,4 +74,26 @@ int Server::closeConnection(int &close_connect, pollfd *fds, int i)
 		fds[i].fd = -1;
 		log("Client with ip: " + ip + " disconnect");
 		return 1;
+}
+
+std::string Server::readRequest(int fd, int &close_connect)
+{
+	std::string res;
+	char buffer[1000];
+	memset(buffer, 0, 1000);
+	close_connect = 0;
+	while (1)
+	{
+		int rc = recv(fd, buffer, sizeof(buffer), 0);
+		if (rc < 0)
+			break; //full data read
+		if (rc == 0)
+		{
+			close_connect = 1;
+			break;
+		}
+		res += buffer;
+		memset(buffer, 0, 1000);
+	}
+	return res;
 }

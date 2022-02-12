@@ -22,16 +22,6 @@ int compress_array(pollfd *fds, int &nfds)
 	return 1;
 }
 
-std::string get_path_from_GET(std::string request) // временный костыль
-{
-	std::string::iterator begin = request.begin() + (request.find("/"));
-	std::string::iterator end = request.begin() + request.find(" ", request.find("/")); // тут request.find возвраает npos
-	//if (begin == end)
-		//std::cout << "AAAAAAAAAAAAAAAAAA" << std::endl;
-	std::string res(begin, end); // тут бага если дать через nc что-то с '/' без пробела
-	return res;
-}
-
 int create_listen_socket(int port)
 {
 	struct sockaddr_in socket_in;
@@ -85,7 +75,7 @@ void Server::start()
 	log("Start Server");
 	for (std::vector<int>::iterator begin = this->ports.begin(); begin != this->ports.end(); begin++) //превращаем спаршенные сокеты в открытые порты 
 		this->sockets.push_back(create_listen_socket(*begin));
-	pollfd fds[1000];
+	//pollfd fds[1000];
 	memset(fds, 0 , sizeof(fds));
 	int nfds = this->sockets.size();
 	int i = 0;
@@ -95,7 +85,8 @@ void Server::start()
 		fds[i].events = POLLIN;
 		i++;
 	}
-	int close_connect = 0;
+
+	//int close_connect = 0;
 	int need_compress_array = 0;
 	int rpoll = 0;
 	while (1)
@@ -120,25 +111,12 @@ void Server::start()
 				//
 
 				//если GET получаем файл
-				std::string path = get_path_from_GET(this->request); // Костыли
-				if (path == "/")
-					path = "/index.html";
-				
-				//генерируем ответ
-				std::string html = get_file("./www", path);
-				std::string headers = send_http(html);
-				std::string response = headers + html;
-
-				//Отправляем ответ
-				if ((send(fds[i].fd, response.c_str(), response.length(), 0)) < 0)
-				{
-					std::cout << "send() failed" << std::endl;
-					close_connect = 1;
-					break;
-				}
+				this->http_method = "GET";
+				if (this->http_method == "GET")
+					this->GET(fds[i].fd);
 				this->request.clear();
 
-				if (close_connect)
+				if (this->close_connect)
 					need_compress_array = closeConnection(close_connect, fds, i);
 			}
 		}

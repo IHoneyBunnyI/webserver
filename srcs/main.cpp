@@ -5,6 +5,12 @@
 #include "Parser.hpp"
 #include "webserv.hpp"
 
+int fatal(void)
+{
+	std::cout << "Error argument!" << std::endl;
+	return 2;
+}
+
 void log(std::string message)
 {
 	std::ofstream logfile("logs.webserv", std::ios::app | std::ios::ate);

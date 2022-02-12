@@ -15,15 +15,17 @@ public:
 	Server(const Server& ref);
 	Server& operator = (const Server& ref);
 
-	void parseConfig();
 	void start();
 	void setPorts(std::vector<int> ports);
 	void addPort(int port);
-	std::vector<int> getPort();
 
 	void openConnection(pollfd *fds, int &nfds, int i);
 	int closeConnection(int &close_connect, pollfd *fds, int i);
+
 	std::string readRequest(int fd, int &close_connect);
+	void GET(int fd);
+	void POST();
+	void DELETE();
 
 
 private:
@@ -31,6 +33,9 @@ private:
 	std::vector<int> sockets;
 	std::string request;
 	std::map<int, std::string> fd_ip; //в будущем для печенья (cookies)
+	std::string http_method;
+	int close_connect;
+	pollfd fds[1000];
 };
 
 #endif
