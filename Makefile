@@ -7,12 +7,12 @@ INCLUDES = -Iincludes/
 
 CXXFLAGS = $(INCLUDES) -Wall -Wextra -Werror -fsanitize=address -g
 
-CPP_FILES = CGI.cpp\
+CPP_FILES = functions.cpp\
+			CGI.cpp\
 			HttpRequest.cpp\
 			Parser.cpp\
 			GET.cpp\
 			Server.cpp\
-			start.cpp\
 			main.cpp\
 
 
@@ -31,6 +31,7 @@ NB = $(words $(CPP_FILES))
 INDEX = 0
 
 VPATH = srcs/\
+		srcs/all/\
 		srcs/Parser/\
 		srcs/Server/\
 		srcs/CGI/\
