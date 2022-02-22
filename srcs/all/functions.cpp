@@ -4,6 +4,7 @@
 #include <poll.h>
 #include <fcntl.h>
 #include "webserv.hpp"
+#include <fstream>
 
 int compress_array(pollfd *fds, int &nfds)
 {
@@ -68,3 +69,8 @@ int create_listen_socket(int port)
 	return (sock_fd);
 }
 
+int fatal(void)
+{
+	std::cout << "Error argument!" << std::endl;
+	return 2;
+}
