@@ -3,6 +3,32 @@
 #include "Server.hpp"
 #include "Parser.hpp"
 #include "webserv.hpp"
+#include <fstream>
+
+int fatal(void)
+{
+	std::cout << "Error argument!" << std::endl;
+	return 2;
+}
+
+void log(std::string message)
+{
+	std::ofstream logfile("logs.webserv", std::ios::app | std::ios::ate);
+	if (!logfile)
+	{
+		std::cout << "error open logs.webserv!" << std::endl;
+		exit (1);
+	}
+
+	std::chrono::system_clock::time_point time_point = std::chrono::system_clock::now();
+	time_t	tt = std::chrono::system_clock::to_time_t(time_point);
+	tm local_tm = *localtime(&tt);
+
+	logfile << std::put_time(&local_tm, "[%H:%M:%S %d-%m-%Y] ");
+	logfile << message << std::endl;
+
+	logfile.close();
+}
 
 int main(int argc, char** av)
 {

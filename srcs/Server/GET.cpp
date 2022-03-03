@@ -3,7 +3,7 @@
 #include "Server.hpp"
 #include "webserv.hpp"
 
-std::string send_http(std::string html)
+static std::string send_http(std::string html)
 {
 	std::string res =
 	"HTTP/1.1 200 OK\r\n"
@@ -13,7 +13,7 @@ std::string send_http(std::string html)
 	return res;
 }
 
-std::string get_file(std::string root, std::string path)
+static std::string get_file(std::string root, std::string path)
 {
 	std::string file;
 
@@ -34,7 +34,7 @@ std::string get_file(std::string root, std::string path)
 	return (file);
 }
 
-std::string get_path_from_GET(std::string request) // временный костыль
+static std::string get_path_from_GET(std::string request) // временный костыль
 {
 	std::string::iterator begin = request.begin() + (request.find("/"));
 	std::string::iterator end = request.begin() + request.find(" ", request.find("/")); // тут request.find возвраает npos

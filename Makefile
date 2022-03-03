@@ -7,9 +7,7 @@ INCLUDES = -Iincludes/
 
 CXXFLAGS = $(INCLUDES) -Wall -Wextra -Werror -fsanitize=address -g
 
-CPP_FILES = functions.cpp\
-			log.cpp\
-			CGI.cpp\
+CPP_FILES = CGI.cpp\
 			HttpRequest.cpp\
 			Parser.cpp\
 			GET.cpp\
