@@ -15,10 +15,10 @@ public:
 	Server(const Server& ref);
 	Server& operator = (const Server& ref);
 
-	void start();
 	void setPorts(std::vector<int> ports);
 
-	void addPort(int port);
+	void AddPort(int port);
+	void Start();
 	void GET(int fd, int &close_connect, std::string request);
 	void POST();
 	void DELETE();

@@ -51,9 +51,10 @@ int main(int argc, char** av)
 	// Server.locations = Parser.getLocations()
 	// Server.roots = Parser.getRoots()
 	// create all Servers
-	
+
 	Server server;
-	server.addPort(8080); //можно добавлять нужные Порты
-	server.addPort(8090);
-	server.start();
+	//server.setPorts(parser.getPorts());
+	server.AddPort(8080); //можно добавлять нужные Порты
+	server.AddPort(8090);
+	server.Start();
 }

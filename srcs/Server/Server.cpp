@@ -33,7 +33,7 @@ void Server::setPorts(std::vector<int> ports)
 	this->ports = ports;
 }
 
-void Server::addPort(int port)
+void Server::AddPort(int port)
 {
 	this->ports.push_back(port);
 }
@@ -160,7 +160,7 @@ static std::string readRequest(int fd, int &close_connect)
 	return res;
 }
 
-void Server::start()
+void Server::Start()
 {
 	log("Start Server");
 	for (std::vector<int>::iterator begin = this->ports.begin(); begin != this->ports.end(); begin++) //превращаем спаршенные сокеты в открытые порты 
@@ -179,20 +179,17 @@ void Server::start()
 	int close_connect = 0;
 	int need_compress_array = 0;
 	int rpoll = 0;
-	while (1)
-	{
+	while (1) {
 		rpoll = poll(fds, nfds, -1);
 		if (rpoll <= 0) //POLL Error
 			continue;
 		unsigned int current_size = nfds;
-		for (unsigned int i = 0; i < current_size; i++)
-		{
+		for (unsigned int i = 0; i < current_size; i++){
 			if (fds[i].revents == 0)
 				continue;
-			else if (std::find(this->sockets.begin(), this->sockets.end(), fds[i].fd) != this->sockets.end())
+			else if (std::find(this->sockets.begin(), this->sockets.end(), fds[i].fd) != this->sockets.end()) {
 				openConnection(fds, nfds, i, this->fd_ip);
-			else
-			{
+			} else {
 				//читаем запрос
 				std::string request = readRequest(fds[i].fd, close_connect); //вероятно для очень больших запросов эта штука не подойдет 
 
@@ -209,7 +206,8 @@ void Server::start()
 					need_compress_array = closeConnection(close_connect, fds, i, this->fd_ip);
 			}
 		}
-		if (need_compress_array)
+		if (need_compress_array) {
 			need_compress_array = compress_array(fds, nfds);
+		}
 	}
 }
