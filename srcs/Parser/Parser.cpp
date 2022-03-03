@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Parser.hpp"
+#include "Server.hpp"
 #include "webserv.hpp"
 
 Parser::Parser() {}
@@ -28,7 +29,7 @@ void Parser::parseConfig()
 	int problem = 0;
 	if (problem)
 	{
-		log("ERRROR AAAAA PROBLEM!!!!");
+		Server::Log("ERRROR AAAAA PROBLEM!!!!");
 		std::cout << "Error config file!" << std::endl;
 	}
 	// пишем логи в файл 'logs.webserv', если в файле конфига есть проблемы

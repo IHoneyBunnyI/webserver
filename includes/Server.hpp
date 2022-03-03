@@ -15,9 +15,9 @@ public:
 	Server(const Server& ref);
 	Server& operator = (const Server& ref);
 
-	void setPorts(std::vector<int> ports);
-
+	void SetPorts(std::vector<int> ports);
 	void AddPort(int port);
+	static void Log(std::string message);
 	void Start();
 	void GET(int fd, int &close_connect, std::string request);
 	void POST();

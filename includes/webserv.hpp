@@ -10,7 +10,4 @@
 #define PURPLE "\033[38:5:93m"
 #define WHITE "\033[0m"
 
-void log(std::string);
-int fatal(void);
-
 #endif
