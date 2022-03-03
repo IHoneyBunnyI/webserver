@@ -19,8 +19,8 @@ public:
 	void setPorts(std::vector<int> ports);
 	void addPort(int port);
 
-	void openConnection(pollfd *fds, int &nfds, int i);
-	int closeConnection(int &close_connect, pollfd *fds, int i);
+	//void openConnection(pollfd *fds, int &nfds, int i);
+	//int closeConnection(int &close_connect, pollfd *fds, int i);
 
 	std::string readRequest(int fd, int &close_connect);
 	void GET(int fd);

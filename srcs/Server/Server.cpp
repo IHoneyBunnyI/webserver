@@ -40,7 +40,7 @@ void Server::addPort(int port)
 	this->ports.push_back(port);
 }
 
-void Server::openConnection(pollfd *fds, int &nfds, int i)
+static void openConnection(pollfd *fds, int &nfds, int i, std::map<int, std::string> &fd_ip)
 {
 
 	struct sockaddr_in in;
@@ -61,15 +61,15 @@ void Server::openConnection(pollfd *fds, int &nfds, int i)
 		inet_ntop(in.sin_family, &in.sin_addr, bits, sizeof(bits));
 		std::string ip(bits);
 		log("Client with ip: " + ip + " connect");
-		this->fd_ip[fds[nfds].fd] = ip;
+		fd_ip[fds[nfds].fd] = ip;
 		nfds++;
 	}
 }
 
-int Server::closeConnection(int &close_connect, pollfd *fds, int i)
+static int closeConnection(int &close_connect, pollfd *fds, int i, std::map<int, std::string> &fd_ip)
 {
-		std::string ip = this->fd_ip[fds[i].fd];
-		this->fd_ip.erase(fds[i].fd); // пока не очень понятно зачем, но пусть
+		std::string ip = fd_ip[fds[i].fd];
+		fd_ip.erase(fds[i].fd); // пока не очень понятно зачем, но пусть
 		close_connect = 0;
 		close(fds[i].fd);
 		fds[i].fd = -1;
@@ -129,7 +129,7 @@ void Server::start()
 			if (fds[i].revents == 0)
 				continue;
 			else if (std::find(this->sockets.begin(), this->sockets.end(), fds[i].fd) != this->sockets.end())
-				openConnection(fds, nfds, i);
+				openConnection(fds, nfds, i, this->fd_ip);
 			else
 			{
 				//читаем запрос
@@ -146,7 +146,7 @@ void Server::start()
 				this->request.clear();
 
 				if (this->close_connect)
-					need_compress_array = closeConnection(close_connect, fds, i);
+					need_compress_array = closeConnection(close_connect, fds, i, this->fd_ip);
 			}
 		}
 		if (need_compress_array)
