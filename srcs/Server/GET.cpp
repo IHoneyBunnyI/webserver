@@ -44,9 +44,9 @@ static std::string get_path_from_GET(std::string request) // временный 
 	return res;
 }
 
-void Server::GET(int fd)
+void Server::GET(int fd, int &close_connect, std::string request)
 {
-	std::string path = get_path_from_GET(this->request); // Костыли
+	std::string path = get_path_from_GET(request); // Костыли
 	if (path == "/")
 		path = "/index.html";
 	

@@ -7,14 +7,13 @@
 #include <fcntl.h>
 #include "webserv.hpp"
 
-Server::Server(): ports(0), sockets(0), request(""), fd_ip() {}
+Server::Server(): ports(0), sockets(0), fd_ip() {}
 Server::~Server() {}
 
 Server::Server(const Server& ref)
 {
 	this->ports = ref.ports;
 	this->sockets = ref.sockets;
-	this->request = ref.request;
 	this->fd_ip = ref.fd_ip;
 }
 
@@ -24,7 +23,6 @@ Server& Server::operator = (const Server& ref)
 	{
 		this->ports = ref.ports;
 		this->sockets = ref.sockets;
-		this->request = ref.request;
 		this->fd_ip = ref.fd_ip;
 	}
 	return *this;
@@ -140,7 +138,7 @@ static int closeConnection(int &close_connect, pollfd *fds, int i, std::map<int,
 		return 1;
 }
 
-std::string Server::readRequest(int fd, int &close_connect)
+static std::string readRequest(int fd, int &close_connect)
 {
 	std::string res;
 	char buffer[1000];
@@ -178,7 +176,7 @@ void Server::start()
 		i++;
 	}
 
-	//int close_connect = 0;
+	int close_connect = 0;
 	int need_compress_array = 0;
 	int rpoll = 0;
 	while (1)
@@ -196,19 +194,18 @@ void Server::start()
 			else
 			{
 				//читаем запрос
-				this->request = readRequest(fds[i].fd, close_connect); //вероятно для очень больших запросов эта штука не подойдет 
+				std::string request = readRequest(fds[i].fd, close_connect); //вероятно для очень больших запросов эта штука не подойдет 
 
 				//
 				// Тут в дело вступет HttpRequest (Ralverta)
 				//
 
 				//если GET получаем файл
-				this->http_method = "GET";
-				if (this->http_method == "GET")
-					this->GET(fds[i].fd);
-				this->request.clear();
+				std::string http_method = "GET";
+				if (http_method == "GET")
+					this->GET(fds[i].fd, close_connect, request);
 
-				if (this->close_connect)
+				if (close_connect)
 					need_compress_array = closeConnection(close_connect, fds, i, this->fd_ip);
 			}
 		}
