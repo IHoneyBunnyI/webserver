@@ -27,8 +27,8 @@ public:
 private:
 	std::vector<int> ports;
 	std::vector<int> sockets;
+	std::vector<pollfd> fds;
 	std::map<int, std::string> fd_ip; //в будущем для печенья (cookies)
-	pollfd fds[1000];
 };
 
 #endif
