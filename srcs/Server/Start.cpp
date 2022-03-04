@@ -115,12 +115,7 @@ void Server::Start() {
 	for (std::vector<int>::iterator begin = this->ports.begin(); begin != this->ports.end(); begin++) //превращаем спаршенные сокеты в открытые порты 
 		this->sockets.push_back(create_listen_socket(*begin));
 	for (std::vector<int>::iterator begin = this->sockets.begin(); begin != this->sockets.end(); begin++)
-	{
-		//pollfd fd;
-		//fd.fd = *begin;
-		//fd.events = POLLIN;
 		fds.push_back((pollfd){*begin, POLLIN, 0});
-	}
 
 	int close_connect = 0;
 	int need_erase = 0;
@@ -130,7 +125,6 @@ void Server::Start() {
 		if (rpoll <= 0) //POLL Error
 			continue;
 		unsigned int current_size = fds.size();
-		//std::cout << current_size << std::endl;
 		for (unsigned int i = 0; i < current_size; i++){
 			if (fds[i].revents == 0)
 				continue;
