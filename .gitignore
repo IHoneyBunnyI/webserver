@@ -7,3 +7,4 @@ logs.webserv
 webserver.conf
 1
 .DS_Store
+long_request
