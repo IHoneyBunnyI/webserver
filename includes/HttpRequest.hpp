@@ -5,17 +5,7 @@
 #include <map>
 
 class HtppRequest {
-public:
-	HtppRequest(std::string request);
-	~HtppRequest();
-
-	std::string GetRequest();
-	std::string GetMethod();
-	std::string GetPath();
-	std::string GetVersion();
-	std::map<std::string, std::string> GetHeaders();
 private:
-	HtppRequest();
 	HtppRequest(const HtppRequest& ref);
 	HtppRequest& operator = (const HtppRequest& ref);
 
@@ -24,8 +14,18 @@ private:
 	std::string Path;
 	std::string Version;
 	std::map<std::string, std::string> Headers;
-
 	//все хэдэры в реализации не нуждаются, only HTPP1.1
+public:
+	HtppRequest();
+	~HtppRequest();
+
+	std::string GetRequest();
+	std::string GetMethod();
+	std::string GetPath();
+	std::string GetVersion();
+	std::map<std::string, std::string> GetHeaders();
+
+	void ParseRequest(int &close_connect, int fd);
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include "webserv.hpp"
+#include "HttpRequest.hpp"
 
 void erase_fds(std::vector<pollfd> &fds) {
 
@@ -88,28 +89,6 @@ static int closeConnection(std::vector<pollfd> &fds, int i, std::map<int, std::s
 		return 1;
 }
 
-static std::string readRequest(int fd, int &close_connect)
-{
-	std::string res;
-	char buffer[1000];
-	memset(buffer, 0, 1000);
-	close_connect = 0;
-	while (1)
-	{
-		int rc = recv(fd, buffer, sizeof(buffer), 0);
-		if (rc < 0)
-			break; //full data read
-		if (rc == 0)
-		{
-			close_connect = 1;
-			break;
-		}
-		res += buffer;
-		memset(buffer, 0, 1000);
-	}
-	return res;
-}
-
 void Server::Start() {
 	Server::Log("Start Server");
 	for (std::vector<int>::iterator begin = this->ports.begin(); begin != this->ports.end(); begin++) //превращаем спаршенные сокеты в открытые порты 
@@ -131,8 +110,8 @@ void Server::Start() {
 			else if (std::find(this->sockets.begin(), this->sockets.end(), fds[i].fd) != this->sockets.end()) {
 				openConnection(fds, i, this->fd_ip);
 			} else {
-				std::string request = readRequest(fds[i].fd, close_connect); //вероятно для очень больших запросов эта штука не подойдет 
-				std::cout << YELLOW << request << std::endl;
+				HtppRequest htppRequest;
+				htppRequest.ParseRequest(close_connect, fds[i].fd);
 				//
 				// Тут в дело вступет HttpRequest (Ralverta)
 				//
