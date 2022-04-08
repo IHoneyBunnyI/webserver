@@ -132,6 +132,7 @@ void Server::Start() {
 				openConnection(fds, i, this->fd_ip);
 			} else {
 				std::string request = readRequest(fds[i].fd, close_connect); //вероятно для очень больших запросов эта штука не подойдет 
+				std::cout << YELLOW << request << std::endl;
 				//
 				// Тут в дело вступет HttpRequest (Ralverta)
 				//
@@ -141,10 +142,10 @@ void Server::Start() {
 				//if (http_method == "GET")
 					//this->GET(fds[i].fd, close_connect, request);
 
-				//if (close_connect) {
-					//need_erase = closeConnection(fds, i, this->fd_ip);
-					//close_connect = 0;
-				//}
+				if (close_connect) {
+					need_erase = closeConnection(fds, i, this->fd_ip);
+					close_connect = 0;
+				}
 			}
 		}
 		if (need_erase) {

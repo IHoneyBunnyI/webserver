@@ -1,5 +1,6 @@
 #include "Server.hpp"
 #include <fstream>
+#include <iomanip>
 
 void Server::Log(std::string message)
 {
