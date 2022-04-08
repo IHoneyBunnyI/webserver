@@ -137,14 +137,14 @@ void Server::Start() {
 				//
 
 				//если GET получаем файл
-				std::string http_method = "GET";
-				if (http_method == "GET")
-					this->GET(fds[i].fd, close_connect, request);
+				//std::string http_method = "GET";
+				//if (http_method == "GET")
+					//this->GET(fds[i].fd, close_connect, request);
 
-				if (close_connect) {
-					need_erase = closeConnection(fds, i, this->fd_ip);
-					close_connect = 0;
-				}
+				//if (close_connect) {
+					//need_erase = closeConnection(fds, i, this->fd_ip);
+					//close_connect = 0;
+				//}
 			}
 		}
 		if (need_erase) {
