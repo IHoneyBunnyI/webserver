@@ -3,7 +3,7 @@
 #include "webserv.hpp"
 #include <sstream>
 #include <sys/socket.h>
-#define BUFSIZE 2
+#define BUFSIZE 5
 
 void HtppRequest::ReadRequest(int &close_connect, int fd) {
 
@@ -41,6 +41,7 @@ void HtppRequest::ReadRequest(int &close_connect, int fd) {
 		std::istringstream input(input_str);
 		while (!crlf) {
 			std::getline(input, line);
+			//std::cout<< "|"<< YELLOW  << input.str() << WHITE << "|" << std::endl;
 			if (line == "\r") {
 				crlf = 1;
 				//std::cout << RED "END REQUEST" WHITE << std::endl;
