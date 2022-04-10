@@ -115,7 +115,6 @@ void Server::Start() {
 				htppRequest.ReadRequest(close_connect, fds[i].fd);
 
 				HtppResponse htppResponse(htppRequest);
-
 				if (close_connect) {
 					need_erase = closeConnection(fds, i, this->fd_ip);
 					close_connect = 0;

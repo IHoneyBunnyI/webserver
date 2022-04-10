@@ -43,7 +43,7 @@ void HtppRequest::ReadRequest(int &close_connect, int fd) {
 			std::getline(input, line);
 			if (line == "\r") {
 				crlf = 1;
-				std::cout << RED "END REQUEST" WHITE << std::endl;
+				//std::cout << RED "END REQUEST" WHITE << std::endl;
 				break;
 			}
 			if (line.find('\r') != std::string::npos) { //в этом месте приходит line который ставляет 1 строку которую нужно распарсить

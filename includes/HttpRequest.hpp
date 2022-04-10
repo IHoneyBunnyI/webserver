@@ -25,7 +25,7 @@ public:
 	std::string GetVersion();
 	std::map<std::string, std::string> GetHeaders();
 
-	void ParseRequest(std::string &line);
+	void ParseRequest(std::string line);
 	void ReadRequest(int &close_connect, int fd);
 };
 
