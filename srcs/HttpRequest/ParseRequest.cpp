@@ -1,13 +1,13 @@
 #include "HttpRequest.hpp"
 #include "Server.hpp"
 #include "webserv.hpp"
+#include <sstream>
 #include <sys/socket.h>
 
 void HtppRequest::ParseRequest(int &close_connect, int fd) {
-	char buffer[10000];
-	memset(buffer, 0, 10000);
+	char buffer[1000];
+	memset(buffer, 0, 1000);
 	close_connect = 0;
-	std::string end;
 	while (1)
 	{
 		int rc = recv(fd, buffer, sizeof(buffer), 0);
@@ -18,7 +18,19 @@ void HtppRequest::ParseRequest(int &close_connect, int fd) {
 			close_connect = 1;
 			break;
 		}
-		//std::string line;
+		std::string line;
+		std::istringstream input(buffer);
+		std::getline(input, line);
+			//std::cout << line << std::endl;
+		while (1) {
+			std::cout << line << std::endl;
+			if (line == "\r") {
+				break;
+			}
+			std::getline(input, line);
+		}
+		std::cout << RED "END" WHITE << std::endl;
+		//std::cout << buffer << RED << "AAA" << WHITE;
 		//std::string RequestPart = buffer;
 		//while (line.find('\n') != std::string::npos) {
 			//std::cout << "AAA" << std::endl;
