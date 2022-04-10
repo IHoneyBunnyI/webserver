@@ -37,27 +37,21 @@ void HtppRequest::ReadRequest(int &close_connect, int fd) {
 			cache = input_str;
 			continue;
 		}
-		//std::cout << i << " " << ((input_str.find('\n') == std::string::npos) ? "NO\n" : "YES\n");
-		//i++;
-		//std::cout << input_str << std::endl;
-		std::istringstream input(input_str);
 
+		std::istringstream input(input_str);
 		while (!crlf) {
 			std::getline(input, line);
-			//std::cout << YELLOW + line + WHITE << std::endl;
 			if (line == "\r") {
 				crlf = 1;
 				std::cout << RED "END REQUEST" WHITE << std::endl;
 				break;
 			}
-			if (line.find('\r') != std::string::npos) {
-				std::cout << YELLOW + line + WHITE << std::endl;
+			if (line.find('\r') != std::string::npos) { //в этом месте приходит line который ставляет 1 строку которую нужно распарсить
+				this->ParseRequest(line);
 			} else {
 				cache = line;
 				break;
 			}
 		}
-		//считываю строку из стрима
-		//getline(input, line);
 	}
 }
