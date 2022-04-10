@@ -26,6 +26,7 @@ public:
 	std::map<std::string, std::string> GetHeaders();
 
 	void ParseRequest(int &close_connect, int fd);
+	void ReadRequest(int &close_connect, int fd);
 };
 
 #endif

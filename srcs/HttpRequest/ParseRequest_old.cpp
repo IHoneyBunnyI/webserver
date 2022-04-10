@@ -33,7 +33,7 @@ void HtppRequest::ParseRequest(int &close_connect, int fd) {
 		}
 		std::istringstream input(line);
 		//std::getline(input, line);
-		//while (1) {
+		while (1) {
 			if (line == "\r") {
 				//конец запроса
 				std::cout << RED "END REQUEST" WHITE << std::endl;
@@ -56,7 +56,7 @@ void HtppRequest::ParseRequest(int &close_connect, int fd) {
 			pred_line = line;
 			//std::getline(input, line);
 			//std::cout << "GELINE" << std::endl;
-		//}
+		}
 		memset(buffer, 0, BUFSIZE);
 	}
 }

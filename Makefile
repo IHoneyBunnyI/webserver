@@ -10,6 +10,8 @@ CXXFLAGS = $(INCLUDES) -Wall -Wextra -Werror -fsanitize=address -g -std=c++98
 CPP_FILES = CGI.cpp\
 			HttpRequest.cpp\
 			ParseRequest.cpp\
+			ReadRequest.cpp\
+			HttpResponse.cpp\
 			Parser.cpp\
 			DELETE.cpp\
 			GET.cpp\
@@ -21,6 +23,7 @@ CPP_FILES = CGI.cpp\
 
 HPP_FILES = CGI.hpp\
 			HttpRequest.hpp\
+			HttpResponse.hpp\
 			Parser.hpp\
 			Server.hpp\
 			webserv.hpp\

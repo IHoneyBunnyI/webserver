@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include "webserv.hpp"
 #include "HttpRequest.hpp"
+#include "HttpResponse.hpp"
 
 void erase_fds(std::vector<pollfd> &fds) {
 
@@ -111,15 +112,9 @@ void Server::Start() {
 				openConnection(fds, i, this->fd_ip);
 			} else {
 				HtppRequest htppRequest;
-				htppRequest.ParseRequest(close_connect, fds[i].fd);
-				//
-				// Тут в дело вступет HttpRequest (Ralverta)
-				//
+				htppRequest.ReadRequest(close_connect, fds[i].fd);
 
-				//если GET получаем файл
-				//std::string http_method = "GET";
-				//if (http_method == "GET")
-					//this->GET(fds[i].fd, close_connect, request);
+				HtppResponse htppResponse(htppRequest);
 
 				if (close_connect) {
 					need_erase = closeConnection(fds, i, this->fd_ip);
