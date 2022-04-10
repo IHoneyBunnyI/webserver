@@ -3,7 +3,7 @@
 #include "webserv.hpp"
 #include <sstream>
 #include <sys/socket.h>
-#define BUFSIZE 1 << 10
+#define BUFSIZE 2
 
 void HtppRequest::ReadRequest(int &close_connect, int fd) {
 
@@ -11,10 +11,12 @@ void HtppRequest::ReadRequest(int &close_connect, int fd) {
 	memset(buffer, 0, BUFSIZE);
 	close_connect = 0;
 	std::istringstream input;
-	std::string tmp;
+	std::string cache;
 	std::string line;
-	std::string pred_line;
-	int i = 0;
+	//std::string pred_line;
+	//std::cout << "CAAAAAAAAALL" << std::endl;
+	int crlf = 0;
+	//int i = 0;
 	while (1) {
 		line.clear();
 		memset(buffer, 0, BUFSIZE);
@@ -27,21 +29,35 @@ void HtppRequest::ReadRequest(int &close_connect, int fd) {
 		}
 
 		//создаю стрим, что читать из него getline'ом
-		std::string input_str(buffer, sizeof(buffer));
-		std::istringstream input(tmp + input_str);
+		std::string buff_str(buffer, sizeof(buffer));
+		//std::cout << cache + buff_str << std::endl;
+		std::string input_str(cache + buff_str);
+		cache = "";
+		if (input_str.find('\n') == std::string::npos) {
+			cache = input_str;
+			continue;
+		}
+		//std::cout << i << " " << ((input_str.find('\n') == std::string::npos) ? "NO\n" : "YES\n");
+		//i++;
+		//std::cout << input_str << std::endl;
+		std::istringstream input(input_str);
 
+		while (!crlf) {
+			std::getline(input, line);
+			//std::cout << YELLOW + line + WHITE << std::endl;
+			if (line == "\r") {
+				crlf = 1;
+				std::cout << RED "END REQUEST" WHITE << std::endl;
+				break;
+			}
+			if (line.find('\r') != std::string::npos) {
+				std::cout << YELLOW + line + WHITE << std::endl;
+			} else {
+				cache = line;
+				break;
+			}
+		}
 		//считываю строку из стрима
-		getline(input, line);
-		if (line == "\r") {
-			std::cout << RED "REQUEST END" WHITE << std::endl;
-			break;
-		}
-		if (line == pred_line) {
-			break;
-		}
-		if (line.find('\r') != std::string::npos) {
-			std::cout << i++ << " " << line << std::endl;
-		}
-		pred_line = line;
+		//getline(input, line);
 	}
 }

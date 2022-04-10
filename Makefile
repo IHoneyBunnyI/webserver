@@ -37,11 +37,11 @@ NB = $(words $(CPP_FILES))
 INDEX = 0
 
 VPATH = srcs/\
-		srcs/all/\
-		srcs/Parser/\
-		srcs/Server/\
 		srcs/CGI/\
 		srcs/HttpRequest/\
+		srcs/HttpRespone/\
+		srcs/Parser/\
+		srcs/Server/\
 
 all: $(OBJDIR) $(NAME)
 
