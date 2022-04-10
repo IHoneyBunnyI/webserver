@@ -5,54 +5,28 @@
 #include <sys/socket.h>
 #define BUFSIZE 5
 
-void HtppRequest::ReadRequest(int &close_connect, int fd) {
+std::string HtppRequest::ReadRequest(int &close_connect, int fd) {
+	static std::string cache;
+	char buf[BUFSIZE + 1];
+	int rc;
+	std::memset(buf, 0, BUFSIZE + 1);
 
-	char buffer[BUFSIZE];
-	memset(buffer, 0, BUFSIZE);
-	close_connect = 0;
-	std::istringstream input;
-	std::string cache;
-	std::string line;
-	//std::string pred_line;
-	//std::cout << "CAAAAAAAAALL" << std::endl;
-	int crlf = 0;
-	//int i = 0;
-	while (1) {
-		line.clear();
-		memset(buffer, 0, BUFSIZE);
-		int rc = recv(fd, buffer, BUFSIZE, 0);
+	rc = 1;
+		//std::cout << "AAA" << std::endl;
+	while (cache.find('\n') == std::string::npos) {
+		rc = recv(fd, buf, BUFSIZE, 0);
 		if (rc < 0)
 			break; //full data read
 		if (rc == 0) {
 			close_connect = 1;
 			break;
 		}
-
-		//создаю стрим, что читать из него getline'ом
-		std::string buff_str(buffer, sizeof(buffer));
-		//std::cout << cache + buff_str << std::endl;
-		std::string input_str(cache + buff_str);
-		cache = "";
-		if (input_str.find('\n') == std::string::npos) {
-			cache = input_str;
-			continue;
-		}
-
-		std::istringstream input(input_str);
-		while (!crlf) {
-			std::getline(input, line);
-			//std::cout<< "|"<< YELLOW  << input.str() << WHITE << "|" << std::endl;
-			if (line == "\r") {
-				crlf = 1;
-				//std::cout << RED "END REQUEST" WHITE << std::endl;
-				break;
-			}
-			if (line.find('\r') != std::string::npos) { //в этом месте приходит line который ставляет 1 строку которую нужно распарсить
-				this->ParseRequest(line);
-			} else {
-				cache = line;
-				break;
-			}
-		}
+		std::string str_buf(buf);
+		cache = cache + str_buf;
 	}
+	//if (rc > 0)
+	std::string res = cache.substr(0, cache.find('\n') + 1);
+	std::cout << res;
+	cache = cache.substr(cache.find('\n') + 1);
+	return res;
 }

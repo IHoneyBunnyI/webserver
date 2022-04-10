@@ -112,8 +112,9 @@ void Server::Start() {
 				openConnection(fds, i, this->fd_ip);
 			} else {
 				HtppRequest htppRequest;
-				htppRequest.ReadRequest(close_connect, fds[i].fd);
+				std::string line = htppRequest.ReadRequest(close_connect, fds[i].fd);
 
+				//htppRequest.ParseRequest(ReadRequest(close_connect, fds[i].fd)); в идеале надо сделать так, чтобы readRequest возвращал одну строку как gnl
 				HtppResponse htppResponse(htppRequest);
 				if (close_connect) {
 					need_erase = closeConnection(fds, i, this->fd_ip);
