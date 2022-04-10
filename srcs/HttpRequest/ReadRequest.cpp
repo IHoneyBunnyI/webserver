@@ -24,9 +24,14 @@ std::string HtppRequest::ReadRequest(int &close_connect, int fd) {
 		std::string str_buf(buf);
 		cache = cache + str_buf;
 	}
-	//if (rc > 0)
-	std::string res = cache.substr(0, cache.find('\n') + 1);
-	std::cout << res;
-	cache = cache.substr(cache.find('\n') + 1);
+	std::string res;
+	if (rc > 0) {
+		res = cache.substr(0, cache.find('\n') + 1);
+		cache = cache.substr(cache.find('\n') + 1);
+	} else {
+		cache = "";
+		res = "\r\n";
+	}
+	//std::cout << res;
 	return res;
 }
