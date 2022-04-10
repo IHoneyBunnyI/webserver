@@ -3,7 +3,7 @@
 #include "webserv.hpp"
 #include <sstream>
 #include <sys/socket.h>
-#define BUFSIZE 5
+#define BUFSIZE 100
 
 void HtppRequest::ParseRequest(int &close_connect, int fd) {
 	char buffer[BUFSIZE];
@@ -12,8 +12,10 @@ void HtppRequest::ParseRequest(int &close_connect, int fd) {
 	std::istringstream input;
 	std::string tmp;
 	std::string line;
+	std::string pred_line;
 	while (1)
 	{
+		line.clear();
 		int rc = recv(fd, buffer, sizeof(buffer), 0);
 		if (rc < 0)
 			break; //full data read
@@ -25,14 +27,13 @@ void HtppRequest::ParseRequest(int &close_connect, int fd) {
 		std::string read_line(buffer, BUFSIZE);
 		if (tmp != "") {
 			line = tmp + read_line;
+			tmp = "";
 		} else {
 			line = read_line;
 		}
 		std::istringstream input(line);
-		std::getline(input, line);
-			//std::cout << line << std::endl;
-		std::string pred_line;
-		while (1) {
+		//std::getline(input, line);
+		//while (1) {
 			if (line == "\r") {
 				//конец запроса
 				std::cout << RED "END REQUEST" WHITE << std::endl;
@@ -46,24 +47,16 @@ void HtppRequest::ParseRequest(int &close_connect, int fd) {
 			}
 			if (line.find('\r') != std::string::npos) {
 				//отмечаем каждую строчку
-				//std::cout << "find " << line << std::endl;
+				std::cout << line << std::endl;
 				//тут необходимо парсить строки
 			} else {
 				tmp = line;
 				break;
 			}
 			pred_line = line;
-			std::getline(input, line);
+			//std::getline(input, line);
 			//std::cout << "GELINE" << std::endl;
-		}
+		//}
 		memset(buffer, 0, BUFSIZE);
-			//if (this->Method == "") {
-				//this->Method = line.substr(0, line.find(' '));
-				//line = line.substr(line.find(' ') + 1);
-				//this->Path = line.substr(0, line.find(' '));
-				//line = line.substr(line.find(' ') + 1);
-				//this->Version = line.substr(0, line.find(' '));
-			//}
-		//нужно попробовать getline
 	}
 }
