@@ -5,7 +5,7 @@
 #include <sys/socket.h>
 #define BUFSIZE 5
 
-std::string HtppRequest::ReadRequest(int &close_connect, int fd) {
+std::string HtppRequest::ReadRequest(int fd) {
 	static std::string cache;
 	char buf[BUFSIZE + 1];
 	int rc;
@@ -20,7 +20,7 @@ std::string HtppRequest::ReadRequest(int &close_connect, int fd) {
 			break; //full data read
 		}
 		if (rc == 0) {
-			close_connect = 1;
+			this->close_connect = 1;
 			std::cout << "CLOSE CONNECT!" << std::endl;
 			break;
 		}

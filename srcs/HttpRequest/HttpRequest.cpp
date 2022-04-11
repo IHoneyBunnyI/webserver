@@ -1,7 +1,7 @@
 #include "HttpRequest.hpp"
 
 HtppRequest::HtppRequest():
-	Request(""), Method(""), Path(""), Version(""){}
+	Request(""), Method(""), Path(""), Version(""), close_connect(0){}
 
 HtppRequest::~HtppRequest(){}
 

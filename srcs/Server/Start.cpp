@@ -97,7 +97,7 @@ void Server::Start() {
 	for (std::vector<int>::iterator begin = this->sockets.begin(); begin != this->sockets.end(); begin++)
 		fds.push_back((pollfd){*begin, POLLIN, 0});
 
-	int close_connect = 0;
+	//int close_connect = 0;
 	int need_erase = 0;
 	int rpoll = 0;
 	while (1) {
@@ -114,13 +114,12 @@ void Server::Start() {
 				HtppRequest htppRequest;
 				std::string line;
 				while (line != "\r\n") {
-					line = htppRequest.ReadRequest(close_connect, fds[i].fd);
+					line = htppRequest.ReadRequest(fds[i].fd);
 					htppRequest.ParseRequest(line);
 				}
 				//std::cout << RED "END REQUEST!!" WHITE << std::endl;
-				if (close_connect) {
+				if (htppRequest.NeedCloseConnect()) {
 					need_erase = closeConnection(fds, i, this->fd_ip);
-					close_connect = 0;
 				} else {
 					HtppResponse htppResponse(htppRequest);
 				}

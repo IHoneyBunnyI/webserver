@@ -5,7 +5,7 @@
 #include <sys/socket.h>
 #define BUFSIZE 5
 
-void HtppRequest::ReadRequest(int &close_connect, int fd) {
+void HtppRequest::ReadRequest(int fd) {
 
 	char buffer[BUFSIZE];
 	memset(buffer, 0, BUFSIZE);

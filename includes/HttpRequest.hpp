@@ -14,7 +14,8 @@ private:
 	std::string Path;
 	std::string Version;
 	std::map<std::string, std::string> Headers;
-	//все хэдэры в реализации не нуждаются, only HTPP1.1
+	int close_connect;
+	//все хэдэры в реализации не нуждаются, только HTPP/1.1
 public:
 	HtppRequest();
 	~HtppRequest();
@@ -23,10 +24,11 @@ public:
 	std::string GetMethod();
 	std::string GetPath();
 	std::string GetVersion();
+	int NeedCloseConnect();
 	std::map<std::string, std::string> GetHeaders();
 
 	void ParseRequest(std::string line);
-	std::string ReadRequest(int &close_connect, int fd);
+	std::string ReadRequest(int fd);
 	//void ReadRequest(int &close_connect, int fd);
 };
 
