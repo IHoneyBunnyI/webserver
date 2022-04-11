@@ -11,22 +11,29 @@ int firstLineExist(std::string &m, std::string &p, std::string &v) {
 }
 
 void HtppRequest::ParseRequest(std::string line) {
-	(void)line;
 	// тут при парсинге тоже необходимо отключать клиента this->close_connect, если есть ошибки запроса
-	if (!firstLineExist(this->Method, this->Path, this->Version)) {
-		//std::cout << YELLOW << line << WHITE << std::endl;
-		//std::cout <<std::count(line.begin(), line.end(), ' ') << std::endl;
+	//std::cout << GREEN << line << WHITE;
+	if (line == "\r\n" || line == "\n") {
+		return;
+	} else if (!firstLineExist(this->Method, this->Path, this->Version)) {
 		if (std::count(line.begin(), line.end(), ' ') == 2) {
+			std::cout << GREEN << line << WHITE;
 			this->Method = line.substr(0, line.find(' '));
+			//std::cout << this->Method << std::endl;
 			line = line.substr(line.find(' ') + 1);
 			this->Path = line.substr(0, line.find(' '));
+			//std::cout << this->Path << std::endl;
 			line = line.substr(line.find(' ') + 1);
-			this->Version = line.substr(0, line.size() - 1);
+			if (line.find('\r') != std::string::npos) {
+				this->Version = line.substr(0, line.find('\r'));
+			} else {
+				this->Version = line.substr(0, line.find('\n'));
+			//std::cout << this->Version << std::endl;
+			}
 		} else {
 			Server::Log("ERROR request : \'" + line + "\'");
 			this->close_connect = 1;
 			//std::cout << RED "ERROR" WHITE << std::endl;
 		}
-		//НЕОБХОДИМО ДОБАВИТЬ ОБРАБОТКУ ОШИБОК
 	}
 }

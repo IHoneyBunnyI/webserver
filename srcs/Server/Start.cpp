@@ -117,8 +117,11 @@ void Server::Start() {
 					line = htppRequest.ReadRequest(fds[i].fd);
 					htppRequest.ParseRequest(line);
 				}
+				//GET(fds[i].fd, rpoll, "GET / HTTP/1.1\n");
+				//GET(fds[i].fd, rpoll, "GET /favicon/favicon.ico HTTP/1.1\n");
 				//std::cout << RED "END REQUEST!!" WHITE << std::endl;
 				if (htppRequest.NeedCloseConnect()) {
+					std::cout << "AAA" << std::endl;
 					need_erase = closeConnection(fds, i, this->fd_ip);
 				} else {
 					HtppResponse htppResponse(htppRequest);

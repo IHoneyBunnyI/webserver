@@ -3,7 +3,7 @@
 #include "webserv.hpp"
 #include <sstream>
 #include <sys/socket.h>
-#define BUFSIZE 5
+#define BUFSIZE (1 << 20)
 
 std::string HtppRequest::ReadRequest(int fd) {
 	static std::string cache;
@@ -12,7 +12,6 @@ std::string HtppRequest::ReadRequest(int fd) {
 	std::memset(buf, 0, BUFSIZE + 1);
 
 	rc = 1;
-		//std::cout << "AAA" << std::endl;
 	while (cache.find('\n') == std::string::npos) {
 		rc = recv(fd, buf, BUFSIZE, 0);
 		if (rc < 0) {
@@ -33,8 +32,8 @@ std::string HtppRequest::ReadRequest(int fd) {
 		cache = cache.substr(cache.find('\n') + 1);
 	} else {
 		cache = "";
+		//std::cout << "CRLF" << std::endl;
 		res = "\r\n";
 	}
-	//std::cout << res;
 	return res;
 }
