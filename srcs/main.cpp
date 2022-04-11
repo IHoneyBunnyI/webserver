@@ -36,7 +36,7 @@ int main(int argc, char** av)
 
 	Server server;
 	//server.setPorts(parser.getPorts());
-	server.AddPort(8080); //можно добавлять нужные Порты
+	//server.AddPort(8080); //можно добавлять нужные Порты
 	server.AddPort(8090);
 	server.Start();
 }

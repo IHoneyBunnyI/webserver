@@ -115,14 +115,14 @@ void Server::Start() {
 				std::string line;
 				while (line != "\r\n") {
 					line = htppRequest.ReadRequest(close_connect, fds[i].fd);
-					std::cout << line;
-					htppRequest.ParseRequest(line); //в идеале надо сделать так, чтобы readRequest возвращал одну строку как gnl
+					htppRequest.ParseRequest(line);
 				}
-
-				HtppResponse htppResponse(htppRequest);
+				//std::cout << RED "END REQUEST!!" WHITE << std::endl;
 				if (close_connect) {
 					need_erase = closeConnection(fds, i, this->fd_ip);
 					close_connect = 0;
+				} else {
+					HtppResponse htppResponse(htppRequest);
 				}
 			}
 		}

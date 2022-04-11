@@ -15,10 +15,13 @@ std::string HtppRequest::ReadRequest(int &close_connect, int fd) {
 		//std::cout << "AAA" << std::endl;
 	while (cache.find('\n') == std::string::npos) {
 		rc = recv(fd, buf, BUFSIZE, 0);
-		if (rc < 0)
+		if (rc < 0) {
+			std::cout << "FULL READ" << std::endl;
 			break; //full data read
+		}
 		if (rc == 0) {
 			close_connect = 1;
+			std::cout << "CLOSE CONNECT!" << std::endl;
 			break;
 		}
 		std::string str_buf(buf);
