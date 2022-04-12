@@ -13,6 +13,7 @@ CPP_FILES = CGI.cpp\
 			ParseRequest.cpp\
 			ReadRequest.cpp\
 			HttpResponse.cpp\
+			ParseConfig.cpp\
 			Parser.cpp\
 			DELETE.cpp\
 			GET.cpp\

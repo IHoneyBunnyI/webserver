@@ -91,6 +91,7 @@ static int closeConnection(std::vector<pollfd> &fds, int i, std::map<int, std::s
 }
 
 void Server::Start() {
+	//std::vector<Server> servers;
 	Server::Log("Start Server");
 	for (std::vector<HostPort>::iterator begin = this->listen.begin(); begin != this->listen.end(); begin++) //превращаем спаршенные сокеты в открытые порты 
 		this->sockets.push_back(create_listen_socket(*begin));
@@ -102,8 +103,10 @@ void Server::Start() {
 	int rpoll = 0;
 	while (1) {
 		rpoll = poll(fds.data(), fds.size(), -1);
-		if (rpoll <= 0) //POLL Error
+		if (rpoll <= 0) {//POLL Error 
+			Server::Log("Poll error");
 			continue;
+		}
 		unsigned int current_size = fds.size();
 		for (unsigned int i = 0; i < current_size; i++){
 			if (fds[i].revents == 0)
@@ -114,7 +117,7 @@ void Server::Start() {
 				HtppRequest htppRequest;
 				std::string line;
 				int end = 0;
-				while (!end) { // на счет 2 условия пока не уверен
+				while (!end && htppRequest.NeedCloseConnect() == 0) { // на счет 2 условия пока не уверен
 					line = htppRequest.ReadRequest(fds[i].fd);
 					if (line == "\r\n" || line == "\n")
 						end = 1;

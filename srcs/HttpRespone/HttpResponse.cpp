@@ -7,7 +7,7 @@ HtppResponse::HtppResponse(HtppRequest &request):
 	Path(request.GetPath()),
 	Version(request.GetVersion()),
 	Headers(request.GetHeaders()) {
-	//std::cout << Method << std::endl;
-	//std::cout << Path << std::endl;
-	//std::cout << Version << std::endl;
+	std::cout << Method << std::endl;
+	std::cout << Path << std::endl;
+	std::cout << Version << std::endl;
 	}

@@ -25,18 +25,12 @@ int main(int argc, char** av)
 	//поэтому было принято решение вынести класс Parser из поля класса Server,
 	//далее внутри класса Server будет поле класса HttpRequest, который уже будет парсить каждый запрос отдельно
 	
-	Parser parser(configFile);
-	parser.parseConfig(); // MARIA
-	// create all Servers
-	// Server.ports = std::vector<int> ports // пример
-	// Server.ports = Parser.getPorts()
-	// Server.locations = Parser.getLocations()
-	// Server.roots = Parser.getRoots()
-	// create all Servers
+	Parser config(configFile);
+	config.ParseConfig(); // MARIA
 
-	Server server;
-	//server.setPorts(parser.getPorts());
+	//Server server(config);
+	//Server server;
 	//server.AddPort(8080); //можно добавлять нужные Порты
-	server.AddPort(8090);
-	server.Start();
+	//server.AddPort(8090);
+	//server.Start();
 }
