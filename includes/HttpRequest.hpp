@@ -9,7 +9,6 @@ private:
 	HtppRequest(const HtppRequest& ref);
 	HtppRequest& operator = (const HtppRequest& ref);
 
-	std::string Request;
 	std::string Method;
 	std::string Path;
 	std::string Version;

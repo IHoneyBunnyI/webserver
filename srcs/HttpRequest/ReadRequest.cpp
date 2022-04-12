@@ -15,7 +15,7 @@ std::string HtppRequest::ReadRequest(int fd) {
 	while (cache.find('\n') == std::string::npos) {
 		rc = recv(fd, buf, BUFSIZE, 0);
 		if (rc < 0) {
-			std::cout << "FULL READ" << std::endl;
+			//std::cout << "FULL READ" << std::endl;
 			break; //full data read
 		}
 		if (rc == 0) {
@@ -32,7 +32,6 @@ std::string HtppRequest::ReadRequest(int fd) {
 		cache = cache.substr(cache.find('\n') + 1);
 	} else {
 		cache = "";
-		//std::cout << "CRLF" << std::endl;
 		res = "\r\n";
 	}
 	return res;

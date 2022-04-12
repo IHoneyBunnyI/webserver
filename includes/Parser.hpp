@@ -2,6 +2,10 @@
 #define PARSER_HPP
 #include <iostream>
 
+struct ServerConf {
+	std::string host;
+};
+
 class Parser //FOR MARIA
 {
 public:
@@ -15,6 +19,7 @@ public:
 	void parseConfig();
 private:
 	std::string configFile;
+	
 };
 
 #endif

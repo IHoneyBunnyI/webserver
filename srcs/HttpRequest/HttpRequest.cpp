@@ -1,13 +1,9 @@
 #include "HttpRequest.hpp"
 
 HtppRequest::HtppRequest():
-	Request(""), Method(""), Path(""), Version(""), close_connect(0){}
+	Method(""), Path(""), Version(""), close_connect(0){}
 
 HtppRequest::~HtppRequest(){}
-
-std::string HtppRequest::GetRequest() {
-	return (this->Request);
-}
 
 std::string HtppRequest::GetMethod() {
 	return (this->Method);

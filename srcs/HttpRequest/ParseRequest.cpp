@@ -14,10 +14,14 @@ void HtppRequest::ParseRequest(std::string line) {
 	// тут при парсинге тоже необходимо отключать клиента this->close_connect, если есть ошибки запроса
 	//std::cout << GREEN << line << WHITE;
 	if (line == "\r\n" || line == "\n") {
+		//if (line == "\r\n")
+			//std::cout << "\\r\\n" << std::endl;
+		//if (line == "\n")
+			//std::cout << "\\n" << std::endl;
 		return;
 	} else if (!firstLineExist(this->Method, this->Path, this->Version)) {
 		if (std::count(line.begin(), line.end(), ' ') == 2) {
-			std::cout << GREEN << line << WHITE;
+			//std::cout << GREEN << line << WHITE;
 			this->Method = line.substr(0, line.find(' '));
 			//std::cout << this->Method << std::endl;
 			line = line.substr(line.find(' ') + 1);

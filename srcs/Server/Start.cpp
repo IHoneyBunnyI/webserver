@@ -16,7 +16,7 @@ void erase_fds(std::vector<pollfd> &fds) {
 	}
 }
 
-static int create_listen_socket(int port)
+static int create_listen_socket(struct HostPort hostPort)
 {
 	struct sockaddr_in socket_in;
 
@@ -39,8 +39,8 @@ static int create_listen_socket(int port)
 
 	memset(&socket_in, 0, sizeof(socket_in));
 	socket_in.sin_family = PF_INET;
-	socket_in.sin_port = htons(port); //Задаем порт, который будем слушать
-	socket_in.sin_addr.s_addr = inet_addr("0.0.0.0"); //IP
+	socket_in.sin_port = htons(hostPort.port); //Задаем порт, который будем слушать
+	socket_in.sin_addr.s_addr = inet_addr(hostPort.ip.c_str()); //IP
 
 	if (bind(sock_fd, (const struct sockaddr *)&socket_in, sizeof(socket_in)) < 0) { // связываем сокет с именем ??
 		Server::Log("bind() error");
@@ -92,7 +92,7 @@ static int closeConnection(std::vector<pollfd> &fds, int i, std::map<int, std::s
 
 void Server::Start() {
 	Server::Log("Start Server");
-	for (std::vector<int>::iterator begin = this->ports.begin(); begin != this->ports.end(); begin++) //превращаем спаршенные сокеты в открытые порты 
+	for (std::vector<HostPort>::iterator begin = this->listen.begin(); begin != this->listen.end(); begin++) //превращаем спаршенные сокеты в открытые порты 
 		this->sockets.push_back(create_listen_socket(*begin));
 	for (std::vector<int>::iterator begin = this->sockets.begin(); begin != this->sockets.end(); begin++)
 		fds.push_back((pollfd){*begin, POLLIN, 0});
@@ -113,15 +113,20 @@ void Server::Start() {
 			} else {
 				HtppRequest htppRequest;
 				std::string line;
-				while (line != "\r\n") {
+				int end = 0;
+				while (!end) { // на счет 2 условия пока не уверен
 					line = htppRequest.ReadRequest(fds[i].fd);
+					if (line == "\r\n" || line == "\n")
+						end = 1;
 					htppRequest.ParseRequest(line);
 				}
+				//std::cout << YELLOW << htppRequest.GetMethod() << WHITE << std::endl;
+				//std::cout << YELLOW << htppRequest.GetPath() << WHITE << std::endl;
+				//std::cout << YELLOW << htppRequest.GetVersion() << WHITE << std::endl;
 				//GET(fds[i].fd, rpoll, "GET / HTTP/1.1\n");
 				//GET(fds[i].fd, rpoll, "GET /favicon/favicon.ico HTTP/1.1\n");
 				//std::cout << RED "END REQUEST!!" WHITE << std::endl;
 				if (htppRequest.NeedCloseConnect()) {
-					std::cout << "AAA" << std::endl;
 					need_erase = closeConnection(fds, i, this->fd_ip);
 				} else {
 					HtppResponse htppResponse(htppRequest);
