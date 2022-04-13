@@ -20,6 +20,7 @@ CPP_FILES = CGI.cpp\
 			Log.cpp\
 			POST.cpp\
 			Server.cpp\
+			ServerConfig.cpp\
 			Start.cpp\
 			main.cpp\
 
@@ -28,6 +29,7 @@ HPP_FILES = CGI.hpp\
 			HttpResponse.hpp\
 			Parser.hpp\
 			Server.hpp\
+			ServerConfig.hpp\
 			webserv.hpp\
 
 O_FILES = $(addprefix objs/, $(CPP_FILES))
@@ -44,6 +46,7 @@ VPATH = srcs/\
 		srcs/HttpRespone/\
 		srcs/Parser/\
 		srcs/Server/\
+		srcs/ServerConfig/\
 
 all: $(OBJDIR) $(NAME)
 

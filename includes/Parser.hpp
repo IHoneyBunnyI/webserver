@@ -2,32 +2,8 @@
 #define PARSER_HPP
 #include <iostream>
 #include <vector>
+#include "ServerConfig.hpp"
 
-struct Location {
-	std::string location;
-	std::string root;
-	std::string alias;
-	std::string method;
-	std::string index;
-	std::string cgi_path;
-	std::string cgi_extensions;
-	std::string upload_pass;
-};
-
-struct ErrorPage {
-	std::vector<int> errors;
-	std::string error_page;
-};
-
-struct ServerConf {
-	std::string server_name;
-	int client_max_body_size;
-	std::string ip;
-	int port;
-	std::vector<Location> locations;
-	std::vector<ErrorPage> error_pages;
-	int autoindex;
-};
 
 class Parser //FOR MARIA
 {
@@ -40,8 +16,20 @@ public:
 
 	void SetConfigFile(std::string);
 	void ParseConfig();
+	static void trim(std::string &src);
+	static void getLine(std::ifstream &stream, std::string &line);
+
+	class FileNotOpen: public std::exception
+	{ public: const char *what() const throw();};
+
+	class OpeningBracketExpected: public std::exception
+	{ public: const char *what() const throw(); };
+
+
 private:
-	std::string configFile;
+	static unsigned int numLine;
+	static std::string configFile;
+	std::vector<ServerConfig> servers;
 };
 
 #endif

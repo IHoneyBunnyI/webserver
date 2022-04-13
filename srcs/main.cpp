@@ -26,7 +26,17 @@ int main(int argc, char** av)
 	//далее внутри класса Server будет поле класса HttpRequest, который уже будет парсить каждый запрос отдельно
 	
 	Parser config(configFile);
-	config.ParseConfig(); // MARIA
+	try {
+		config.ParseConfig();
+	} catch (std::exception &ex) {
+		std::cout << ex.what() << std::endl;
+	}
+
+	//std::cout << location.alias << std::endl;
+
+
+	//std::cout<< serverok.locations[0].alias << std::endl;
+
 
 	//Server server(config);
 	//Server server;
