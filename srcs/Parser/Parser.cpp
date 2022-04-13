@@ -50,6 +50,6 @@ const char *Parser::FileNotOpen::what() const throw() {
 	return ("Error open config file");
 }
 const char *Parser::OpeningBracketExpected::what() const throw() {
-	std::string *error = new(std::string)("Error " + Parser::configFile + std::to_string(Parser::numLine) + "ok");
+	std::string *error = new(std::string)("Error: expected { in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
 	return (error->c_str());
 }
