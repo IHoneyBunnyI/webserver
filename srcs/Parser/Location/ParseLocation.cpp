@@ -1,10 +1,9 @@
 #include "Parser.hpp"
 
 void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line) {
-	(void)stream;
-	(void)server;
-	(void)line;
 	Location location;
+	unsigned char isAlias = 0;
+	unsigned char isRoot = 0;
 
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive[0] != "location") {
@@ -18,6 +17,13 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 	location.location = directive[1];
 
 	//начало парсинга location
-	
+	Parser::getLine(stream, line);
+	if (line != "{") {
+		throw Parser::OpeningBracketExpected();
+	}
+	while (line != "}") {
+		Parser::getLine(stream, line);
+		directive = Parser::split(line, " ");
+	}
 	server.locations.push_back(location);
 }

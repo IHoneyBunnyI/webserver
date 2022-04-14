@@ -51,6 +51,7 @@ VPATH = srcs/\
 		srcs/HttpRequest/\
 		srcs/HttpRespone/\
 		srcs/Parser/\
+		srcs/Parser/Location/\
 		srcs/Server/\
 		srcs/ServerConfig/\
 
