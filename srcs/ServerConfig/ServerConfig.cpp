@@ -30,8 +30,8 @@ Location::Location():
 	upload_pass(""),
 	defaultIndexes(0),
 	defaultMethods(0),
-	hasRoot(0),
-	hasAlias(0)
+	rootExist(0),
+	aliasExist(0)
 {
 	this->indexes.push_back("index");
 	this->indexes.push_back("index.html");

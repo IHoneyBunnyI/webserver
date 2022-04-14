@@ -7,9 +7,13 @@ void ParseRoot(Location &location, std::string line) {
 	}
 	if (directive[0] != "root") {
 		throw Parser::UnknownDirective(directive[0]);
-	} else if (location.hasRoot) {
+	} else if (location.rootExist) {
 		throw Parser::RootDuplicate();
-	} else if (location.hasAlias) {
+	} else if (location.aliasExist) {
 		throw Parser::RootDuplicateAliasExists();
 	}
+	if (directive[1][directive[1].size() - 1] != '/')
+		directive[1] += '/';
+	location.root = directive[1];
+	location.rootExist = 1;
 }

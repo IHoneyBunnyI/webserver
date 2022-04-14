@@ -22,6 +22,8 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 	}
 	while (line != "}") {
 		Parser::getLine(stream, line);
+		if (line == "")
+			continue;
 		Parser::trim(line);
 		if (line.find("root") != std::string::npos) {
 			ParseRoot(location, line);
