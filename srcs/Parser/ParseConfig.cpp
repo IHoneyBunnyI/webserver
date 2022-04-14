@@ -9,7 +9,24 @@ static ServerConfig ParseServer(std::ifstream &stream) {
 	Parser::getLine(stream, line);
 	if (line != "{")
 		throw Parser::OpeningBracketExpected();
+	while (line != "}") {
+		Parser::getLine(stream, line);
+		if (line.find("listen") != std::string::npos) {
+			ParseListen(server, line);
+		} else if (line.find("server_name") != std::string::npos) {
+			ParseServerName(server, line);
+		} else if (line.find("client_max_body_size") != std::string::npos) {
+			ParseMaxBodySize(server, line);
+		} else if (line.find("error_page") != std::string::npos) {
+			ParseErrorPage(server, line);
+		} else if (line.find("autoindex") != std::string::npos) {
+			ParseAutoindex(server, line);
+		} else if (line.find("location") != std::string::npos) {
+			ParseLocation(stream, server, line);
+		}
 
+	}
+	std::cout << server;
 	return server;
 }
 
@@ -25,8 +42,7 @@ void Parser::ParseConfig()
 
 	std::string line;
 	//unsigned int numLine = 1;
-	while (stream)
-	{
+	while (stream) {
 		//std::string tmp;
 		Parser::getLine(stream, line);
 		if (line == "")
@@ -35,11 +51,17 @@ void Parser::ParseConfig()
 		if (line == "server") {
 			try {
 				ServerConfig serv = ParseServer(stream);
-			} catch (std::exception &ex) {
-				throw Parser::OpeningBracketExpected();
+			} catch (Parser::OpeningBracketExpected &e) {
+				throw e;
+			} catch (Parser::ToManyArgumentsInDirective &e) {
+				throw e;
+			} catch (Parser::UnknownDirective &e) {
+				throw e;
 			}
 			//this->servers.push_back(serv);
 			//std::cout << Parser::numLine << " " + line << std::endl;
+		} else {
+			throw UnknownDirective(line); //тестовое исключение в этом месте
 		}
 	}
 }

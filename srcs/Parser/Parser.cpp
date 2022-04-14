@@ -41,6 +41,25 @@ void Parser::trim(std::string &src)
 	src.erase(src.begin(), std::find_if_not(src.begin(), src.end(), ::isspace));
 }
 
+std::vector<std::string> Parser::split(const std::string& str, const std::string& delimeter)
+{
+	std::vector<std::string> res;
+	size_t prev = 0, pos = str.find(delimeter, prev);
+
+	while ((pos < str.length()) && (prev < str.length())) {
+		if (pos == std::string::npos)
+			pos = str.length();
+		std::string item = str.substr(prev, pos - prev);
+		if (!item.empty())
+			res.push_back(item);
+		prev = pos + delimeter.length();
+		pos = str.find(delimeter, prev);
+	}
+	if (str.size() != prev)
+		res.push_back(str.substr(prev, pos - prev));
+	return (res);
+}
+
 void Parser::getLine(std::ifstream &stream, std::string &line) {
 	std::getline(stream, line);
 	numLine++;
@@ -49,7 +68,21 @@ void Parser::getLine(std::ifstream &stream, std::string &line) {
 const char *Parser::FileNotOpen::what() const throw() {
 	return ("Error open config file");
 }
+
+const char *Parser::ToManyArgumentsInDirective::what() const throw() {
+	std::string *error = new(std::string)("Syntax Error: to many arguments in directive in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+	return (error->c_str());
+}
+
 const char *Parser::OpeningBracketExpected::what() const throw() {
-	std::string *error = new(std::string)("Error: expected { in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+	std::string *error = new(std::string)("Syntax Error: expected { in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+	return (error->c_str());
+}
+
+Parser::UnknownDirective::UnknownDirective(std::string s) throw(): directive(s){}
+Parser::UnknownDirective::~UnknownDirective() throw(){}
+
+const char *Parser::UnknownDirective::what() const throw() {
+	std::string *error = new(std::string)("Syntax Error: unknown directive \'" + this->directive + "\' in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
 	return (error->c_str());
 }

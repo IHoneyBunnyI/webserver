@@ -7,11 +7,13 @@ struct Location {
 	std::string location;
 	std::string root;
 	std::string alias;
-	std::string method;
-	std::string index;
+	std::vector<std::string> methods;
+	std::vector<std::string> indexes;
 	std::string cgi_path;
-	std::string cgi_extensions;
+	std::vector<std::string> cgi_extensions;
 	std::string upload_pass;
+	unsigned char defaultIndexes;
+	unsigned char defaultMethods;
 
 	Location();
 };
@@ -30,9 +32,11 @@ struct ServerConfig {
 	std::vector<int> ports;
 	std::vector<Location> locations;
 	std::vector<ErrorPage> error_pages;
-	char autoindex;
+	unsigned char autoindex;
+	unsigned char defaultListen;
 
 	ServerConfig();
 };
 
+std::ostream& operator << (std::ostream& cout, const ServerConfig& fixed);
 #endif

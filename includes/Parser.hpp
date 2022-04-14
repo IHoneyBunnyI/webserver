@@ -17,19 +17,35 @@ public:
 	void SetConfigFile(std::string);
 	void ParseConfig();
 	static void trim(std::string &src);
+	static std::vector<std::string> split(const std::string& str, const std::string& delimeter);
 	static void getLine(std::ifstream &stream, std::string &line);
 
 	class FileNotOpen: public std::exception
-	{ public: const char *what() const throw();};
+	{ public:	const char *what() const throw();};
 
 	class OpeningBracketExpected: public std::exception
-	{ public: const char *what() const throw(); };
+	{ public:	const char *what() const throw(); };
 
+	class ToManyArgumentsInDirective: public std::exception
+	{ public:	const char *what() const throw(); };
+
+	class UnknownDirective: public std::exception
+	{ public:	const char *what() const throw();
+				UnknownDirective(std::string s) throw();
+				~UnknownDirective() throw();
+				std::string directive; };
 
 private:
 	static unsigned int numLine;
 	static std::string configFile;
 	std::vector<ServerConfig> servers;
 };
+
+void ParseListen(ServerConfig &server, std::string line);
+void ParseServerName(ServerConfig &server, std::string line);
+void ParseMaxBodySize(ServerConfig &server, std::string line);
+void ParseErrorPage(ServerConfig &server, std::string line);
+void ParseAutoindex(ServerConfig &server, std::string line);
+void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line);
 
 #endif

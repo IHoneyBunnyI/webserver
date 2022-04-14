@@ -11,7 +11,6 @@ int fatal(void)
 	return 2;
 }
 
-
 int main(int argc, char** av)
 {
 	std::string configFile = "webserv.conf";
@@ -36,7 +35,6 @@ int main(int argc, char** av)
 
 
 	//std::cout<< serverok.locations[0].alias << std::endl;
-
 
 	//Server server(config);
 	//Server server;
