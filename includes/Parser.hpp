@@ -60,5 +60,6 @@ void ParseErrorPage(ServerConfig &server, std::string line);
 void ParseAutoindex(ServerConfig &server, std::string line);
 void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line);
 void ParseRoot(Location &location, std::string line);
+void ParseAlias(Location &location, std::string line);
 
 #endif

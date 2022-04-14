@@ -13,12 +13,13 @@ CPP_FILES = CGI.cpp\
 			ParseRequest.cpp\
 			ReadRequest.cpp\
 			HttpResponse.cpp\
+			ParseAlias.cpp\
+			ParseLocation.cpp\
+			ParseRoot.cpp\
 			ParseAutoindex.cpp\
 			ParseConfig.cpp\
 			ParseErrorPage.cpp\
 			ParseListen.cpp\
-			ParseLocation.cpp\
-			ParseRoot.cpp\
 			ParseMaxBodySize.cpp\
 			Parser.cpp\
 			ParseServerName.cpp\

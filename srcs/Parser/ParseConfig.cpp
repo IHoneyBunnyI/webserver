@@ -11,9 +11,9 @@ static ServerConfig ParseServer(std::ifstream &stream) {
 		throw Parser::OpeningBracketExpected();
 	while (line != "}") {
 		Parser::getLine(stream, line);
-		if (line == "")
-			continue;
 		Parser::trim(line);
+		if (line == "" || (line.find("/*") != std::string::npos && line.find("*/") != std::string::npos))
+			continue;
 		if (line.find("listen") != std::string::npos) {
 			ParseListen(server, line);
 		} else if (line.find("server_name") != std::string::npos) {
@@ -48,9 +48,9 @@ void Parser::ParseConfig()
 	while (stream) {
 		//std::string tmp;
 		Parser::getLine(stream, line);
-		if (line == "")
-			continue;
 		Parser::trim(line);
+		if (line == "" || (line.find("/*") != std::string::npos && line.find("*/") != std::string::npos))
+			continue;
 		if (line == "server") {
 			try {
 				ServerConfig serv = ParseServer(stream);

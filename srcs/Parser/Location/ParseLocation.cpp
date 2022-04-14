@@ -22,11 +22,13 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 	}
 	while (line != "}") {
 		Parser::getLine(stream, line);
-		if (line == "")
-			continue;
 		Parser::trim(line);
+		if (line == "" || (line.find("/*") != std::string::npos && line.find("*/") != std::string::npos))
+			continue;
 		if (line.find("root") != std::string::npos) {
 			ParseRoot(location, line);
+		} else if (line.find("alias") != std::string::npos) {
+			ParseAlias(location, line);
 		}
 	}
 	server.locations.push_back(location);
