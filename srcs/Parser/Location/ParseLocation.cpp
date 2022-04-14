@@ -2,8 +2,6 @@
 
 void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line) {
 	Location location;
-	unsigned char isAlias = 0;
-	unsigned char isRoot = 0;
 
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive[0] != "location") {
@@ -18,12 +16,16 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 
 	//начало парсинга location
 	Parser::getLine(stream, line);
+	Parser::trim(line);
 	if (line != "{") {
 		throw Parser::OpeningBracketExpected();
 	}
 	while (line != "}") {
 		Parser::getLine(stream, line);
-		directive = Parser::split(line, " ");
+		Parser::trim(line);
+		if (line.find("root") != std::string::npos) {
+			ParseRoot(location, line);
+		}
 	}
 	server.locations.push_back(location);
 }

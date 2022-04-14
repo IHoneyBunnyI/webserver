@@ -86,3 +86,23 @@ const char *Parser::UnknownDirective::what() const throw() {
 	std::string *error = new(std::string)("Syntax Error: unknown directive \'" + this->directive + "\' in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
 	return (error->c_str());
 }
+
+const char *Parser::RootDuplicate::what() const throw() {
+	std::string *error = new(std::string)("\"root\" directive is duplicate in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+	return (error->c_str());
+}
+
+const char *Parser::AliasDuplicate::what() const throw() {
+	std::string *error = new(std::string)("\"alias\" directive is duplicate in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+	return (error->c_str());
+}
+
+const char *Parser::AliasDuplicateRootExists::what() const throw() {
+	std::string *error = new(std::string)("\"alias\" directive is duplicate, \"root\" directive was specified earlier in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+	return (error->c_str());
+}
+
+const char *Parser::RootDuplicateAliasExists::what() const throw() {
+	std::string *error = new(std::string)("\"root\" directive is duplicate, \"alias\" directive was specified earlier in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+	return (error->c_str());
+}

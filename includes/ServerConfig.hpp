@@ -14,6 +14,8 @@ struct Location {
 	std::string upload_pass;
 	unsigned char defaultIndexes;
 	unsigned char defaultMethods;
+	unsigned char hasRoot;
+	unsigned char hasAlias;
 
 	Location();
 };

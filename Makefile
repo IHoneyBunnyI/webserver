@@ -18,6 +18,7 @@ CPP_FILES = CGI.cpp\
 			ParseErrorPage.cpp\
 			ParseListen.cpp\
 			ParseLocation.cpp\
+			ParseRoot.cpp\
 			ParseMaxBodySize.cpp\
 			Parser.cpp\
 			ParseServerName.cpp\

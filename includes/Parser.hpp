@@ -35,6 +35,18 @@ public:
 				~UnknownDirective() throw();
 				std::string directive; };
 
+	class RootDuplicate: public std::exception
+	{ public:	const char *what() const throw(); };
+
+	class AliasDuplicate: public std::exception
+	{ public:	const char *what() const throw(); };
+
+	class RootDuplicateAliasExists: public std::exception
+	{ public:	const char *what() const throw(); };
+
+	class AliasDuplicateRootExists: public std::exception
+	{ public:	const char *what() const throw(); };
+
 private:
 	static unsigned int numLine;
 	static std::string configFile;
@@ -47,5 +59,6 @@ void ParseMaxBodySize(ServerConfig &server, std::string line);
 void ParseErrorPage(ServerConfig &server, std::string line);
 void ParseAutoindex(ServerConfig &server, std::string line);
 void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line);
+void ParseRoot(Location &location, std::string line);
 
 #endif

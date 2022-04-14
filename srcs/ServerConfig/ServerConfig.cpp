@@ -29,7 +29,9 @@ Location::Location():
 	cgi_extensions(),
 	upload_pass(""),
 	defaultIndexes(0),
-	defaultMethods(0)
+	defaultMethods(0),
+	hasRoot(0),
+	hasAlias(0)
 {
 	this->indexes.push_back("index");
 	this->indexes.push_back("index.html");

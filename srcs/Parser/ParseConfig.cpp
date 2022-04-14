@@ -57,6 +57,14 @@ void Parser::ParseConfig()
 				throw e;
 			} catch (Parser::UnknownDirective &e) {
 				throw e;
+			} catch (Parser::RootDuplicate &e) {
+				throw e;
+			} catch (Parser::AliasDuplicate &e) {
+				throw e;
+			} catch (Parser::RootDuplicateAliasExists &e) {
+				throw e;
+			} catch (Parser::AliasDuplicateRootExists &e) {
+				throw e;
 			}
 			//this->servers.push_back(serv);
 			//std::cout << Parser::numLine << " " + line << std::endl;
