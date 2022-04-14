@@ -14,14 +14,19 @@ CPP_FILES = CGI.cpp\
 			ReadRequest.cpp\
 			HttpResponse.cpp\
 			ParseAlias.cpp\
+			ParseCgiExtensions.cpp\
+			ParseCgiPath.cpp\
 			ParseLocation.cpp\
+			ParseMethod.cpp\
 			ParseRoot.cpp\
+			ParseUploadPass.cpp\
 			ParseAutoindex.cpp\
 			ParseConfig.cpp\
 			ParseErrorPage.cpp\
 			ParseListen.cpp\
 			ParseMaxBodySize.cpp\
 			Parser.cpp\
+			ParseServer.cpp\
 			ParseServerName.cpp\
 			DELETE.cpp\
 			GET.cpp\
@@ -53,7 +58,8 @@ VPATH = srcs/\
 		srcs/HttpRequest/\
 		srcs/HttpRespone/\
 		srcs/Parser/\
-		srcs/Parser/Location/\
+		srcs/Parser/ParseServer/\
+		srcs/Parser/ParseServer/Location/\
 		srcs/Server/\
 		srcs/ServerConfig/\
 

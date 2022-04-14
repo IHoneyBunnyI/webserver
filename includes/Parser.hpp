@@ -26,7 +26,7 @@ public:
 	class OpeningBracketExpected: public std::exception
 	{ public:	const char *what() const throw(); };
 
-	class ToManyArgumentsInDirective: public std::exception
+	class InvalidNumberOfArgument: public std::exception
 	{ public:	const char *what() const throw(); };
 
 	class UnknownDirective: public std::exception
@@ -47,12 +47,16 @@ public:
 	class AliasDuplicateRootExists: public std::exception
 	{ public:	const char *what() const throw(); };
 
+	class MethodDuplicate: public std::exception
+	{ public:	const char *what() const throw(); };
+
 private:
 	static unsigned int numLine;
 	static std::string configFile;
 	std::vector<ServerConfig> servers;
 };
 
+ServerConfig ParseServer(std::ifstream &stream);
 void ParseListen(ServerConfig &server, std::string line);
 void ParseServerName(ServerConfig &server, std::string line);
 void ParseMaxBodySize(ServerConfig &server, std::string line);
@@ -61,5 +65,9 @@ void ParseAutoindex(ServerConfig &server, std::string line);
 void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line);
 void ParseRoot(Location &location, std::string line);
 void ParseAlias(Location &location, std::string line);
+void ParseMethod(Location &location, std::string line);
+void ParseCgiPath(Location &location, std::string line);
+void ParseCgiExtensions(Location &location, std::string line);
+void ParseUploadPass(Location &location, std::string line);
 
 #endif

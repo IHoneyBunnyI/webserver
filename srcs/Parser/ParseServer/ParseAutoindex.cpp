@@ -6,7 +6,7 @@ void ParseAutoindex(ServerConfig &server, std::string line) {
 		throw Parser::UnknownDirective(directive[0]);
 	}
 	if (directive.size() != 2) {
-		throw Parser::ToManyArgumentsInDirective();
+		throw Parser::InvalidNumberOfArgument();
 	}
 	if (directive[1] == "on") {
 		server.autoindex = 1;

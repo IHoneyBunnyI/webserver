@@ -31,7 +31,8 @@ Location::Location():
 	defaultIndexes(0),
 	defaultMethods(0),
 	rootExist(0),
-	aliasExist(0)
+	aliasExist(0),
+	methodsExist(0)
 {
 	this->indexes.push_back("index");
 	this->indexes.push_back("index.html");

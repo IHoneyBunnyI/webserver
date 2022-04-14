@@ -3,7 +3,7 @@
 void ParseAlias(Location &location, std::string line) {
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive.size() != 2) {
-		throw Parser::ToManyArgumentsInDirective();
+		throw Parser::InvalidNumberOfArgument();
 	}
 	if (directive[0] != "alias") {
 		throw Parser::UnknownDirective(directive[0]);

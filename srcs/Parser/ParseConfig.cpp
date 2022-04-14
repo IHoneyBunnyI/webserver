@@ -2,37 +2,6 @@
 #include "Server.hpp"
 #include <fstream>
 
-static ServerConfig ParseServer(std::ifstream &stream) {
-	ServerConfig server;
-
-	std::string line;
-	Parser::getLine(stream, line);
-	if (line != "{")
-		throw Parser::OpeningBracketExpected();
-	while (line != "}") {
-		Parser::getLine(stream, line);
-		Parser::trim(line);
-		if (line == "" || (line.find("/*") != std::string::npos && line.find("*/") != std::string::npos))
-			continue;
-		if (line.find("listen") != std::string::npos) {
-			ParseListen(server, line);
-		} else if (line.find("server_name") != std::string::npos) {
-			ParseServerName(server, line);
-		} else if (line.find("client_max_body_size") != std::string::npos) {
-			ParseMaxBodySize(server, line);
-		} else if (line.find("error_page") != std::string::npos) {
-			ParseErrorPage(server, line);
-		} else if (line.find("autoindex") != std::string::npos) {
-			ParseAutoindex(server, line);
-		} else if (line.find("location") != std::string::npos) {
-			ParseLocation(stream, server, line);
-		}
-
-	}
-	std::cout << server;
-	return server;
-}
-
 unsigned int Parser::numLine = 1;
 
 void Parser::ParseConfig()
@@ -56,7 +25,7 @@ void Parser::ParseConfig()
 				ServerConfig serv = ParseServer(stream);
 			} catch (Parser::OpeningBracketExpected &e) {
 				throw e;
-			} catch (Parser::ToManyArgumentsInDirective &e) {
+			} catch (Parser::InvalidNumberOfArgument &e) {
 				throw e;
 			} catch (Parser::UnknownDirective &e) {
 				throw e;
@@ -68,7 +37,10 @@ void Parser::ParseConfig()
 				throw e;
 			} catch (Parser::AliasDuplicateRootExists &e) {
 				throw e;
+			} catch (Parser::MethodDuplicate &e) {
+				throw e;
 			}
+
 			//this->servers.push_back(serv);
 			//std::cout << Parser::numLine << " " + line << std::endl;
 		} else {

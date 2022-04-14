@@ -69,8 +69,8 @@ const char *Parser::FileNotOpen::what() const throw() {
 	return ("Error open config file");
 }
 
-const char *Parser::ToManyArgumentsInDirective::what() const throw() {
-	std::string *error = new(std::string)("Syntax Error: to many arguments in directive in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+const char *Parser::InvalidNumberOfArgument::what() const throw() {
+	std::string *error = new(std::string)("invalid number of arguments in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
 	return (error->c_str());
 }
 
@@ -104,5 +104,10 @@ const char *Parser::AliasDuplicateRootExists::what() const throw() {
 
 const char *Parser::RootDuplicateAliasExists::what() const throw() {
 	std::string *error = new(std::string)("\"root\" directive is duplicate, \"alias\" directive was specified earlier in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+	return (error->c_str());
+}
+
+const char *Parser::MethodDuplicate::what() const throw() {
+	std::string *error = new(std::string)("\"method\" directive is duplicate in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
 	return (error->c_str());
 }

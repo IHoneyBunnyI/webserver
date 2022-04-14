@@ -8,7 +8,7 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 		throw Parser::UnknownDirective(directive[0]);
 	}
 	if (directive.size() != 2) {
-		throw Parser::ToManyArgumentsInDirective();
+		throw Parser::InvalidNumberOfArgument();
 	}
 	if (directive[1][directive[1].size() - 1] != '/') //проверяю последний символ в location, если не '/', добавляю
 		directive[1] += '/';
@@ -29,7 +29,19 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 			ParseRoot(location, line);
 		} else if (line.find("alias") != std::string::npos) {
 			ParseAlias(location, line);
+		} else if (line.find("method") != std::string::npos) {
+			ParseMethod(location, line);
+		} else if (line.find("cgi_path") != std::string::npos) {
+			ParseCgiPath(location, line);
+		} else if (line.find("cgi_extensions") != std::string::npos) {
+			ParseCgiExtensions(location, line);
+		} else if (line.find("upload_pass") != std::string::npos) {
+			ParseUploadPass(location, line);
 		}
+
+
+
+
 	}
 	server.locations.push_back(location);
 }

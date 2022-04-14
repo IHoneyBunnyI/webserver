@@ -16,6 +16,7 @@ struct Location {
 	unsigned char defaultMethods;
 	unsigned char rootExist;
 	unsigned char aliasExist;
+	unsigned char methodsExist;
 
 	Location();
 };

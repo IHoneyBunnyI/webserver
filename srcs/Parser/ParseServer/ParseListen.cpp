@@ -9,7 +9,7 @@ void ParseListen(ServerConfig &server, std::string line) {
 	//парсим директиву, если имеются проблемы выкидываем исключения
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive.size() != 2) {
-		throw Parser::ToManyArgumentsInDirective();
+		throw Parser::InvalidNumberOfArgument();
 	}
 	if (directive[0] != "listen") {
 		throw Parser::UnknownDirective(directive[0]);
