@@ -6,11 +6,6 @@
 #include <poll.h>
 #include "Parser.hpp"
 
-struct HostPort {
-	std::string ip;
-	int port;
-};
-
 class Server
 {
 
@@ -18,6 +13,7 @@ public:
 	Server();
 	~Server();
 	Server(const Server& ref);
+	Server(Parser &parser);
 	Server& operator = (const Server& ref);
 
 	//void SetHostPort(std::vector<HostPort> ports);
@@ -32,8 +28,7 @@ public:
 
 
 private:
-	std::vector<HostPort> listen;
-	std::vector<int> sockets;
+	std::vector<ServerConfig> servers;
 	std::vector<pollfd> fds;
 	std::map<int, std::string> fd_ip; //в будущем для печенья (cookies)
 };

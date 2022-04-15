@@ -7,6 +7,7 @@
 #include "webserv.hpp"
 #include "HttpRequest.hpp"
 #include "HttpResponse.hpp"
+#include "ServerConfig.hpp"
 
 void erase_fds(std::vector<pollfd> &fds) {
 
@@ -16,7 +17,7 @@ void erase_fds(std::vector<pollfd> &fds) {
 	}
 }
 
-static int create_listen_socket(struct HostPort hostPort)
+/*static int create_listen_socket(int port, std::string ip)
 {
 	struct sockaddr_in socket_in;
 
@@ -39,8 +40,8 @@ static int create_listen_socket(struct HostPort hostPort)
 
 	memset(&socket_in, 0, sizeof(socket_in));
 	socket_in.sin_family = PF_INET;
-	socket_in.sin_port = htons(hostPort.port); //Задаем порт, который будем слушать
-	socket_in.sin_addr.s_addr = inet_addr(hostPort.ip.c_str()); //IP
+	socket_in.sin_port = htons(port); //Задаем порт, который будем слушать
+	socket_in.sin_addr.s_addr = inet_addr(ip.c_str()); //IP
 
 	if (bind(sock_fd, (const struct sockaddr *)&socket_in, sizeof(socket_in)) < 0) { // связываем сокет с именем ??
 		Server::Log("bind() error");
@@ -52,9 +53,9 @@ static int create_listen_socket(struct HostPort hostPort)
 		close(sock_fd);
 	}
 	return (sock_fd);
-}
+}*/
 
-static void openConnection(std::vector<pollfd> &fds, int i, std::map<int, std::string> &fd_ip)
+/*static void openConnection(std::vector<pollfd> &fds, int i, std::map<int, std::string> &fd_ip)
 {
 	struct sockaddr_in in;
 	socklen_t len_in = sizeof(in);
@@ -78,7 +79,7 @@ static void openConnection(std::vector<pollfd> &fds, int i, std::map<int, std::s
 		Server::Log("Client with ip: " + ip + " and fd: " + std::to_string(new_sd) + " connected");
 		fd_ip[fds[fds.size() - 1].fd] = ip;
 	}
-}
+}*/
 
 static int closeConnection(std::vector<pollfd> &fds, int i, std::map<int, std::string> &fd_ip)
 {
@@ -93,10 +94,13 @@ static int closeConnection(std::vector<pollfd> &fds, int i, std::map<int, std::s
 void Server::Start() {
 	//std::vector<Server> servers;
 	Server::Log("Start Server");
-	for (std::vector<HostPort>::iterator begin = this->listen.begin(); begin != this->listen.end(); begin++) //превращаем спаршенные сокеты в открытые порты 
-		this->sockets.push_back(create_listen_socket(*begin));
-	for (std::vector<int>::iterator begin = this->sockets.begin(); begin != this->sockets.end(); begin++)
-		fds.push_back((pollfd){*begin, POLLIN, 0});
+	for (unsigned int i = 0; i < this->servers.size(); i++) {
+		//for (unsigned int i = 0; i < this->servers.
+	}
+	//for (std::vector<HostPort>::iterator begin = this->listen.begin(); begin != this->listen.end(); begin++) //превращаем спаршенные сокеты в открытые порты 
+		//this->sockets.push_back(create_listen_socket(*begin));
+	//for (std::vector<int>::iterator begin = this->sockets.begin(); begin != this->sockets.end(); begin++)
+		//fds.push_back((pollfd){*begin, POLLIN, 0});
 
 	//int close_connect = 0;
 	int need_erase = 0;
@@ -109,10 +113,11 @@ void Server::Start() {
 		}
 		unsigned int current_size = fds.size();
 		for (unsigned int i = 0; i < current_size; i++){
-			if (fds[i].revents == 0)
+			if (fds[i].revents == 0) {
 				continue;
-			else if (std::find(this->sockets.begin(), this->sockets.end(), fds[i].fd) != this->sockets.end()) {
-				openConnection(fds, i, this->fd_ip);
+			//}
+			//else if (std::find(this->sockets.begin(), this->sockets.end(), fds[i].fd) != this->sockets.end()) {
+				//openConnection(fds, i, this->fd_ip);
 			} else {
 				HtppRequest htppRequest;
 				std::string line;

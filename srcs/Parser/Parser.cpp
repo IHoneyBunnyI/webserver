@@ -30,6 +30,10 @@ Parser& Parser::operator = (const Parser& ref)
 	return *this;
 }
 
+std::vector<ServerConfig> Parser::getServers() {
+	return (this->servers);
+}
+
 void Parser::SetConfigFile(std::string conf)
 {
 	Parser::configFile = conf;

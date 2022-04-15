@@ -15,6 +15,7 @@ public:
 	Parser& operator = (const Parser& ref);
 
 	void SetConfigFile(std::string);
+	std::vector<ServerConfig> getServers();
 	void ParseConfig();
 	static void trim(std::string &src);
 	static std::vector<std::string> split(const std::string& str, const std::string& delimeter);

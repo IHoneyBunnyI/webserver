@@ -24,6 +24,5 @@ void Method(Location &location, std::string line) {
 		//std::cout << "A: " << directive[i];
 		location.methods.push_back(directive[i]);
 	}
-	std::cout << location.methods[0];
 	location.methodsExist = 1;
 }

@@ -31,7 +31,7 @@ ServerConfig ParseServer(std::ifstream &stream) {
 		}
 
 	}
-	std::cout << server;
+	//std::cout << server;
 	return server;
 }
 

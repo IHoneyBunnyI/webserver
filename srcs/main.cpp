@@ -36,9 +36,6 @@ int main(int argc, char** av)
 
 	//std::cout<< serverok.locations[0].alias << std::endl;
 
-	//Server server(config);
-	//Server server;
-	//server.AddPort(8080); //можно добавлять нужные Порты
-	//server.AddPort(8090);
+	Server server(config);
 	//server.Start();
 }
