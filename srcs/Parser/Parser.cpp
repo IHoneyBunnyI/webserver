@@ -57,12 +57,22 @@ std::vector<std::string> Parser::split(const std::string& str, const std::string
 	}
 	if (str.size() != prev)
 		res.push_back(str.substr(prev, pos - prev));
+	for (unsigned int i = 0; i < res.size(); i++) {
+		Parser::trim(res[i]);
+	}
 	return (res);
 }
 
 void Parser::getLine(std::ifstream &stream, std::string &line) {
 	std::getline(stream, line);
 	numLine++;
+}
+
+void Parser::replace_all(std::string& inout, std::string_view what, std::string_view with)
+{
+	for (std::string::size_type pos = 0; inout.npos != (pos = inout.find(what.data(), pos, what.length())); pos += with.length()) {
+		inout.replace(pos, what.length(), with.data(), with.length());
+	}
 }
 
 const char *Parser::FileNotOpen::what() const throw() {
@@ -87,16 +97,6 @@ const char *Parser::UnknownDirective::what() const throw() {
 	return (error->c_str());
 }
 
-const char *Parser::RootDuplicate::what() const throw() {
-	std::string *error = new(std::string)("\"root\" directive is duplicate in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
-	return (error->c_str());
-}
-
-const char *Parser::AliasDuplicate::what() const throw() {
-	std::string *error = new(std::string)("\"alias\" directive is duplicate in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
-	return (error->c_str());
-}
-
 const char *Parser::AliasDuplicateRootExists::what() const throw() {
 	std::string *error = new(std::string)("\"alias\" directive is duplicate, \"root\" directive was specified earlier in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
 	return (error->c_str());
@@ -107,7 +107,9 @@ const char *Parser::RootDuplicateAliasExists::what() const throw() {
 	return (error->c_str());
 }
 
-const char *Parser::MethodDuplicate::what() const throw() {
-	std::string *error = new(std::string)("\"method\" directive is duplicate in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
+Parser::DirectiveDuplicate::~DirectiveDuplicate() throw(){}
+Parser::DirectiveDuplicate::DirectiveDuplicate(std::string s) throw(): directive(s){}
+const char *Parser::DirectiveDuplicate::what() const throw() {
+	std::string *error = new(std::string)("\"" + this->directive + "\" directive is duplicate in " + Parser::configFile + ":" + std::to_string(Parser::numLine));
 	return (error->c_str());
 }

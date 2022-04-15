@@ -3,6 +3,7 @@
 void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line) {
 	Location location;
 
+	Parser::replace_all(line, "\t", " ");
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive[0] != "location") {
 		throw Parser::UnknownDirective(directive[0]);
@@ -37,11 +38,13 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 			ParseCgiExtensions(location, line);
 		} else if (line.find("upload_pass") != std::string::npos) {
 			ParseUploadPass(location, line);
+		} else if (line.find("index") != std::string::npos) {
+			ParseUploadPass(location, line);
+		} else if (line == "}") {
+			break;
+		} else {
+			throw Parser::UnknownDirective(line);
 		}
-
-
-
-
 	}
 	server.locations.push_back(location);
 }

@@ -24,6 +24,10 @@ ServerConfig ParseServer(std::ifstream &stream) {
 			ParseAutoindex(server, line);
 		} else if (line.find("location") != std::string::npos) {
 			ParseLocation(stream, server, line);
+		} else if (line == "}") {
+			break;
+		} else {
+			throw Parser::UnknownDirective(line);
 		}
 
 	}

@@ -16,6 +16,7 @@ CPP_FILES = CGI.cpp\
 			ParseAlias.cpp\
 			ParseCgiExtensions.cpp\
 			ParseCgiPath.cpp\
+			ParseIndex.cpp\
 			ParseLocation.cpp\
 			ParseMethod.cpp\
 			ParseRoot.cpp\

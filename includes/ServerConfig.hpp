@@ -12,11 +12,13 @@ struct Location {
 	std::string cgi_path;
 	std::vector<std::string> cgi_extensions;
 	std::string upload_pass;
-	unsigned char defaultIndexes;
-	unsigned char defaultMethods;
 	unsigned char rootExist;
 	unsigned char aliasExist;
 	unsigned char methodsExist;
+	unsigned char cgi_pathExist;
+	unsigned char cgi_extensionsExist;
+	unsigned char upload_passExist;
+	unsigned char indexExist;
 
 	Location();
 };
@@ -36,7 +38,9 @@ struct ServerConfig {
 	std::vector<Location> locations;
 	std::vector<ErrorPage> error_pages;
 	unsigned char autoindex;
-	unsigned char defaultListen;
+	unsigned char listenExist;
+	unsigned char client_max_body_sizeExist;
+	unsigned char autoindexExist;
 
 	ServerConfig();
 };

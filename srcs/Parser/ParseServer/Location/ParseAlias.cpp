@@ -1,6 +1,7 @@
 #include "Parser.hpp"
 
 void ParseAlias(Location &location, std::string line) {
+	Parser::replace_all(line, "\t", " ");
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive.size() != 2) {
 		throw Parser::InvalidNumberOfArgument();
@@ -10,7 +11,7 @@ void ParseAlias(Location &location, std::string line) {
 	} else if (location.rootExist) {
 		throw Parser::AliasDuplicateRootExists();
 	} else if (location.aliasExist) {
-		throw Parser::AliasDuplicate();
+		throw Parser::DirectiveDuplicate(directive[0]);
 	}
 	if (directive[1][directive[1].size() - 1] != '/')
 		directive[1] += '/';

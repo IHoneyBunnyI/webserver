@@ -8,7 +8,9 @@ ServerConfig::ServerConfig():
 	locations(),
 	error_pages(),
 	autoindex(0),
-	defaultListen(1)
+	listenExist(0),
+	client_max_body_sizeExist(0),
+	autoindexExist(0)
 {
 	ips.push_back("0.0.0.0");
 	ports.push_back(80);
@@ -28,11 +30,13 @@ Location::Location():
 	cgi_path(""),
 	cgi_extensions(),
 	upload_pass(""),
-	defaultIndexes(0),
-	defaultMethods(0),
 	rootExist(0),
 	aliasExist(0),
-	methodsExist(0)
+	methodsExist(0),
+	cgi_pathExist(0),
+	cgi_extensionsExist(0),
+	upload_passExist(0),
+	indexExist(0)
 {
 	this->indexes.push_back("index");
 	this->indexes.push_back("index.html");
@@ -53,6 +57,7 @@ std::ostream& operator << (std::ostream& cout, const ServerConfig& c)
 	for (unsigned int i = 0; i < c.ports.size(); i++)
 		cout << " " << c.ports[i];
 
+	cout << "\n\tautoindex: " << (int)c.autoindex;
 	for (unsigned int i = 0; i < c.locations.size(); i++) {
 		cout << "\n\tlocation: {";
 		cout << "\n\t\tlocation: " << c.locations[i].location;
@@ -80,9 +85,9 @@ std::ostream& operator << (std::ostream& cout, const ServerConfig& c)
 			cout <<  " " << c.error_pages[i].errors[j];
 		}
 		cout << "\n\t\tpage: " << c.error_pages[i].error_page;
+		cout << "\n\t}";
 	}
 	//cout << "\n\t}\n\tautoindex: " << ((c.autoindex == 1) ? "on" : "off");
-	cout << "\n\t}\n\tautoindex: " << (int)c.autoindex;
 	cout << "\n}";
 	return (cout);
 }

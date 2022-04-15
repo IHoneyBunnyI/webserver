@@ -3,6 +3,8 @@
 
 void ParseErrorPage(ServerConfig &server, std::string line) {
 	ErrorPage errPage;
+
+	Parser::replace_all(line, "\t", " "); // заменяю все табы на пробелы
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive[0] != "error_page") {
 		throw Parser::UnknownDirective(directive[0]);

@@ -19,6 +19,7 @@ public:
 	static void trim(std::string &src);
 	static std::vector<std::string> split(const std::string& str, const std::string& delimeter);
 	static void getLine(std::ifstream &stream, std::string &line);
+	static void replace_all(std::string& inout, std::string_view what, std::string_view with);
 
 	class FileNotOpen: public std::exception
 	{ public:	const char *what() const throw();};
@@ -35,19 +36,17 @@ public:
 				~UnknownDirective() throw();
 				std::string directive; };
 
-	class RootDuplicate: public std::exception
-	{ public:	const char *what() const throw(); };
+	class DirectiveDuplicate: public std::exception
+	{ public:	const char *what() const throw();
+				DirectiveDuplicate(std::string s) throw();
+				~DirectiveDuplicate() throw();
+				std::string directive; };
 
-	class AliasDuplicate: public std::exception
-	{ public:	const char *what() const throw(); };
 
 	class RootDuplicateAliasExists: public std::exception
 	{ public:	const char *what() const throw(); };
 
 	class AliasDuplicateRootExists: public std::exception
-	{ public:	const char *what() const throw(); };
-
-	class MethodDuplicate: public std::exception
 	{ public:	const char *what() const throw(); };
 
 private:
@@ -69,5 +68,6 @@ void ParseMethod(Location &location, std::string line);
 void ParseCgiPath(Location &location, std::string line);
 void ParseCgiExtensions(Location &location, std::string line);
 void ParseUploadPass(Location &location, std::string line);
+void ParseIndex(Location &location, std::string line);
 
 #endif
