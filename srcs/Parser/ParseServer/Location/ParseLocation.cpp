@@ -39,7 +39,7 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 		} else if (line.find("upload_pass") != std::string::npos) {
 			UploadPass(location, line);
 		} else if (line.find("index") != std::string::npos) {
-			UploadPass(location, line);
+			Index(location, line);
 		} else if (line == "}") {
 			break;
 		} else {

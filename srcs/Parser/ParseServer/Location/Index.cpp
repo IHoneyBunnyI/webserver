@@ -2,7 +2,6 @@
 
 void Index(Location &location, std::string line) {
 	Parser::replace_all(line, "\t", " ");
-	location.methods.erase(location.methods.begin(), location.methods.end());
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive.size() < 2) {
 		throw Parser::InvalidNumberOfArgument();
@@ -13,6 +12,7 @@ void Index(Location &location, std::string line) {
 	if (location.indexExist) {
 		throw Parser::DirectiveDuplicate(directive[0]);
 	}
+	location.indexes.erase(location.indexes.begin(), location.indexes.end());
 	for (unsigned int i = 1; i < directive.size(); i++) {
 		location.indexes.push_back(directive[i]);
 	}

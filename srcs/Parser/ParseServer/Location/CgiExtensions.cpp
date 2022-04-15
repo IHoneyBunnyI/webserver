@@ -13,6 +13,10 @@ void CgiExtensions(Location &location, std::string line) {
 		throw Parser::DirectiveDuplicate(directive[0]);
 	}
 	for (unsigned int i = 1; i < directive.size(); i++) {
+		if (directive[i][0] != '.')
+			throw Parser::UnknownDirective(directive[i]);
+	}
+	for (unsigned int i = 1; i < directive.size(); i++) {
 		location.cgi_extensions.push_back(directive[i]);
 	}
 	location.cgi_extensionsExist = 1;
