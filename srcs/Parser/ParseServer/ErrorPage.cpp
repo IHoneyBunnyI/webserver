@@ -1,8 +1,8 @@
 #include "Parser.hpp"
 #include "ServerConfig.hpp"
 
-void ParseErrorPage(ServerConfig &server, std::string line) {
-	ErrorPage errPage;
+void ErrorPage(ServerConfig &server, std::string line) {
+	struct ErrorPage errPage;
 
 	Parser::replace_all(line, "\t", " "); // заменяю все табы на пробелы
 	std::vector<std::string> directive = Parser::split(line, " ");

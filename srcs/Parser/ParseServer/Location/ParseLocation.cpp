@@ -27,19 +27,19 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 		if (line == "" || (line.find("/*") != std::string::npos && line.find("*/") != std::string::npos))
 			continue;
 		if (line.find("root") != std::string::npos) {
-			ParseRoot(location, line);
+			Root(location, line);
 		} else if (line.find("alias") != std::string::npos) {
-			ParseAlias(location, line);
+			Alias(location, line);
 		} else if (line.find("method") != std::string::npos) {
-			ParseMethod(location, line);
+			Method(location, line);
 		} else if (line.find("cgi_path") != std::string::npos) {
-			ParseCgiPath(location, line);
+			CgiPath(location, line);
 		} else if (line.find("cgi_extensions") != std::string::npos) {
-			ParseCgiExtensions(location, line);
+			CgiExtensions(location, line);
 		} else if (line.find("upload_pass") != std::string::npos) {
-			ParseUploadPass(location, line);
+			UploadPass(location, line);
 		} else if (line.find("index") != std::string::npos) {
-			ParseUploadPass(location, line);
+			UploadPass(location, line);
 		} else if (line == "}") {
 			break;
 		} else {

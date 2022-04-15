@@ -1,6 +1,6 @@
 #include "Parser.hpp"
 
-void ParseUploadPass(Location &location, std::string line) {
+void UploadPass(Location &location, std::string line) {
 	Parser::replace_all(line, "\t", " "); // заменяю все табы на пробелы
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive.size() != 2) {

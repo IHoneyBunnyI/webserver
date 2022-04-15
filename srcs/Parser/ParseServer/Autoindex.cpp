@@ -1,6 +1,6 @@
 #include "Parser.hpp"
 
-void ParseAutoindex(ServerConfig &server, std::string line) {
+void Autoindex(ServerConfig &server, std::string line) {
 	Parser::replace_all(line, "\t", " "); // заменяю все табы на пробелы
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive[0] != "autoindex") {

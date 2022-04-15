@@ -1,6 +1,6 @@
 #include "Parser.hpp"
 
-void ParseListen(ServerConfig &server, std::string line) {
+void Listen(ServerConfig &server, std::string line) {
 	//парсим директиву, если имеются проблемы выкидываем исключения
 	Parser::replace_all(line, "\t", " "); // заменяю все табы на пробелы
 	std::vector<std::string> directive = Parser::split(line, " ");

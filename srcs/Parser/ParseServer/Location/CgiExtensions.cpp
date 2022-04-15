@@ -1,6 +1,6 @@
 #include "Parser.hpp"
 
-void ParseCgiExtensions(Location &location, std::string line) {
+void CgiExtensions(Location &location, std::string line) {
 	Parser::replace_all(line, "\t", " ");
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive.size() < 2) {

@@ -56,18 +56,18 @@ private:
 };
 
 ServerConfig ParseServer(std::ifstream &stream);
-void ParseListen(ServerConfig &server, std::string line);
-void ParseServerName(ServerConfig &server, std::string line);
-void ParseMaxBodySize(ServerConfig &server, std::string line);
-void ParseErrorPage(ServerConfig &server, std::string line);
-void ParseAutoindex(ServerConfig &server, std::string line);
+void Listen(ServerConfig &server, std::string line);
+void ServerName(ServerConfig &server, std::string line);
+void MaxBodySize(ServerConfig &server, std::string line);
+void ErrorPage(ServerConfig &server, std::string line);
+void Autoindex(ServerConfig &server, std::string line);
 void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line);
-void ParseRoot(Location &location, std::string line);
-void ParseAlias(Location &location, std::string line);
-void ParseMethod(Location &location, std::string line);
-void ParseCgiPath(Location &location, std::string line);
-void ParseCgiExtensions(Location &location, std::string line);
-void ParseUploadPass(Location &location, std::string line);
-void ParseIndex(Location &location, std::string line);
+void Root(Location &location, std::string line);
+void Alias(Location &location, std::string line);
+void Method(Location &location, std::string line);
+void CgiPath(Location &location, std::string line);
+void CgiExtensions(Location &location, std::string line);
+void UploadPass(Location &location, std::string line);
+void Index(Location &location, std::string line);
 
 #endif

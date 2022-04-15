@@ -1,6 +1,6 @@
 #include "Parser.hpp"
 
-void ParseServerName(ServerConfig &server, std::string line) {
+void ServerName(ServerConfig &server, std::string line) {
 	Parser::replace_all(line, "\t", " "); // заменяю все табы на пробелы
 	std::vector<std::string> directive = Parser::split(line, " ");
 	if (directive[0] != "server_name") {
