@@ -5,7 +5,7 @@
 #include <sys/socket.h>
 #define BUFSIZE (1 << 20)
 
-std::string HttpRequest::ReadRequest(int fd) {
+/*std::string HttpRequest::ReadRequest(int fd) {
 	static std::string cache;
 	char buf[BUFSIZE + 1];
 	int rc;
@@ -27,12 +27,33 @@ std::string HttpRequest::ReadRequest(int fd) {
 		cache = cache + str_buf;
 	}
 	std::string res;
-	if (rc > 0) {
-		res = cache.substr(0, cache.find('\n') + 1);
-		cache = cache.substr(cache.find('\n') + 1);
-	} else {
-		cache = "";
-		res = "\r\n";
-	}
+	//if (rc > 0) {
+	res = cache.substr(0, cache.find('\n') + 1);
+	cache = cache.substr(cache.find('\n') + 1);
+	//} else {
+		//cache = "";
+		//res = "";
+	//}
 	return res;
+}*/
+
+int HttpRequest::ReadRequest(std::string &line, int fd) {
+	static std::string cache;
+	char buf[BUFSIZE + 1];
+	int rc = 1;
+	std::memset(buf, 0, BUFSIZE + 1);
+
+	while (cache.find('\n') == std::string::npos && (rc = recv(fd, buf, BUFSIZE, 0))) {
+		if (rc == 0) {
+			this->close_connect = 1;
+			std::cout << "CLOSE CONNECT!" << std::endl;
+		}
+		std::string str_buf(buf);
+		cache = cache + str_buf;
+	}
+	std::string res;
+
+	line = cache.substr(0, cache.find("\n"));
+	cache = cache.substr(cache.find(('\n')) + 1);
+	return (rc == 0 ? 0 : 1);
 }

@@ -80,28 +80,22 @@ void Server::Start() {
 					std::string line;
 					int end = 0;
 
-					while (!end && httpRequest.NeedCloseConnect() == 0) { // на счет 2 условия пока не уверен
-						line = httpRequest.ReadRequest(server.fds[i].fd);
-						std::cout << YELLOW << line << WHITE << std::endl;
-						if (line == "\r\n" || line == "\n") {
-							end = 1;
+					while (httpRequest.ReadRequest(line, server.fds[i].fd)) {
+						if (line == "") {
+							std::cout << "EEEND!" << std::endl;
+						} else {
+							std::cout << line << std::endl;
 						}
-						//httpRequest.ParseRequest(line);
 					}
-					//if (httpRequest.GetMethod() != "") {
-						//std::cout << YELLOW << httpRequest.GetMethod() << WHITE << std::endl;
-						//std::cout << YELLOW << httpRequest.GetPath() << WHITE << std::endl;
-						//std::cout << YELLOW << httpRequest.GetVersion() << WHITE << std::endl;
+					//while (!end) {
+						////line = httpRequest.ReadRequest(server.fds[i].fd);
+						//std::cout << YELLOW << line << WHITE << std::endl;
+						//if (line == "") {
+							//end = 1;
+						//}
+						//httpRequest.ParseRequest(line);
 					//}
 
-					//int closeConnectione = 0;
-					std::string response = server.server_names[0] + "\n";
-					if ((send(server.fds[i].fd, response.c_str(), response.length(), 0)) < 0)
-					{
-						std::cout << "send() failed" << std::endl;
-						//close_connect = 1;
-					}
-					//GET(server.fds[i].fd, closeConnectione, httpRequest.GetPath());
 					if (httpRequest.NeedCloseConnect()) {
 						need_erase = closeConnection(server.fds, i, this->fd_ip);
 					} else {
