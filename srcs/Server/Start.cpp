@@ -63,7 +63,7 @@ void Server::Start() {
 			//std::cout << serverNum << std::endl;
 			ServerConfig &server = this->servers[serverNum]; // ссоздаю ссылку на данный сервер, обращаться буду через нее
 
-			rpoll = poll(server.fds.data(), server.fds.size(), -1);
+			rpoll = poll(server.fds.data(), server.fds.size(), 100);
 			if (rpoll <= 0) { //POLL Error 
 				Server::Log("Poll error");
 				continue;
