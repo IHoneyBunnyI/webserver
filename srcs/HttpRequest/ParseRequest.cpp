@@ -10,7 +10,7 @@ int firstLineExist(std::string &m, std::string &p, std::string &v) {
 	return 1;
 }
 
-void HtppRequest::ParseRequest(std::string line) {
+void HttpRequest::ParseRequest(std::string line) {
 	// тут при парсинге тоже необходимо отключать клиента this->close_connect, если есть ошибки запроса
 	//std::cout << GREEN << line << WHITE;
 	if (line == "\r\n" || line == "\n") {

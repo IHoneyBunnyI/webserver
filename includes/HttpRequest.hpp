@@ -4,10 +4,10 @@
 #include <iostream>
 #include <map>
 
-class HtppRequest {
+class HttpRequest {
 private:
-	HtppRequest(const HtppRequest& ref);
-	HtppRequest& operator = (const HtppRequest& ref);
+	HttpRequest(const HttpRequest& ref);
+	HttpRequest& operator = (const HttpRequest& ref);
 
 	std::string Method;
 	std::string Path;
@@ -16,8 +16,8 @@ private:
 	int close_connect;
 	//все хэдэры в реализации не нуждаются, только HTPP/1.1
 public:
-	HtppRequest();
-	~HtppRequest();
+	HttpRequest();
+	~HttpRequest();
 
 	std::string GetRequest();
 	std::string GetMethod();
@@ -28,7 +28,6 @@ public:
 
 	void ParseRequest(std::string line);
 	std::string ReadRequest(int fd);
-	//void ReadRequest(int &close_connect, int fd);
 };
 
 #endif

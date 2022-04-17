@@ -4,7 +4,7 @@
 
 class HtppResponse {
 	public:
-		HtppResponse(HtppRequest &request);
+		HtppResponse(HttpRequest &request);
 	private:
 		std::string Method;
 		std::string Path;

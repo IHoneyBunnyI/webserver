@@ -16,12 +16,9 @@ public:
 	Server(Parser &parser);
 	Server& operator = (const Server& ref);
 
-	//void SetHostPort(std::vector<HostPort> ports);
-	void AddPort(int port);
-	void AddIp(std::string ip);
-	void AddIpPort(std::string ip, int port);
 	static void Log(std::string message);
 	void Start();
+	void CreateListenSockets();
 	void GET(int fd, int &close_connect, std::string request);
 	void POST();
 	void DELETE();
@@ -29,7 +26,7 @@ public:
 
 private:
 	std::vector<ServerConfig> servers;
-	std::vector<pollfd> fds;
+	//std::vector<pollfd> fds;
 	std::map<int, std::string> fd_ip; //в будущем для печенья (cookies)
 };
 

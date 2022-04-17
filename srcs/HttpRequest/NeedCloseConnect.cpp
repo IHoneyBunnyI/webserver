@@ -1,6 +1,6 @@
 #include "HttpRequest.hpp"
 
-int HtppRequest::NeedCloseConnect() {
+int HttpRequest::NeedCloseConnect() {
 	if (this->close_connect == 1) {
 		this->close_connect = 0;
 		return 1;

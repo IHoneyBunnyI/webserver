@@ -5,7 +5,7 @@
 #include <sys/socket.h>
 #define BUFSIZE (1 << 20)
 
-std::string HtppRequest::ReadRequest(int fd) {
+std::string HttpRequest::ReadRequest(int fd) {
 	static std::string cache;
 	char buf[BUFSIZE + 1];
 	int rc;

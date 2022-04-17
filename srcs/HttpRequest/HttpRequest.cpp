@@ -1,22 +1,22 @@
 #include "HttpRequest.hpp"
 
-HtppRequest::HtppRequest():
+HttpRequest::HttpRequest():
 	Method(""), Path(""), Version(""), close_connect(0){}
 
-HtppRequest::~HtppRequest(){}
+HttpRequest::~HttpRequest(){}
 
-std::string HtppRequest::GetMethod() {
+std::string HttpRequest::GetMethod() {
 	return (this->Method);
 }
 
-std::string HtppRequest::GetPath() {
+std::string HttpRequest::GetPath() {
 	return (this->Path);
 }
 
-std::string HtppRequest::GetVersion() {
+std::string HttpRequest::GetVersion() {
 	return (this->Version);
 }
 
-std::map<std::string, std::string> HtppRequest::GetHeaders() {
+std::map<std::string, std::string> HttpRequest::GetHeaders() {
 	return (this->Headers);
 }

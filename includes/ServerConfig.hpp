@@ -2,6 +2,7 @@
 #define SERVERCONFIG_HPP
 #include <iostream>
 #include <vector>
+#include <poll.h>
 
 struct Location {
 	std::string location;
@@ -41,6 +42,8 @@ struct ServerConfig {
 	unsigned char listenExist;
 	unsigned char client_max_body_sizeExist;
 	unsigned char autoindexExist;
+	std::vector<int> sockets;
+	std::vector<pollfd> fds;
 
 	ServerConfig();
 };

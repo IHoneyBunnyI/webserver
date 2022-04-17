@@ -10,7 +10,9 @@ ServerConfig::ServerConfig():
 	autoindex(0),
 	listenExist(0),
 	client_max_body_sizeExist(0),
-	autoindexExist(0)
+	autoindexExist(0),
+	sockets(0),
+	fds(0)
 {
 	ips.push_back("0.0.0.0");
 	ports.push_back(80);
@@ -87,7 +89,6 @@ std::ostream& operator << (std::ostream& cout, const ServerConfig& c)
 		cout << "\n\t\tpage: " << c.error_pages[i].error_page;
 		cout << "\n\t}";
 	}
-	//cout << "\n\t}\n\tautoindex: " << ((c.autoindex == 1) ? "on" : "off");
 	cout << "\n}";
 	return (cout);
 }

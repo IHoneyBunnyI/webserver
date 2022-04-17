@@ -5,7 +5,7 @@ CXX = clang++
 
 INCLUDES = -Iincludes/
 
-CXXFLAGS = $(INCLUDES) -Wall -Wextra -Werror -g -std=c++98 -fsanitize=address
+CXXFLAGS = $(INCLUDES)  -g -std=c++98 -fsanitize=address
 
 CPP_FILES = CGI.cpp\
 			HttpRequest.cpp\
@@ -29,6 +29,7 @@ CPP_FILES = CGI.cpp\
 			Parser.cpp\
 			ParseServer.cpp\
 			ServerName.cpp\
+			CreateListenSockets.cpp\
 			DELETE.cpp\
 			GET.cpp\
 			Log.cpp\
