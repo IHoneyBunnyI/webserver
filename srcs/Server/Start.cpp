@@ -65,7 +65,7 @@ void Server::Start() {
 
 			rpoll = poll(server.fds.data(), server.fds.size(), 100);
 			if (rpoll <= 0) { //POLL Error 
-				Server::Log("Poll error");
+				//Server::Log("Poll error");
 				continue;
 			}
 			unsigned int current_size = server.fds.size();
@@ -80,20 +80,33 @@ void Server::Start() {
 					HttpRequest httpRequest;
 					std::string line;
 					int end = 0;
-					while (!end && httpRequest.NeedCloseConnect() == 0) { // на счет 2 условия пока не уверен
-						line = httpRequest.ReadRequest(server.fds[i].fd);
-						if (line == "\r\n" || line == "\n")
-							end = 1;
-						httpRequest.ParseRequest(line);
+
+					line = httpRequest.ReadRequest(server.fds[i].fd);
+					//std::cout << YELLOW << line << WHITE;
+					//for (unsigned int i = 0; i < server.server_names.size(); i++) {
+						//std::cout << " " << server.server_names[i];
+					//}
+					//std::cout << std::endl;
+					//while (!end && httpRequest.NeedCloseConnect() == 0) { // на счет 2 условия пока не уверен
+						//line = httpRequest.ReadRequest(server.fds[i].fd);
+						//if (line == "\r\n" || line == "\n")
+							//end = 1;
+						//httpRequest.ParseRequest(line);
+					//}
+					//if (httpRequest.GetMethod() != "") {
+						//std::cout << YELLOW << httpRequest.GetMethod() << WHITE << std::endl;
+						//std::cout << YELLOW << httpRequest.GetPath() << WHITE << std::endl;
+						//std::cout << YELLOW << httpRequest.GetVersion() << WHITE << std::endl;
+					//}
+
+					//int closeConnectione = 0;
+					std::string response = server.server_names[0] + "\n";
+					if ((send(server.fds[i].fd, response.c_str(), response.length(), 0)) < 0)
+					{
+						std::cout << "send() failed" << std::endl;
+						//close_connect = 1;
 					}
-					if (httpRequest.GetMethod() != "") {
-						std::cout << YELLOW << httpRequest.GetMethod() << WHITE << std::endl;
-						std::cout << YELLOW << httpRequest.GetPath() << WHITE << std::endl;
-						std::cout << YELLOW << httpRequest.GetVersion() << WHITE << std::endl;
-					}
-					//GET(fds[i].fd, rpoll, "GET / HTTP/1.1\n");
-					//GET(fds[i].fd, rpoll, "GET /favicon/favicon.ico HTTP/1.1\n");
-					//std::cout << RED "END REQUEST!!" WHITE << std::endl;
+					//GET(server.fds[i].fd, closeConnectione, httpRequest.GetPath());
 					if (httpRequest.NeedCloseConnect()) {
 						need_erase = closeConnection(server.fds, i, this->fd_ip);
 					} else {
