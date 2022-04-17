@@ -65,7 +65,6 @@ void Server::Start() {
 
 			rpoll = poll(server.fds.data(), server.fds.size(), 100);
 			if (rpoll <= 0) { //POLL Error 
-				//Server::Log("Poll error");
 				continue;
 			}
 			unsigned int current_size = server.fds.size();
@@ -81,18 +80,14 @@ void Server::Start() {
 					std::string line;
 					int end = 0;
 
-					line = httpRequest.ReadRequest(server.fds[i].fd);
-					//std::cout << YELLOW << line << WHITE;
-					//for (unsigned int i = 0; i < server.server_names.size(); i++) {
-						//std::cout << " " << server.server_names[i];
-					//}
-					//std::cout << std::endl;
-					//while (!end && httpRequest.NeedCloseConnect() == 0) { // на счет 2 условия пока не уверен
-						//line = httpRequest.ReadRequest(server.fds[i].fd);
-						//if (line == "\r\n" || line == "\n")
-							//end = 1;
+					while (!end && httpRequest.NeedCloseConnect() == 0) { // на счет 2 условия пока не уверен
+						line = httpRequest.ReadRequest(server.fds[i].fd);
+						std::cout << YELLOW << line << WHITE << std::endl;
+						if (line == "\r\n" || line == "\n") {
+							end = 1;
+						}
 						//httpRequest.ParseRequest(line);
-					//}
+					}
 					//if (httpRequest.GetMethod() != "") {
 						//std::cout << YELLOW << httpRequest.GetMethod() << WHITE << std::endl;
 						//std::cout << YELLOW << httpRequest.GetPath() << WHITE << std::endl;
