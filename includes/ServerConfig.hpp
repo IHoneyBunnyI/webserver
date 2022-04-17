@@ -36,12 +36,14 @@ struct ServerConfig {
 	unsigned int client_max_body_size;
 	std::vector<std::string> ips;
 	std::vector<int> ports;
+	std::string root;
 	std::vector<Location> locations;
 	std::vector<ErrorPage> error_pages;
 	unsigned char autoindex;
 	unsigned char listenExist;
 	unsigned char client_max_body_sizeExist;
 	unsigned char autoindexExist;
+	unsigned char rootExist;
 	std::vector<int> sockets;
 	std::vector<pollfd> fds;
 

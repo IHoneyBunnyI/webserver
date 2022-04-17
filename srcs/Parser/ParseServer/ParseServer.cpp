@@ -22,6 +22,8 @@ ServerConfig ParseServer(std::ifstream &stream) {
 			ErrorPage(server, line);
 		} else if (line.find("autoindex") != std::string::npos) {
 			Autoindex(server, line);
+		} else if (line.find("root") != std::string::npos) {
+			ServerRoot(server, line);
 		} else if (line.find("location") != std::string::npos) {
 			ParseLocation(stream, server, line);
 		} else if (line == "}") {

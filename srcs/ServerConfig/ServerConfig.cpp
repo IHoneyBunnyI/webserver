@@ -5,12 +5,14 @@ ServerConfig::ServerConfig():
 	client_max_body_size(0),
 	ips(),
 	ports(),
+	root("html"),
 	locations(),
 	error_pages(),
 	autoindex(0),
 	listenExist(0),
 	client_max_body_sizeExist(0),
 	autoindexExist(0),
+	rootExist(0),
 	sockets(0),
 	fds(0)
 {
@@ -59,6 +61,7 @@ std::ostream& operator << (std::ostream& cout, const ServerConfig& c)
 	for (unsigned int i = 0; i < c.ports.size(); i++)
 		cout << " " << c.ports[i];
 
+	cout << "\n\troot: " << c.root;
 	cout << "\n\tautoindex: " << (int)c.autoindex;
 	for (unsigned int i = 0; i < c.locations.size(); i++) {
 		cout << "\n\tlocation: {";

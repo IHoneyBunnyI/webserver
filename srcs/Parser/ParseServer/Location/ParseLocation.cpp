@@ -27,7 +27,7 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 		if (line == "" || (line.find("/*") != std::string::npos && line.find("*/") != std::string::npos))
 			continue;
 		if (line.find("root") != std::string::npos) {
-			Root(location, line);
+			LocationRoot(location, line);
 		} else if (line.find("alias") != std::string::npos) {
 			Alias(location, line);
 		} else if (line.find("method") != std::string::npos) {

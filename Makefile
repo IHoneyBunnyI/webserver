@@ -19,7 +19,7 @@ CPP_FILES = CGI.cpp\
 			Index.cpp\
 			ParseLocation.cpp\
 			Method.cpp\
-			Root.cpp\
+			LocationRoot.cpp\
 			UploadPass.cpp\
 			Autoindex.cpp\
 			Config.cpp\
@@ -29,6 +29,7 @@ CPP_FILES = CGI.cpp\
 			Parser.cpp\
 			ParseServer.cpp\
 			ServerName.cpp\
+			ServerRoot.cpp\
 			CreateListenSockets.cpp\
 			DELETE.cpp\
 			GET.cpp\
