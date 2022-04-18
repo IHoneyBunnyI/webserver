@@ -78,8 +78,11 @@ void Server::Start() {
 					std::string line;
 					while (Request.ReadRequest(line, server.fds[i].fd)) {
 						Request.ParseRequest(line);
-						if (Request.GetHeadersExist() && (Request.GetHeaders().find("Content-Length") != Request.GetHeaders().end())) {
-							//std::cout << Request.GetHeaders()["Content-Length"] << std::endl;
+					}
+					//std::cout << "AA!" << std::endl;
+					if (Request.GetHeadersExist() && (Request.GetHeaders().count("Content-Length"))) { // условие для чтения body
+						while (Request.ReadRequest(line, server.fds[i].fd)) {
+							Request.Body(line);
 						}
 					}
 					std::cout << Request.GetHeaders() << std::endl;
