@@ -2,9 +2,9 @@
 #define HTPPRESPONSE
 #include "HttpRequest.hpp"
 
-class HtppResponse {
+class HttpResponse {
 	public:
-		HtppResponse(HttpRequest &request);
+		HttpResponse(HttpRequest &request);
 	private:
 		std::string Method;
 		std::string Path;

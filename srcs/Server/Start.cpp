@@ -23,8 +23,6 @@ static std::string openConnection(ServerConfig &server, int i)
 	socklen_t len_in = sizeof(in);
 
 	int new_sd = 0;
-	//while (new_sd != -1)
-	//{
 		new_sd = accept(server.fds[i].fd, (sockaddr *)&in, &len_in); 
 		if (new_sd < 0)
 			return "";
@@ -39,15 +37,14 @@ static std::string openConnection(ServerConfig &server, int i)
 		inet_ntop(in.sin_family, &in.sin_addr, bits, sizeof(bits));
 		std::string ip(bits);
 		Server::Log("Client with ip: " + ip + " and fd: " + std::to_string(new_sd) + " connected");
-		//fd_ip[server.fds[server.fds.size() - 1].fd] = ip;
 		return ip;
-	//}
 }
 
 static int closeConnection(std::vector<pollfd> &fds, int i, std::map<int, std::string> &fd_ip)
 {
 		std::string ip = fd_ip[fds[i].fd];
 		Server::Log("Client with ip: " + ip + " and fd: " + std::to_string(fds[i].fd) + " disconnect");
+		std::cout << RED "Disconnect with fd: " << fds[i].fd << WHITE << std::endl;
 		fd_ip.erase(fds[i].fd); // пока не очень понятно зачем, но пусть
 		close(fds[i].fd);
 		fds[i].fd = -1;
@@ -56,6 +53,7 @@ static int closeConnection(std::vector<pollfd> &fds, int i, std::map<int, std::s
 
 void Server::Start() {
 	Server::Log("Start Server");
+	static int line_i;
 	while (1) {
 		int need_erase = 0;
 		int rpoll = 0;
@@ -76,30 +74,18 @@ void Server::Start() {
 					std::string ip = openConnection(server, i);
 					fd_ip[server.fds[server.fds.size() - 1].fd] = ip;
 				} else {
-					HttpRequest httpRequest;
+					HttpRequest Request;
 					std::string line;
-					int end = 0;
-
-					while (httpRequest.ReadRequest(line, server.fds[i].fd)) {
-						if (line == "") {
-							std::cout << "EEEND!" << std::endl;
-						} else {
-							std::cout << line << std::endl;
+					while (Request.ReadRequest(line, server.fds[i].fd)) {
+						Request.ParseRequest(line);
+						if (Request.GetHeadersExist() && (Request.GetHeaders().find("Content-Length") != Request.GetHeaders().end())) {
+							//std::cout << Request.GetHeaders()["Content-Length"] << std::endl;
 						}
 					}
-					//while (!end) {
-						////line = httpRequest.ReadRequest(server.fds[i].fd);
-						//std::cout << YELLOW << line << WHITE << std::endl;
-						//if (line == "") {
-							//end = 1;
-						//}
-						//httpRequest.ParseRequest(line);
-					//}
-
-					if (httpRequest.NeedCloseConnect()) {
+					std::cout << Request.GetHeaders() << std::endl;
+					//HttpResponse Response(Request);
+					if (Request.NeedCloseConnect() || line.empty()) {
 						need_erase = closeConnection(server.fds, i, this->fd_ip);
-					} else {
-						HtppResponse htppResponse(httpRequest);
 					}
 				}
 			}

@@ -2,7 +2,7 @@
 #include "webserv.hpp"
 #include "HttpResponse.hpp"
 
-HtppResponse::HtppResponse(HttpRequest &request):
+HttpResponse::HttpResponse(HttpRequest &request):
 	Method(request.GetMethod()),
 	Path(request.GetPath()),
 	Version(request.GetVersion()),

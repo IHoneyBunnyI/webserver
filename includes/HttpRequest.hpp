@@ -13,7 +13,10 @@ private:
 	std::string Path;
 	std::string Version;
 	std::map<std::string, std::string> Headers;
-	int close_connect;
+	int CloseConnect;
+	unsigned char RequestLineExist;
+	unsigned char HeadersExist;
+	unsigned int BadRequest;
 	//все хэдэры в реализации не нуждаются, только HTPP/1.1
 public:
 	HttpRequest();
@@ -23,11 +26,18 @@ public:
 	std::string GetMethod();
 	std::string GetPath();
 	std::string GetVersion();
+	unsigned char GetHeadersExist();
 	int NeedCloseConnect();
+	void SetCloseConnection(int CloseConnect);
 	std::map<std::string, std::string> GetHeaders();
 
 	void ParseRequest(std::string line);
+	void RequestLine(std::string line);
+	void AddHeader(std::string line);
+	void Body(std::string line);
 	int ReadRequest(std::string &line, int fd);
 };
+
+std::ostream& operator << (std::ostream& cout, const std::map<std::string, std::string> c);
 
 #endif

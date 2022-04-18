@@ -26,7 +26,6 @@ public:
 
 private:
 	std::vector<ServerConfig> servers;
-	//std::vector<pollfd> fds;
 	std::map<int, std::string> fd_ip; //в будущем для печенья (cookies)
 };
 

@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <poll.h>
+#define ALL 1
+#define NOT_ALL 0
 #define RED "\033[38:5:9m"
 #define GREEN "\033[38:5:40m"
 #define BLUE "\033[38:5:26m"
