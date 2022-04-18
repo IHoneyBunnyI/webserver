@@ -21,8 +21,9 @@ int HttpRequest::ReadRequest(std::string &line, int fd) {
 	std::string res;
 
 	line = cache.substr(0, cache.find("\n"));
-	if (line == "" || line == "\r")
-		return 0;
+	//if (line == "" || line == "\r")
+		//return 0;
 	cache = cache.substr(cache.find(('\n')) + 1);
+	//std::cout << "|" << cache << "|" << std::endl;
 	return (rc == 0 ? 0 : 1);
 }

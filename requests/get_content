@@ -1,0 +1,6 @@
+GET / HTTP/1.1
+Host: developer.mozilla.org
+Accept-Language: fr
+Content-Length: 10
+
+1111111111

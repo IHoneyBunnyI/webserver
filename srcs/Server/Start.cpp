@@ -78,13 +78,15 @@ void Server::Start() {
 					std::string line;
 					while (Request.ReadRequest(line, server.fds[i].fd)) {
 						Request.ParseRequest(line);
-					}
-					//std::cout << "AA!" << std::endl;
-					if (Request.GetHeadersExist() && (Request.GetHeaders().count("Content-Length"))) { // условие для чтения body
-						while (Request.ReadRequest(line, server.fds[i].fd)) {
-							Request.Body(line);
+						if (Request.GetHeadersExist() && (Request.GetHeaders().count("Content-Length"))) { // условие для чтения body
+								Request.Body(line);
 						}
 					}
+					//std::cout << (int)Request.GetHeadersExist() << std::endl;
+						//while (Request.ReadRequest(line, server.fds[i].fd)) {
+							//std::cout << "AAA" << std::endl;
+						//}
+					//}
 					std::cout << Request.GetHeaders() << std::endl;
 					//HttpResponse Response(Request);
 					if (Request.NeedCloseConnect() || line.empty()) {

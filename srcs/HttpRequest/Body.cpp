@@ -2,5 +2,8 @@
 #include "webserv.hpp"
 
 void HttpRequest::Body(std::string line) {
-	std::cout << "GET BODY!";
+	if (line == "" || line == "\r") {
+			return ;
+	}
+	std::cout << "GET BODY!" << std::endl;
 }
