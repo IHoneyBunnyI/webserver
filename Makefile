@@ -9,10 +9,10 @@ CXXFLAGS = $(INCLUDES)  -g -std=c++98 -fsanitize=address
 
 CPP_FILES = CGI.cpp\
 			AddHeader.cpp\
-			Body.cpp\
 			HttpRequest.cpp\
 			NeedCloseConnect.cpp\
 			ParseRequest.cpp\
+			ReadBody.cpp\
 			ReadRequest.cpp\
 			RequestLine.cpp\
 			HttpResponse.cpp\

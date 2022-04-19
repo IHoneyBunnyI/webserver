@@ -13,6 +13,7 @@ private:
 	std::string Path;
 	std::string Version;
 	std::map<std::string, std::string> Headers;
+	std::string Body;
 	int CloseConnect;
 	unsigned char RequestLineExist;
 	unsigned char HeadersExist;
@@ -34,9 +35,8 @@ public:
 	void ParseRequest(std::string line);
 	void RequestLine(std::string line);
 	void AddHeader(std::string line);
-	void Body(std::string line);
-	//int ReadRequest(std::string &line, int fd);
 	std::string ReadRequest(int fd, int &ReadRequest);
+	void ReadBody(int fd);
 };
 
 std::ostream& operator << (std::ostream& cout, const std::map<std::string, std::string> c);

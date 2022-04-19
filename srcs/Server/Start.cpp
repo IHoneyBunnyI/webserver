@@ -79,23 +79,14 @@ void Server::Start() {
 					int RequestEnd = 0;
 					while (!RequestEnd) {
 						line = Request.ReadRequest(server.fds[i].fd, RequestEnd);
+						//std::cout << "HEADER: "<< Request.GetHeaders().count("Content-Length")  << "REQEND: " << RequestEnd << std::endl;
+						Request.ParseRequest(line);
+						if (RequestEnd == NEED_BODY && Request.GetHeaders().count("Content-Length") == 1) {
+							Request.ReadBody(server.fds[i].fd);
+							//Если контент не удалось положить в переменную, то отправляем 413, надо еще прочитать, про 413 подробнее
+						}
 					}
 					return;
-					//while (Request.ReadRequest(line, server.fds[i].fd)) {
-						//Request.ParseRequest(line);
-						//if (line == "" || line == "\r") {
-							//break;
-						//}
-					//}
-					//if (Request.GetHeadersExist() && (Request.GetHeaders().count("Content-Length"))) { // условие для чтения body
-						//while (Request.ReadRequest(line, server.fds[i].fd)) {
-							//Request.Body(line);
-							//if (line == "" || line == "\r") {
-								//break;
-							//}
-						//}
-					//}
-					std::cout << "AAA!" << std::endl;
 					//std::cout << (int)Request.GetHeadersExist() << std::endl;
 						//while (Request.ReadRequest(line, server.fds[i].fd)) {
 							//std::cout << "AAA" << std::endl;

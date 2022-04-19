@@ -24,16 +24,11 @@ std::string HttpRequest::ReadRequest(int fd, int &ReadRequest) {
 	line = cache.substr(0, cache.find("\n"));
 	cache = cache.substr(cache.find(('\n')) + 1);
 	if ((line == "" && cache != "") || (line == "\r" && cache != "")) {
-		std::cout << "cache != \"\"" << std::endl;
-		std::cout << "cache:"<< cache << std::endl;
+		ReadRequest = NEED_BODY;
 	}
 	if ((line == "" && cache == "") || (line == "\r" && cache == "")) {
-		std::cout << "CRLF!" << std::endl;
-		std::cout << "cache:"<< cache << std::endl;
-		ReadRequest = 1;
+		ReadRequest = ALL;
 	}
-	//if (line == "" && cache != "") {
-	//} 
 	return (line);
 }
 
