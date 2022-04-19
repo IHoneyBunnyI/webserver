@@ -77,12 +77,11 @@ void Server::Start() {
 					HttpRequest Request;
 					std::string line;
 					int RequestEnd = 0;
-					while (!RequestEnd) {
+					while (RequestEnd != ALL) {
 						line = Request.ReadRequest(server.fds[i].fd, RequestEnd);
-						//std::cout << "HEADER: "<< Request.GetHeaders().count("Content-Length")  << "REQEND: " << RequestEnd << std::endl;
-						Request.ParseRequest(line);
 						if (RequestEnd == NEED_BODY && Request.GetHeaders().count("Content-Length") == 1) {
 							Request.ReadBody(server.fds[i].fd);
+							RequestEnd = ALL;
 							//Если контент не удалось положить в переменную, то отправляем 413, надо еще прочитать, про 413 подробнее
 						}
 					}
