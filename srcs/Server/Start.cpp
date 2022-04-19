@@ -76,20 +76,25 @@ void Server::Start() {
 				} else {
 					HttpRequest Request;
 					std::string line;
-					while (Request.ReadRequest(line, server.fds[i].fd)) {
-						Request.ParseRequest(line);
-						if (line == "" || line == "\r") {
-							break;
-						}
+					int RequestEnd = 0;
+					while (!RequestEnd) {
+						line = Request.ReadRequest(server.fds[i].fd, RequestEnd);
 					}
-					if (Request.GetHeadersExist() && (Request.GetHeaders().count("Content-Length"))) { // условие для чтения body
-						while (Request.ReadRequest(line, server.fds[i].fd)) {
-							Request.Body(line);
-							if (line == "" || line == "\r") {
-								break;
-							}
-						}
-					}
+					return;
+					//while (Request.ReadRequest(line, server.fds[i].fd)) {
+						//Request.ParseRequest(line);
+						//if (line == "" || line == "\r") {
+							//break;
+						//}
+					//}
+					//if (Request.GetHeadersExist() && (Request.GetHeaders().count("Content-Length"))) { // условие для чтения body
+						//while (Request.ReadRequest(line, server.fds[i].fd)) {
+							//Request.Body(line);
+							//if (line == "" || line == "\r") {
+								//break;
+							//}
+						//}
+					//}
 					std::cout << "AAA!" << std::endl;
 					//std::cout << (int)Request.GetHeadersExist() << std::endl;
 						//while (Request.ReadRequest(line, server.fds[i].fd)) {

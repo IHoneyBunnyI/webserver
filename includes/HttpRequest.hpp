@@ -35,8 +35,8 @@ public:
 	void RequestLine(std::string line);
 	void AddHeader(std::string line);
 	void Body(std::string line);
-	int ReadRequest(std::string &line, int fd);
-	//std::string ReadRequest(int fd);
+	//int ReadRequest(std::string &line, int fd);
+	std::string ReadRequest(int fd, int &ReadRequest);
 };
 
 std::ostream& operator << (std::ostream& cout, const std::map<std::string, std::string> c);
