@@ -79,7 +79,7 @@ void Server::Start() {
 					int RequestEnd = 0;
 					while (RequestEnd != ALL) {
 						line = Request.ReadRequest(server.fds[i].fd, RequestEnd);
-						if (RequestEnd == NEED_BODY && Request.GetHeaders().count("Content-Length") == 1) {
+						if (RequestEnd == NEED_BODY) {
 							Request.ReadBody(server.fds[i].fd);
 							RequestEnd = ALL;
 							//Если контент не удалось положить в переменную, то отправляем 413, надо еще прочитать, про 413 подробнее

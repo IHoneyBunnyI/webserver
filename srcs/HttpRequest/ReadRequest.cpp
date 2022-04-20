@@ -5,7 +5,7 @@
 #include <sys/socket.h>
 #define BUFSIZE (1 << 20)
 
-std::string HttpRequest::ReadRequest(int fd, int &ReadRequest) {
+std::string HttpRequest::ReadRequest(int fd, int &RequestEnd) {
 	static std::string cache;
 	std::string line;
 	char buf[BUFSIZE + 1];
@@ -23,12 +23,13 @@ std::string HttpRequest::ReadRequest(int fd, int &ReadRequest) {
 
 	line = cache.substr(0, cache.find("\n"));
 	cache = cache.substr(cache.find(('\n')) + 1);
+
 	this->ParseRequest(line);
-	if (this->Headers.count("Content-Length") == 1 || (line == "" && cache != "") || (line == "\r" && cache != "")) {
-		ReadRequest = NEED_BODY;
-	}
-	if ((line == "" && cache == "") || (line == "\r" && cache == "")) {
-		ReadRequest = ALL;
+
+	if (this->HeadersExist && (this->Headers.count("Content-Length") == 1 || (line == "" && cache != "") || (line == "\r" && cache != ""))) {
+		RequestEnd = NEED_BODY;
+	} else if ((line == "" && cache == "") || (line == "\r" && cache == "")) {
+		RequestEnd = ALL;
 	}
 	return (line);
 }
