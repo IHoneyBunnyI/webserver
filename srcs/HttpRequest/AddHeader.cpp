@@ -1,4 +1,5 @@
 #include "HttpRequest.hpp"
+#include "webserv.hpp"
 #include "Parser.hpp"
 
 void HttpRequest::AddHeader(std::string line) {
@@ -8,10 +9,12 @@ void HttpRequest::AddHeader(std::string line) {
 	std::vector<std::string> tokens = Parser::split(line, ":");
 	if (tokens.size() != 2) {
 		this->BadRequest = 400;
+		this->State = ALL;
 		return;
 	}
 	if (tokens[0].find(' ') != std::string::npos) {
 		this->BadRequest = 400;
+		this->State = ALL;
 		return;
 	}
 	Parser::trim(tokens[1]);

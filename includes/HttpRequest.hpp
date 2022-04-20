@@ -19,6 +19,8 @@ private:
 	unsigned char RequestLineExist;
 	unsigned char HeadersExist;
 	int BadRequest;
+	unsigned int State;
+	unsigned int First;
 	//все хэдэры в реализации не нуждаются, только HTPP/1.1
 public:
 	HttpRequest();
@@ -28,15 +30,18 @@ public:
 	std::string GetMethod();
 	std::string GetPath();
 	std::string GetVersion();
+	void UpdateFirst();
 	unsigned char GetHeadersExist();
 	int NeedCloseConnect();
+	int NeedParse();
+	int WaitBody();
 	void SetCloseConnection(int CloseConnect);
 	std::map<std::string, std::string> GetHeaders();
 
 	void ParseRequest(std::string line);
 	void RequestLine(std::string line);
 	void AddHeader(std::string line);
-	std::string ReadRequest(int fd, int &ReadRequest);
+	std::string ReadRequest(int fd);
 	void ReadBody(int fd);
 };
 

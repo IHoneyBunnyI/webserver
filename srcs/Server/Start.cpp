@@ -75,15 +75,14 @@ void Server::Start() {
 				} else {
 					HttpRequest Request;
 					std::string line;
-					int RequestEnd = 0;
-					while (RequestEnd != ALL) {
-						line = Request.ReadRequest(server.fds[i].fd, RequestEnd);
-						if (RequestEnd == NEED_BODY) {
+					while (Request.NeedParse()) {
+						line = Request.ReadRequest(server.fds[i].fd);
+						if (Request.WaitBody()) {
 							Request.ReadBody(server.fds[i].fd);
-							RequestEnd = ALL;
 							//Если контент не удалось положить в переменную, то отправляем 413, надо еще прочитать, про 413 подробнее
 						}
 					}
+					Request.UpdateFirst();
 					HttpResponse Response(Request, server, server.fds[i].fd);
 					Response.Send();
 
