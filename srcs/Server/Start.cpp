@@ -85,14 +85,9 @@ void Server::Start() {
 							//Если контент не удалось положить в переменную, то отправляем 413, надо еще прочитать, про 413 подробнее
 						}
 					}
-					return;
-					//std::cout << (int)Request.GetHeadersExist() << std::endl;
-						//while (Request.ReadRequest(line, server.fds[i].fd)) {
-							//std::cout << "AAA" << std::endl;
-						//}
-					//}
-					//std::cout << Request.GetHeaders() << std::endl;
-					//HttpResponse Response(Request);
+					HttpResponse Response(Request, server, server.fds[i].fd);
+					Response.Send();
+
 					if (Request.NeedCloseConnect() || line.empty()) {
 						need_erase = closeConnection(server.fds, i, this->fd_ip);
 					}

@@ -5,6 +5,7 @@
 #include <map>
 
 class HttpRequest {
+	friend class HttpResponse;
 private:
 	HttpRequest(const HttpRequest& ref);
 	HttpRequest& operator = (const HttpRequest& ref);

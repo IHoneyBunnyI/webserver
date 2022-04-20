@@ -34,10 +34,8 @@ CPP_FILES = CGI.cpp\
 			ServerName.cpp\
 			ServerRoot.cpp\
 			CreateListenSockets.cpp\
-			DELETE.cpp\
 			GET.cpp\
 			Log.cpp\
-			POST.cpp\
 			Server.cpp\
 			ServerConfig.cpp\
 			Start.cpp\
