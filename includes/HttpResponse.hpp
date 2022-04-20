@@ -9,8 +9,8 @@ class HttpResponse {
 		~HttpResponse();
 		void Send();
 		void Get();
-		void Post();
-		void Delete();
+		//void Post();
+		//void Delete();
 		void Error();
 	private:
 		HttpResponse();
@@ -22,7 +22,7 @@ class HttpResponse {
 		std::string Version;
 		std::map<std::string, std::string> Headers;
 		std::string Body;
-		unsigned int BadRequest;
+		int BadRequest;
 		int &CloseConnect;
 		ServerConfig& Server;
 		int fd;

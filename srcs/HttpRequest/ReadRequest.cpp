@@ -7,6 +7,7 @@
 
 std::string HttpRequest::ReadRequest(int fd, int &RequestEnd) {
 	static std::string cache;
+	static int first;
 	std::string line;
 	char buf[BUFSIZE + 1];
 	int rc = 1;
@@ -19,8 +20,12 @@ std::string HttpRequest::ReadRequest(int fd, int &RequestEnd) {
 		std::string str_buf(buf);
 		cache = cache + str_buf;
 	}
-	std::string res;
-
+	//std::cout << line << " " << cache << std::endl;
+	if (first == 0 && cache == "\n") { // костыль для обработки всех пустых запросов до строки запроса
+		cache = "";
+		return "";
+	}
+	first = 1;
 	line = cache.substr(0, cache.find("\n"));
 	cache = cache.substr(cache.find(('\n')) + 1);
 

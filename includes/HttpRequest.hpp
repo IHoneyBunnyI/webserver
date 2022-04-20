@@ -18,7 +18,7 @@ private:
 	int CloseConnect;
 	unsigned char RequestLineExist;
 	unsigned char HeadersExist;
-	unsigned int BadRequest;
+	int BadRequest;
 	//все хэдэры в реализации не нуждаются, только HTPP/1.1
 public:
 	HttpRequest();

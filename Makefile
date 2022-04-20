@@ -15,7 +15,10 @@ CPP_FILES = CGI.cpp\
 			ReadBody.cpp\
 			ReadRequest.cpp\
 			RequestLine.cpp\
+			Error.cpp\
+			Get.cpp\
 			HttpResponse.cpp\
+			Send.cpp\
 			Alias.cpp\
 			CgiExtensions.cpp\
 			CgiPath.cpp\
@@ -34,7 +37,7 @@ CPP_FILES = CGI.cpp\
 			ServerName.cpp\
 			ServerRoot.cpp\
 			CreateListenSockets.cpp\
-			GET.cpp\
+			GETA.cpp\
 			Log.cpp\
 			Server.cpp\
 			ServerConfig.cpp\

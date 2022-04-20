@@ -19,7 +19,7 @@ public:
 	static void Log(std::string message);
 	void Start();
 	void CreateListenSockets();
-	void GET(int fd, int &close_connect, std::string request);
+	void GETA(int fd, int &close_connect, std::string request);
 	void POST();
 	void DELETE();
 

@@ -53,7 +53,6 @@ static int closeConnection(std::vector<pollfd> &fds, int i, std::map<int, std::s
 
 void Server::Start() {
 	Server::Log("Start Server");
-	static int line_i;
 	while (1) {
 		int need_erase = 0;
 		int rpoll = 0;
@@ -88,7 +87,7 @@ void Server::Start() {
 					HttpResponse Response(Request, server, server.fds[i].fd);
 					Response.Send();
 
-					if (Request.NeedCloseConnect() || line.empty()) {
+					if (Request.NeedCloseConnect() /*|| line.empty()*/) {
 						need_erase = closeConnection(server.fds, i, this->fd_ip);
 					}
 				}
