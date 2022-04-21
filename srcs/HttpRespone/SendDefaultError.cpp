@@ -57,7 +57,7 @@ std::string defaultPage(int ResponseStatus) {
 	return error_html;
 }
 
-std::string defaultHeaders(std::string error_page) {
+std::string GenDefaultHeaders(std::string error_page) {
 	std::string Headers;
 	Headers += "Server: webserver\n";
 	Headers += "Content-Type: text/html\n";
@@ -69,7 +69,7 @@ std::string defaultHeaders(std::string error_page) {
 void HttpResponse::SendDefaultError(int fd, int ResponseStatus) {
 	std::string statusLine = GenStatusLine(ResponseStatus);
 	std::string error_page = defaultPage(ResponseStatus);
-	std::string Headers = defaultHeaders(error_page);
+	std::string Headers = GenDefaultHeaders(error_page);
 	SendStatusLine(statusLine);
 	SendHeaders(Headers);
 	SendDefaultErrorPage(error_page);

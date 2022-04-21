@@ -11,15 +11,26 @@ unsigned long long lengthFile(std::string path) {
 	{
 		std::string line;
 		std::getline(stream, line);
+		if (line == "")
+			break;
 		line += "\n";
 		length += line.length();
 	}
 	return length;
 }
 
+std::string GenHeaders(std::string path) {
+	std::string Headers;
+	Headers += "Server: webserver\n";
+	Headers += "Content-Type: text/html\n";
+	Headers += "Content-Length: " + std::to_string(lengthFile(path)) + "\n";
+	Headers += "Connection: close";
+	return Headers;
+}
 
 void HttpResponse::Error() {
 	std::string path_file;
+	//this->ResponseStatus = 404;
 	//закрываем соедениение и ищем файл из дефолтных
 	this->CloseConnect = 1;
 	for (unsigned int i = 0; i < this->Server.error_pages.size(); i++) {
@@ -32,7 +43,7 @@ void HttpResponse::Error() {
 	
 	//если файла не нашлось отправляем стандартную ошибку
 	std::ifstream file;
-	//this->ResponseStatus = 405;
+	std::cout << path_file << std::endl;
 	if (path_file.empty()) {
 		this->SendDefaultError(this->fd, this->ResponseStatus);
 		return;
@@ -48,8 +59,10 @@ void HttpResponse::Error() {
 	}
 	
 	std::string StatusLine = GenStatusLine(this->ResponseStatus);
-	//std::string Headers = GenHeaders(path_file);
-
+	std::string Headers = GenHeaders(path_file);
+	SendStatusLine(StatusLine);
+	SendHeaders(Headers);
+	SendPage(this->fd, path_file);
 	//также если не нашелся надо что-то делать
 	////Headers += "Content-Length: " + std::to_string(lengthFile(path_file)) + "\n";
 	//Headers += "Content-Length: " + std::to_string(lengthFile(path_file)) + "\n";
