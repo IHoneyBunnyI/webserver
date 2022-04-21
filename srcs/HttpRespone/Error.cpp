@@ -13,7 +13,7 @@ void sendFile(int fd, std::string path) {
 <center><h1>400 Bad Request</h1></center>\n\
 <hr><center>Webserver</center>\n\
 </body>\n\
-</html>\n\n";
+</html>\n";
 		if ((send(fd, file.c_str(), file.length(), 0)) < 0) {
 			std::cout << "send() failed" << std::endl;
 		}
@@ -22,6 +22,8 @@ void sendFile(int fd, std::string path) {
 	{
 		std::string line;
 		std::getline(stream, line);
+		if (line.empty())
+			return;
 		line += "\n";
 		if ((send(fd, line.c_str(), line.length(), 0)) < 0) {
 			std::cout << "send() failed" << std::endl;
@@ -29,19 +31,10 @@ void sendFile(int fd, std::string path) {
 	}
 }
 
-int needRelativePath(std::string path) {
-	if (path[0] == '/' || (path[0] == '.' && path[1] == '/'))
-		return 0;
-	return 1;
-}
-
 unsigned long long lengthFile(std::string path) {
 	unsigned long long length = 0;
 
 	std::string file;
-	if (needRelativePath(path)) {
-		path = "./" + path;
-	}
 	std::ifstream stream(path);
 	if (!stream) {
 		return 148; // Временный костыль
@@ -86,6 +79,7 @@ void HttpResponse::Error() {
 	Headers += "Server: webserver\n";
 	Headers += "Content-Type: text/html\n";
 	Headers += "Connection: close\n";
+	//Headers += "Content-Length: " + std::to_string(lengthFile(path_file)) + "\n";
 	Headers += "Content-Length: " + std::to_string(lengthFile(path_file)) + "\n";
 	Headers += "\n";
 
