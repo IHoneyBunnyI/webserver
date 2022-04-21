@@ -12,6 +12,7 @@ class HttpResponse {
 		//void Post();
 		//void Delete();
 		void Error();
+		void SendDefaultError(int fd, int ResponseStatus);
 	private:
 		HttpResponse();
 		HttpResponse(const HttpResponse &r);

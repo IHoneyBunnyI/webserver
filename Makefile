@@ -19,6 +19,7 @@ CPP_FILES = CGI.cpp\
 			Get.cpp\
 			HttpResponse.cpp\
 			Send.cpp\
+			SendDefaultError.cpp\
 			Alias.cpp\
 			CgiExtensions.cpp\
 			CgiPath.cpp\

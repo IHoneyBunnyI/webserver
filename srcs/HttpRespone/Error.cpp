@@ -1,6 +1,6 @@
 #include "HttpResponse.hpp"
-#include <sys/socket.h>
 #include <fstream>
+#include <sys/socket.h>
 
 void sendFile(int fd, std::string path) {
 
@@ -23,9 +23,6 @@ unsigned long long lengthFile(std::string path) {
 
 	std::string file;
 	std::ifstream stream(path);
-	if (!stream) {
-		return 148; // Временный костыль
-	}
 	while (stream)
 	{
 		std::string line;
@@ -36,21 +33,8 @@ unsigned long long lengthFile(std::string path) {
 	return length;
 }
 
-std::string GenStatusLine(int ResponseStatus) {
-	std::string statusLine;
-	statusLine += "HTTP/1.1 ";
-	statusLine += std::to_string(ResponseStatus) + " ";
-	if (ResponseStatus == 400) {
-		statusLine += "Bad Request\n";
-	} else if (ResponseStatus == 404) {
-		statusLine += "Not Found\n";
-	}
-	return statusLine;
-}
 
 void HttpResponse::Error() {
-	std::string statusLine;
-	std::string Headers;
 	std::string path_file;
 	//закрываем соедениение и ищем файл из дефолтных
 	this->CloseConnect = 1;
@@ -64,26 +48,24 @@ void HttpResponse::Error() {
 	
 	//если файла не нашлось отправляем стандартную ошибку
 	std::ifstream file;
+	//this->ResponseStatus = 405;
 	if (path_file.empty()) {
-		//SendDefaultError();
+		this->SendDefaultError(this->fd, this->ResponseStatus);
 		return;
 	} else {
 		file.open(path_file);
 		//если  файл не открывается по каким либо причинам отправляем дефолт
 		if (!file) {
-			//SendDefaultError();
+			this->SendDefaultError(this->fd, this->ResponseStatus);
 			return;
 		} else { // иначе закрываем зная, что он открывается и генерируем хэдеры
 			file.close();
 		}
 	}
 
-	statusLine = GenStatusLine(this->ResponseStatus);
+	//std::string Headers = GenHeaders(path_file);
 
 	//также если не нашелся надо что-то делать
-	//Headers += "Server: webserver\n";
-	//Headers += "Content-Type: text/html\n";
-	//Headers += "Connection: close\n";
 	////Headers += "Content-Length: " + std::to_string(lengthFile(path_file)) + "\n";
 	//Headers += "Content-Length: " + std::to_string(lengthFile(path_file)) + "\n";
 	//Headers += "\n";
