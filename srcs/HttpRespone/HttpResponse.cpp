@@ -8,7 +8,7 @@ HttpResponse::HttpResponse(HttpRequest &request, ServerConfig &server, int fd):
 	Version(request.Version),
 	Headers(request.Headers),
 	Body(request.Body),
-	BadRequest(request.BadRequest),
+	ResponseStatus(request.ResponseStatus),
 	CloseConnect(request.CloseConnect),
 	Server(server),
 	fd(fd) {
@@ -22,7 +22,7 @@ HttpResponse::HttpResponse():
 	Version(),
 	Headers(),
 	Body(),
-	BadRequest(),
+	ResponseStatus(),
 	CloseConnect(*(new(int))),
 	Server(*(new(ServerConfig)))
 	{}
@@ -33,7 +33,7 @@ HttpResponse::HttpResponse(const HttpResponse &r):
 	Version(r.Version),
 	Headers(r.Headers),
 	Body(r.Body),
-	BadRequest(r.BadRequest),
+	ResponseStatus(r.ResponseStatus),
 	CloseConnect(r.CloseConnect),
 	Server(*(new(ServerConfig))) {
 
@@ -46,7 +46,7 @@ HttpResponse& HttpResponse::operator = (const HttpResponse& ref) {
 		this->Version = ref.Version;
 		this->Headers = ref.Headers;
 		this->CloseConnect = ref.CloseConnect;
-		this->BadRequest = ref.BadRequest;
+		this->ResponseStatus = ref.ResponseStatus;
 		this->CloseConnect = ref.CloseConnect; //лажа
 		this->Server = ref.Server;
 	}

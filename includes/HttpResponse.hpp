@@ -22,7 +22,7 @@ class HttpResponse {
 		std::string Version;
 		std::map<std::string, std::string> Headers;
 		std::string Body;
-		int BadRequest;
+		int ResponseStatus;
 		int &CloseConnect;
 		ServerConfig& Server;
 		int fd;

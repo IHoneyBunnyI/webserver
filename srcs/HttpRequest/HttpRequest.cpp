@@ -10,7 +10,7 @@ HttpRequest::HttpRequest():
 	CloseConnect(0),
 	RequestLineExist(0),
 	HeadersExist(0),
-	BadRequest(0),
+	ResponseStatus(0),
 	State(0),
 	First(0)
 {}
@@ -23,7 +23,7 @@ HttpRequest::HttpRequest(const HttpRequest& ref):
 	CloseConnect(ref.CloseConnect),
 	RequestLineExist(ref.RequestLineExist),
 	HeadersExist(ref.HeadersExist),
-	BadRequest(ref.BadRequest),
+	ResponseStatus(ref.ResponseStatus),
 	State(ref.State),
 	First(ref.First)
 {}
@@ -37,7 +37,7 @@ HttpRequest& HttpRequest::operator = (const HttpRequest& ref) {
 		this->CloseConnect = ref.CloseConnect;
 		this->RequestLineExist = ref.RequestLineExist;
 		this->HeadersExist = ref.HeadersExist;
-		this->BadRequest = ref.BadRequest;
+		this->ResponseStatus = ref.ResponseStatus;
 		this->State = ref.State;
 		this->First = ref.First;
 	}

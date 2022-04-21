@@ -15,28 +15,28 @@ void HttpRequest::RequestLine(std::string line) {
 	Parser::trim(line);
 	std::vector<std::string> tokens = Parser::split(line, " ");
 	if (tokens.size() != 3) {
-		this->BadRequest = 400;
+		this->ResponseStatus = 400;
 		this->State = ALL;
 		return;
 	}
 	if (AvailableMethod(tokens[0])) {
 		this->Method = tokens[0];
 	} else {
-		this->BadRequest = 400;
+		this->ResponseStatus = 400;
 		this->State = ALL;
 		return;
 	}
 	if (tokens[1][0] == '/') {
 		this->Path = tokens[1];
 	} else {
-		this->BadRequest = 400;
+		this->ResponseStatus = 400;
 		this->State = ALL;
 		return;
 	}
 	if (tokens[2] == "HTTP/1.1") {
 		this->Method = tokens[2];
 	} else {
-		this->BadRequest = 400;
+		this->ResponseStatus = 400;
 		this->State = ALL;
 		return;
 	}

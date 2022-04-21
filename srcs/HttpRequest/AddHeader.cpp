@@ -8,12 +8,12 @@ void HttpRequest::AddHeader(std::string line) {
 	Parser::trim(line);
 	std::vector<std::string> tokens = Parser::split(line, ":");
 	if (tokens.size() != 2) {
-		this->BadRequest = 400;
+		this->ResponseStatus = 400;
 		this->State = ALL;
 		return;
 	}
 	if (tokens[0].find(' ') != std::string::npos) {
-		this->BadRequest = 400;
+		this->ResponseStatus = 400;
 		this->State = ALL;
 		return;
 	}

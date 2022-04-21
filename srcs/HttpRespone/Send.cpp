@@ -2,8 +2,8 @@
 #include <sys/socket.h>
 
 void HttpResponse::Send() {
-	std::cout << this->BadRequest << std::endl;
-	if (this->BadRequest != 0) {
+	//std::cout << this->ResponseStatus << std::endl;
+	if (this->ResponseStatus != 0) {
 		this->Error();
 	} else if (this->Method == "GET") {
 		this->Get();

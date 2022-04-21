@@ -18,7 +18,7 @@ private:
 	int CloseConnect;
 	unsigned char RequestLineExist;
 	unsigned char HeadersExist;
-	int BadRequest;
+	int ResponseStatus;
 	unsigned int State;
 	unsigned int First;
 	//все хэдэры в реализации не нуждаются, только HTPP/1.1
