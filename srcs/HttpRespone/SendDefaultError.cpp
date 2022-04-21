@@ -1,7 +1,6 @@
 #include "HttpResponse.hpp"
 #include "Parser.hpp"
 #include <sys/socket.h>
-#include "Server.hpp"
 
 std::string setResponseStatus(int ResponseStatus) {
 	std::string statusLine;
@@ -71,14 +70,7 @@ void HttpResponse::SendDefaultError(int fd, int ResponseStatus) {
 	std::string statusLine = GenStatusLine(ResponseStatus);
 	std::string error_page = defaultPage(ResponseStatus);
 	std::string Headers = defaultHeaders(error_page);
-	if ((send(fd, statusLine.c_str(), statusLine.length(), 0)) <= 0) {
-		Server::Log("send status line failed");
-	}
-	if ((send(fd, Headers.c_str(), Headers.length(), 0)) <= 0) {
-		Server::Log("send status line failed");
-	}
-	if ((send(fd, error_page.c_str(), error_page.length(), 0)) <= 0) {
-		Server::Log("send status line failed");
-	}
+	SendStatusLine(statusLine);
+	SendHeaders(Headers);
+	SendDefaultErrorPage(error_page);
 }
-

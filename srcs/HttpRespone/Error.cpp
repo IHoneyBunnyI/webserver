@@ -2,22 +2,6 @@
 #include <fstream>
 #include <sys/socket.h>
 
-void sendFile(int fd, std::string path) {
-
-	std::ifstream stream(path);
-	while (stream)
-	{
-		std::string line;
-		std::getline(stream, line);
-		if (line.empty())
-			return;
-		line += "\n";
-		if ((send(fd, line.c_str(), line.length(), 0)) <= 0) {
-			std::cout << "send() failed" << std::endl;
-		}
-	}
-}
-
 unsigned long long lengthFile(std::string path) {
 	unsigned long long length = 0;
 
@@ -62,7 +46,8 @@ void HttpResponse::Error() {
 			file.close();
 		}
 	}
-
+	
+	std::string StatusLine = GenStatusLine(this->ResponseStatus);
 	//std::string Headers = GenHeaders(path_file);
 
 	//также если не нашелся надо что-то делать

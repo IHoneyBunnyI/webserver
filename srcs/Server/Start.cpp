@@ -84,7 +84,7 @@ void Server::Start() {
 					}
 					Request.UpdateFirst();
 					HttpResponse Response(Request, server, server.fds[i].fd);
-					Response.Send();
+					Response.Response();
 
 					if (Request.NeedCloseConnect() /*|| line.empty()*/) {
 						need_erase = closeConnection(server.fds, i, this->fd_ip);

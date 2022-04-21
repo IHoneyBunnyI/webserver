@@ -1,7 +1,7 @@
 #include "HttpResponse.hpp"
 #include <sys/socket.h>
 
-void HttpResponse::Send() {
+void HttpResponse::Response() {
 	//std::cout << this->ResponseStatus << std::endl;
 	if (this->ResponseStatus != 0) {
 		this->Error();
@@ -10,6 +10,7 @@ void HttpResponse::Send() {
 	} else  {
 		if ((send(this->fd, "request accepted\n", 17, 0)) < 0) {
 			std::cout << "send() failed" << std::endl;
+			this->CloseConnect = 1;
 		}
 	}
 	//} else if (this->Method == "POST") {

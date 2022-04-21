@@ -7,12 +7,18 @@ class HttpResponse {
 	public:
 		HttpResponse(HttpRequest &request, ServerConfig &server, int fd);
 		~HttpResponse();
-		void Send();
+		void Response();
 		void Get();
 		//void Post();
 		//void Delete();
 		void Error();
 		void SendDefaultError(int fd, int ResponseStatus);
+
+
+		void SendStatusLine(std::string statusLine);
+		void SendHeaders(std::string headers);
+		void SendDefaultErrorPage(std::string error_page);
+		void SendPage(int fd, std::string path);
 	private:
 		HttpResponse();
 		HttpResponse(const HttpResponse &r);
@@ -29,4 +35,5 @@ class HttpResponse {
 		int fd;
 };
 
+std::string GenStatusLine(int ResponseStatus);
 #endif
