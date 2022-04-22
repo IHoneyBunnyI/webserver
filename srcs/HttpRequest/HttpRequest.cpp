@@ -97,3 +97,7 @@ int HttpRequest::WaitBody() {
 void HttpRequest::UpdateFirst() {
 	this->First = 0;
 }
+
+int HttpRequest::GetResponseStatus() {
+	return this->ResponseStatus;
+}

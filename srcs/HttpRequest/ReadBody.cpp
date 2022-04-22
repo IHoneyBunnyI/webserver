@@ -6,6 +6,7 @@
 #define BUFSIZE (1 << 20)
 
 void HttpRequest::ReadBody(int fd) {
+	(void)fd;
 	std::cout << "READBODY" << std::endl;
 	return;
 }

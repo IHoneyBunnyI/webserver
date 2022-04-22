@@ -35,4 +35,5 @@ int main(int argc, char** av)
 	Server server(config);
 	server.CreateListenSockets();
 	server.Start();
+	std::cout << "AXAXA" << std::endl;
 }

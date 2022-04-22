@@ -62,11 +62,11 @@ std::string GenDefaultHeaders(std::string error_page) {
 	Headers += "Server: webserver\n";
 	Headers += "Content-Type: text/html\n";
 	Headers += "Content-Length: " + std::to_string(error_page.length()) + "\n";
-	Headers += "Connection: close";
+	Headers += "Connection: close\n\n";
 	return Headers;
 }
 
-void HttpResponse::SendDefaultError(int fd, int ResponseStatus) {
+void HttpResponse::SendDefaultError(int ResponseStatus) {
 	std::string statusLine = GenStatusLine(ResponseStatus);
 	std::string error_page = defaultPage(ResponseStatus);
 	std::string Headers = GenDefaultHeaders(error_page);

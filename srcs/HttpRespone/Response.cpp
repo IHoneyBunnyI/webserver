@@ -2,7 +2,7 @@
 #include <sys/socket.h>
 
 void HttpResponse::Response() {
-	//std::cout << this->ResponseStatus << std::endl;
+	//this->ResponseStatus = 404;
 	if (this->ResponseStatus != 0) {
 		this->Error();
 	} else if (this->Method == "GET") {
@@ -13,6 +13,7 @@ void HttpResponse::Response() {
 			this->CloseConnect = 1;
 		}
 	}
+	//this->ResponseStatus = 0;
 	//} else if (this->Method == "POST") {
 		//this->Post();
 	//} else if (this->Method == "DELETE") {

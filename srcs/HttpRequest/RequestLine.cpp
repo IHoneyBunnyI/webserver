@@ -14,11 +14,13 @@ void HttpRequest::RequestLine(std::string line) {
 	Parser::replace_all(line, "\r", " ");
 	Parser::trim(line);
 	std::vector<std::string> tokens = Parser::split(line, " ");
+	//std::cout << "  |" + line << std::endl;
 	if (tokens.size() != 3) {
 		this->ResponseStatus = 400;
 		this->State = ALL;
 		return;
 	}
+	//std::cout << "After Parsing " << this->ResponseStatus << std::endl;
 	if (AvailableMethod(tokens[0])) {
 		this->Method = tokens[0];
 	} else {
@@ -34,7 +36,7 @@ void HttpRequest::RequestLine(std::string line) {
 		return;
 	}
 	if (tokens[2] == "HTTP/1.1") {
-		this->Method = tokens[2];
+		this->Version = tokens[2];
 	} else {
 		this->ResponseStatus = 400;
 		this->State = ALL;

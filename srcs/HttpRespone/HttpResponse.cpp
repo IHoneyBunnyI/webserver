@@ -53,3 +53,7 @@ HttpResponse& HttpResponse::operator = (const HttpResponse& ref) {
 	return *this;
 
 }
+
+int HttpResponse::GetResponseStatus() {
+	return this->ResponseStatus;
+}

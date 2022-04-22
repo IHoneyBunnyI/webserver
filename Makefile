@@ -5,7 +5,7 @@ CXX = clang++
 
 INCLUDES = -Iincludes/
 
-CXXFLAGS = $(INCLUDES)  -g -std=c++98 -fsanitize=address
+CXXFLAGS = $(INCLUDES)  -g -std=c++98 -fsanitize=address -Wall -Wextra -Werror
 
 CPP_FILES = CGI.cpp\
 			AddHeader.cpp\

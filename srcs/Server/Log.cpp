@@ -5,10 +5,8 @@
 void Server::Log(std::string message)
 {
 	std::ofstream logfile("logs.webserv", std::ios::app | std::ios::ate);
-	if (!logfile)
-	{
+	if (!logfile) {
 		std::cout << "error open logs.webserv!" << std::endl;
-		exit (1);
 	}
 
 	std::chrono::system_clock::time_point time_point = std::chrono::system_clock::now();
@@ -19,4 +17,5 @@ void Server::Log(std::string message)
 	logfile << message << std::endl;
 
 	logfile.close();
+	return;
 }
