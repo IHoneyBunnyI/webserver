@@ -29,7 +29,6 @@ void HttpResponse::SendPage(std::string path) {
 	{
 		std::string line;
 		std::getline(stream, line);
-		//std::cout << "\\"<< line << std::endl;
 		if (line.empty())
 			return;
 		line += "\n";

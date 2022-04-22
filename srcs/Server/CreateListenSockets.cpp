@@ -9,7 +9,7 @@ static int createListenSocket(int port, std::string ip)
 {
 	struct sockaddr_in socket_in;
 
-	int sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+	int sock_fd = socket(AF_INET, SOCK_STREAM, 0); // создаю сокет
 	if (sock_fd == -1){
 		Server::Log("socket not created");
 	}
@@ -30,12 +30,12 @@ static int createListenSocket(int port, std::string ip)
 	socket_in.sin_port = htons(port); //Задаем порт, который будем слушать
 	socket_in.sin_addr.s_addr = inet_addr(ip.c_str()); //IP
 
-	if (bind(sock_fd, (const struct sockaddr *)&socket_in, sizeof(socket_in)) < 0) { // связываем сокет с именем ??
+	if (bind(sock_fd, (const struct sockaddr *)&socket_in, sizeof(socket_in)) < 0) { // связываем сокет с адрессом и портом
 		Server::Log("bind() error");
 		close(sock_fd);
 	}
 
-	if ((listen(sock_fd, 1024)) < 0) { //Слушаем сокет
+	if ((listen(sock_fd, -1)) < 0) { //Слушаем сокет
 		Server::Log("listen() error");
 		close(sock_fd);
 	}
