@@ -38,9 +38,10 @@ CPP_FILES = CGI.cpp\
 			ParseServer.cpp\
 			ServerName.cpp\
 			ServerRoot.cpp\
+			CloseConnection.cpp\
 			CreateListenSockets.cpp\
-			GETA.cpp\
 			Log.cpp\
+			OpenConnection.cpp\
 			Server.cpp\
 			ServerConfig.cpp\
 			Start.cpp\

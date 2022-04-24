@@ -19,10 +19,8 @@ public:
 	static void Log(std::string message);
 	void Start();
 	void CreateListenSockets();
-	void GETA(int fd, int &close_connect, std::string request);
-	void POST();
-	void DELETE();
-
+	void CloseConnection(std::vector<pollfd> &fds, int i);
+	void OpenConnection(ServerConfig &server, int i);
 
 private:
 	std::vector<ServerConfig> servers;
