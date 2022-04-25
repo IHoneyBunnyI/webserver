@@ -50,6 +50,7 @@ void Server::Start() {
 
 					if (Request.NeedCloseConnect() || line.empty()) {
 						this->CloseConnection(server.fds, i);
+						need_erase = 1;
 					}
 				}
 			}
