@@ -2,7 +2,6 @@
 #include <sys/socket.h>
 
 void HttpResponse::Response() {
-	//this->ResponseStatus = 404;
 	if (this->ResponseStatus != 0) {
 		this->Error();
 	} else if (this->Method == "GET") {
