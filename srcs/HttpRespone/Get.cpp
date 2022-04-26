@@ -1,8 +1,17 @@
 #include "HttpResponse.hpp"
 
 void HttpResponse::Get() {
-	//std::string StatusLine;
-	this->ResponseStatus = 404;
-	this->Error();
-	return;
+	std::vector<Location> &locations = this->Server.locations;
+	Location loc;
+	//поиск подходящего location
+	for (unsigned int i = 0; i < locations.size(); i++) {
+		if (this->Path.find(locations[i].location) != std::string::npos) {
+			loc = locations[i];
+			if (loc.location == "/") {
+				continue;
+			}
+		}
+	}
+	std::cout << loc.location << std::endl;
+	SendDefaultError(404);
 }

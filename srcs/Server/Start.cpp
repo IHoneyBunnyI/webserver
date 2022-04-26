@@ -36,9 +36,8 @@ void Server::Start() {
 					this->OpenConnection(server, i);
 				} else {
 					HttpRequest Request;
-					std::string line;
 					while (Request.NeedParse()) {
-						line = Request.ReadRequest(server.fds[i].fd);
+						Request.ReadRequest(server.fds[i].fd);
 						if (Request.WaitBody()) {
 							Request.ReadBody(server.fds[i].fd);
 							//Если контент не удалось положить в переменную, то отправляем 413, надо еще прочитать, про 413 подробнее
@@ -48,7 +47,7 @@ void Server::Start() {
 					HttpResponse Response(Request, server, server.fds[i].fd);
 					Response.Response();
 
-					if (Request.NeedCloseConnect() || line.empty()) {
+					if (Request.NeedCloseConnect()) {
 						this->CloseConnection(server.fds, i);
 						need_erase = 1;
 					}
