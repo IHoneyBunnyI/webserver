@@ -61,7 +61,7 @@ std::vector<std::string> Parser::split(const std::string& str, const std::string
 	}
 	if (str.size() != prev)
 		res.push_back(str.substr(prev, pos - prev));
-	for (unsigned int i = 0; i < res.size(); i++) {
+	for (uint i = 0; i < res.size(); i++) {
 		Parser::trim(res[i]);
 	}
 	return (res);

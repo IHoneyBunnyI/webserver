@@ -2,7 +2,7 @@
 #include "Server.hpp"
 #include <fstream>
 
-unsigned int Parser::numLine = 1;
+uint Parser::numLine = 1;
 
 void Parser::ParseConfig()
 {

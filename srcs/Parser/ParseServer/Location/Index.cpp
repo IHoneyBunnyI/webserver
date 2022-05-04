@@ -13,7 +13,7 @@ void Index(Location &location, std::string line) {
 		throw Parser::DirectiveDuplicate(directive[0]);
 	}
 	location.indexes.erase(location.indexes.begin(), location.indexes.end());
-	for (unsigned int i = 1; i < directive.size(); i++) {
+	for (uint i = 1; i < directive.size(); i++) {
 		location.indexes.push_back(directive[i]);
 	}
 	location.indexExist = 1;

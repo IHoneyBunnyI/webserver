@@ -30,10 +30,7 @@ class HttpResponse {
 		int GetResponseStatus();
 
 
-		//void SendHttp(std::string statusLine, std::string Headers);
 		void SendHttp(std::string statusLine, std::string Headers, std::string path);
-		//void SendDefaultErrorPage(std::string error_page);
-		//void SendPage(std::string path);
 
 		void SendDefaultErrorPage(std::string statusLine, std::string Headers, std::string error_page);
 };

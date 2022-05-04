@@ -19,7 +19,7 @@ void Server::Start() {
 	while (1) {
 		int need_erase = 0;
 		int rpoll = 0;
-		for (unsigned int serverNum = 0; serverNum < this->servers.size(); serverNum++) {
+		for (uint serverNum = 0; serverNum < this->servers.size(); serverNum++) {
 			//std::cout << serverNum << std::endl;
 			ServerConfig &server = this->servers[serverNum]; // ссоздаю ссылку на данный сервер, обращаться буду через нее
 
@@ -27,8 +27,9 @@ void Server::Start() {
 			if (rpoll <= 0) { //POLL Error 
 				continue;
 			}
-			unsigned int current_size = server.fds.size();
-			for (unsigned int i = 0; i < current_size; i++){
+			//сделали poll, идем по всем сокетам сервера, если в нем есть события открываем новый сокет, далее идем по всем открытым сокетам и читаем
+			uint current_size = server.fds.size();
+			for (uint i = 0; i < current_size; i++){
 				if (server.fds[i].revents == 0) {
 					continue;
 				}

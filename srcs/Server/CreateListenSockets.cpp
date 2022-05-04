@@ -43,14 +43,14 @@ static int createListenSocket(int port, std::string ip)
 }
 
 void Server::CreateListenSockets() {
-	for (unsigned int i = 0; i < this->servers.size(); i++) {
-		for (unsigned int j = 0; j < this->servers[i].ports.size(); j++) {
+	for (uint i = 0; i < this->servers.size(); i++) {
+		for (uint j = 0; j < this->servers[i].ports.size(); j++) {
 			servers[i].sockets.push_back(createListenSocket(servers[i].ports[j], servers[i].ips[j]));
 			Server::Log("Socket create with PORT: " + std::to_string(servers[i].ports[j]) + " IP: " + servers[i].ips[j]);
 		}
 	}
-	for (unsigned int i = 0; i < this->servers.size(); i++) {
-		for (unsigned int j = 0; j < this->servers[i].ports.size(); j++) {
+	for (uint i = 0; i < this->servers.size(); i++) {
+		for (uint j = 0; j < this->servers[i].ports.size(); j++) {
 			servers[i].fds.push_back((pollfd){servers[i].sockets[j], POLLIN, 0});
 		}
 	}

@@ -5,6 +5,8 @@
 #include <poll.h>
 
 struct Location {
+	Location();
+
 	std::string location;
 	std::string root;
 	std::string alias;
@@ -20,8 +22,6 @@ struct Location {
 	unsigned char cgi_extensionsExist;
 	unsigned char upload_passExist;
 	unsigned char indexExist;
-
-	Location();
 };
 
 struct ErrorPage {
@@ -33,7 +33,7 @@ struct ErrorPage {
 
 struct ServerConfig {
 	std::vector<std::string> server_names;
-	unsigned int client_max_body_size;
+	uint client_max_body_size;
 	std::vector<std::string> ips;
 	std::vector<int> ports;
 	std::string root;

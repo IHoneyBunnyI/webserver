@@ -12,7 +12,7 @@ void Method(Location &location, std::string line) {
 	if (location.methodsExist) {
 		throw Parser::DirectiveDuplicate(directive[0]);
 	}
-	for (unsigned int i = 1; i < directive.size(); i++) {
+	for (uint i = 1; i < directive.size(); i++) {
 		if (directive[i] == "GET" || directive[i] == "POST" || directive[i] == "DELETE") {
 			continue;
 		} else {
@@ -20,7 +20,7 @@ void Method(Location &location, std::string line) {
 		}
 	}
 	location.methods.erase(location.methods.begin(), location.methods.end());
-	for (unsigned int i = 1; i < directive.size(); i++) {
+	for (uint i = 1; i < directive.size(); i++) {
 		//std::cout << "A: " << directive[i];
 		location.methods.push_back(directive[i]);
 	}

@@ -32,8 +32,8 @@ void HttpResponse::Error(int ResponseStatus) {
 	std::string path_file;
 	//закрываем соедениение и ищем файл из дефолтных
 	this->CloseConnect = 1;
-	for (unsigned int i = 0; i < this->Server.error_pages.size(); i++) {
-		for (unsigned int j = 0; j < this->Server.error_pages[i].errors.size(); j++) {
+	for (uint i = 0; i < this->Server.error_pages.size(); i++) {
+		for (uint j = 0; j < this->Server.error_pages[i].errors.size(); j++) {
 			if (this->Server.error_pages[i].errors[j] == this->ResponseStatus) {
 				path_file = this->Server.error_pages[i].error_page;
 			}

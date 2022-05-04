@@ -10,7 +10,7 @@ void ErrorPage(ServerConfig &server, std::string line) {
 		throw Parser::UnknownDirective(directive[0]);
 	}
 	// надо дабавить directive.size() <= 1
-	for (unsigned int i = 1; i < directive.size() - 1; i++) {
+	for (uint i = 1; i < directive.size() - 1; i++) {
 		errPage.errors.push_back(std::stoi(directive[i]));
 	}
 	errPage.error_page = directive[directive.size() - 1];

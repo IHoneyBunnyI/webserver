@@ -51,7 +51,7 @@ public:
 	{ public:	const char *what() const throw(); };
 
 private:
-	static unsigned int numLine;
+	static uint numLine;
 	static std::string configFile;
 	std::vector<ServerConfig> servers;
 };

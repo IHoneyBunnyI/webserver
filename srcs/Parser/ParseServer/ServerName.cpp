@@ -9,7 +9,7 @@ void ServerName(ServerConfig &server, std::string line) {
 	if (directive.size() < 2) {
 		throw Parser::InvalidNumberOfArgument();
 	}
-	for (unsigned int i = 1; i < directive.size(); i++) {
+	for (uint i = 1; i < directive.size(); i++) {
 		server.server_names.push_back(directive[i]);
 	}
 }

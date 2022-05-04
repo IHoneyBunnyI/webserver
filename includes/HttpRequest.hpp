@@ -19,8 +19,8 @@ class HttpRequest {
 		unsigned char RequestLineExist;
 		unsigned char HeadersExist;
 		int ResponseStatus;
-		unsigned int State;
-		unsigned int First;
+		uint State;
+		uint First;
 		//все хэдэры в реализации не нуждаются, только HTPP/1.1
 	public:
 		HttpRequest();
