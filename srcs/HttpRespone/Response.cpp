@@ -24,6 +24,7 @@ void HttpResponse::Response() {
 			}
 		}
 	}
+	//проверка на то, можно ли в этом location использовать данный метод
 	uint enableMethod = 0;
 	for (uint i = 0; i < location.methods.size(); i++) {
 		if (location.methods[i] == this->Method) {
@@ -32,9 +33,10 @@ void HttpResponse::Response() {
 		}
 	}
 	if (!enableMethod) {
-		this->ResponseStatus = 405;
-		return (this->Error(this->ResponseStatus));
+		//this->ResponseStatus = 405;
+		return (this->Error(405));
 	}
+
 	// создаем стрим пытаемся открыть и если директория пробуем открыыть index, иначе открываем файл и отправляем
 	std::ifstream file;
 	file.open(location.root + this->Path);
@@ -45,11 +47,18 @@ void HttpResponse::Response() {
 		stat((location.root + this->Path).c_str(), &buf);
 		if (S_ISDIR(buf.st_mode)) {
 			std::cout << "IS DIR" << std::endl;
+			std::ifstream index;
+			//тут надо найти существующий индекс и вернуть его 
+			//std::string indexPath = findIndex(location.indexes);
+			//index.open(location.root + this->Path + indexPath);
+			//пробуем открыть index в этой dir
 		} else {
 			std::cout << "IS NOT DIR" << std::endl;
+			//пробуем открыть этот файл 
 		}
 	}
 	else {
 		std::cout << "NOT OPEN" << std::endl;
+		this->Error(404);
 	}
 }

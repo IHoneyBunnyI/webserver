@@ -34,7 +34,7 @@ void HttpResponse::Error(int ResponseStatus) {
 	this->CloseConnect = 1;
 	for (uint i = 0; i < this->Server.error_pages.size(); i++) {
 		for (uint j = 0; j < this->Server.error_pages[i].errors.size(); j++) {
-			if (this->Server.error_pages[i].errors[j] == this->ResponseStatus) {
+			if (this->Server.error_pages[i].errors[j] == ResponseStatus) {
 				path_file = this->Server.error_pages[i].error_page;
 			}
 		}
