@@ -2,6 +2,7 @@
 #include "webserv.hpp"
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
 
 void Server::OpenConnection(ServerConfig &server, int i)
 {
@@ -12,6 +13,7 @@ void Server::OpenConnection(ServerConfig &server, int i)
 		new_sd = accept(server.fds[i].fd, (sockaddr *)&in, &len_in); 
 		if (new_sd < 0)
 			return;
+		fcntl(new_sd, F_SETFL, O_NONBLOCK);
 		pollfd fd;
 		fd.fd = new_sd;
 		fd.events = POLLIN;

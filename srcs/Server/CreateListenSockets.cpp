@@ -20,10 +20,10 @@ static int createListenSocket(int port, std::string ip)
 		close(sock_fd);
 	}
 
-	if ((fcntl(sock_fd, F_SETFL, O_NONBLOCK)) < 0) { //Делаем сокет не блокирующим
-		Server::Log("fcntl() error");
-		close(sock_fd);
-	}
+	//if ((fcntl(sock_fd, F_SETFL, O_NONBLOCK)) < 0) { //Делаем сокет не блокирующим
+		//Server::Log("fcntl() error");
+		//close(sock_fd);
+	//}
 
 	memset(&socket_in, 0, sizeof(socket_in));
 	socket_in.sin_family = PF_INET;
