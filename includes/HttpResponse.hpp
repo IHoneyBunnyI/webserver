@@ -25,15 +25,17 @@ class HttpResponse {
 		void Get();
 		//void Post();
 		//void Delete();
-		void Error();
+		void Error(int ResponseStatus);
 		void SendDefaultError(int ResponseStatus);
 		int GetResponseStatus();
 
 
-		void SendStatusLine(std::string statusLine);
-		void SendHeaders(std::string headers);
-		void SendDefaultErrorPage(std::string error_page);
-		void SendPage(std::string path);
+		//void SendHttp(std::string statusLine, std::string Headers);
+		void SendHttp(std::string statusLine, std::string Headers, std::string path);
+		//void SendDefaultErrorPage(std::string error_page);
+		//void SendPage(std::string path);
+
+		void SendDefaultErrorPage(std::string statusLine, std::string Headers, std::string error_page);
 };
 
 std::string GenStatusLine(int ResponseStatus);

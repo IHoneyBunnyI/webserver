@@ -70,7 +70,5 @@ void HttpResponse::SendDefaultError(int ResponseStatus) {
 	std::string statusLine = GenStatusLine(ResponseStatus);
 	std::string error_page = defaultPage(ResponseStatus);
 	std::string Headers = GenDefaultHeaders(error_page);
-	SendStatusLine(statusLine);
-	SendHeaders(Headers);
-	SendDefaultErrorPage(error_page);
+	SendDefaultErrorPage(statusLine, Headers, error_page);
 }

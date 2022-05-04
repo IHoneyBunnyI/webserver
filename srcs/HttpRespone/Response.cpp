@@ -3,14 +3,11 @@
 
 void HttpResponse::Response() {
 	if (this->ResponseStatus != 0) {
-		this->Error();
+		this->Error(this->ResponseStatus);
 	} else if (this->Method == "GET") {
 		this->Get();
 	} else  {
-		if ((send(this->fd, "request accepted\n", 17, 0)) < 0) {
-			std::cout << "send() failed" << std::endl;
-			this->CloseConnect = 1;
-		}
+		std::cout << "ACCEPT" << std::endl;
 	}
 	//this->ResponseStatus = 0;
 	//} else if (this->Method == "POST") {

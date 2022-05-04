@@ -28,9 +28,8 @@ std::string GenHeaders(std::string path) {
 	return Headers;
 }
 
-void HttpResponse::Error() {
+void HttpResponse::Error(int ResponseStatus) {
 	std::string path_file;
-	//this->ResponseStatus = 404;
 	//закрываем соедениение и ищем файл из дефолтных
 	this->CloseConnect = 1;
 	for (unsigned int i = 0; i < this->Server.error_pages.size(); i++) {
@@ -44,38 +43,20 @@ void HttpResponse::Error() {
 	//если файла не нашлось отправляем стандартную ошибку
 	std::ifstream file;
 	if (path_file.empty()) {
-		this->SendDefaultError(this->ResponseStatus);
+		this->SendDefaultError(ResponseStatus);
 		return;
 	} else {
 		file.open(path_file);
 		//если  файл не открывается по каким либо причинам отправляем дефолт
 		if (!file) {
-			this->SendDefaultError(this->ResponseStatus);
+			this->SendDefaultError(ResponseStatus);
 			return;
 		} else { // иначе закрываем зная, что он открывается и генерируем хэдеры
 			file.close();
 		}
 	}
 	
-	std::string StatusLine = GenStatusLine(this->ResponseStatus);
-	//std::cout << StatusLine << std::endl;
+	std::string StatusLine = GenStatusLine(ResponseStatus);
 	std::string Headers = GenHeaders(path_file);
-	SendStatusLine(StatusLine);
-	SendHeaders(Headers);
-	SendPage(path_file);
-	//std::cout << path_file << std::endl;
-	//также если не нашелся надо что-то делать
-	////Headers += "Content-Length: " + std::to_string(lengthFile(path_file)) + "\n";
-	//Headers += "Content-Length: " + std::to_string(lengthFile(path_file)) + "\n";
-	//Headers += "\n";
-
-	//if ((send(fd, statusLine.c_str(), statusLine.length(), 0)) <= 0) {
-		//std::cout << "send() failed" << std::endl;
-		//this->CloseConnect = 1;
-	//}
-	//if ((send(fd, Headers.c_str(), Headers.length(), 0)) <= 0) {
-		//std::cout << "send() failed" << std::endl;
-		//this->CloseConnect = 1;
-	//}
-	//sendFile(fd, path_file);
+	SendHttp(StatusLine, Headers, path_file);
 }

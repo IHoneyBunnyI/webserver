@@ -29,7 +29,7 @@ void Server::Start() {
 			}
 			unsigned int current_size = server.fds.size();
 			for (unsigned int i = 0; i < current_size; i++){
-				if (server.fds[i].events == 0) {
+				if (server.fds[i].revents == 0) {
 					continue;
 				}
 				if (std::find(server.sockets.begin(), server.sockets.end(), server.fds[i].fd) != server.sockets.end()) {

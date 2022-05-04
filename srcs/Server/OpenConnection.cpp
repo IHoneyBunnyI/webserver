@@ -17,7 +17,7 @@ void Server::OpenConnection(ServerConfig &server, int i)
 		pollfd fd;
 		fd.fd = new_sd;
 		fd.events = POLLIN;
-		std::cout << GREEN "New connection with fd: " << new_sd << WHITE << std::endl;
+		//std::cout << GREEN "New connection with fd: " << new_sd << WHITE << std::endl;
 		server.fds.push_back(fd);
 
 		char bits[100];
