@@ -15,7 +15,7 @@ void HttpResponse::Response() {
 	for (uint i = 0; i < locations.size(); i++) {
 		if (this->Path.find(locations[i].location) != std::string::npos) {
 			location = locations[i];
-			//std::cout << location.location << std::endl;
+			std::cout << location.location << std::endl;
 			if (this->Path == location.location) {
 				break;
 			}
@@ -32,8 +32,8 @@ void HttpResponse::Response() {
 			break;
 		}
 	}
+	//выкидываем 405 если метод не доступен
 	if (!enableMethod) {
-		//this->ResponseStatus = 405;
 		return (this->Error(405));
 	}
 
@@ -41,24 +41,24 @@ void HttpResponse::Response() {
 	std::ifstream file;
 	file.open(location.root + this->Path);
 	if (file.is_open()) {
-		std::cout << "OPEN" << std::endl;
+		//std::cout << "OPEN" << std::endl;
 		struct stat buf;
 		std::memset(&buf, 0, sizeof(buf));
 		stat((location.root + this->Path).c_str(), &buf);
 		if (S_ISDIR(buf.st_mode)) {
-			std::cout << "IS DIR" << std::endl;
+			//std::cout << "IS DIR" << std::endl;
 			std::ifstream index;
 			//тут надо найти существующий индекс и вернуть его 
 			//std::string indexPath = findIndex(location.indexes);
 			//index.open(location.root + this->Path + indexPath);
 			//пробуем открыть index в этой dir
 		} else {
-			std::cout << "IS NOT DIR" << std::endl;
+			//std::cout << "IS NOT DIR" << std::endl;
 			//пробуем открыть этот файл 
 		}
 	}
 	else {
-		std::cout << "NOT OPEN" << std::endl;
+		//std::cout << "NOT OPEN" << std::endl;
 		this->Error(404);
 	}
 }

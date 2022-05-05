@@ -13,9 +13,10 @@ std::string HttpRequest::ReadRequest(int fd) {
 	std::memset(buf, 0, BUFSIZE + 1);
 
 	while (cache.find('\n') == std::string::npos && (rc = recv(fd, buf, BUFSIZE, 0))) {
-		if (rc <= 0) {
-			this->CloseConnect = 1;
-		}
+		//if (rc < 0) {
+			//this->CloseConnect = 1;
+			//std::cout << "CloseConnect" << rc << std::endl;
+		//}
 		std::string str_buf(buf);
 		cache = cache + str_buf;
 	}

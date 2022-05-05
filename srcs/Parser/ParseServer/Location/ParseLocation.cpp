@@ -11,10 +11,12 @@ void ParseLocation(std::ifstream &stream, ServerConfig &server, std::string line
 	if (directive.size() != 2) {
 		throw Parser::InvalidNumberOfArgument();
 	}
-	if (directive[1][directive[1].size() - 1] != '/') //проверяю последний символ в location, если не '/', добавляю
-		directive[1] += '/';
+	if (directive[1] != "/") {
+		while (directive[1][directive[1].size() - 1] == '/') { //проверяю последний символ в location, если есть '/', убираю все символы '/'
+			directive[1].erase(directive[1].end() - 1);
+		}
+	}
 	location.location = directive[1];
-
 	//начало парсинга location
 	Parser::getLine(stream, line);
 	Parser::trim(line);
