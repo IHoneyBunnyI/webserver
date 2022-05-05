@@ -3,6 +3,15 @@
 #include <fstream>
 #include <sys/stat.h>
 
+bool enableMethod(std::vector<std::string> &methods, std::string &method) {
+	for (uint i = 0; i < methods.size(); i++) {
+		if (methods[i] == method) {
+			return true;
+		}
+	}
+	return false;
+}
+
 void HttpResponse::Response() {
 	if (this->ResponseStatus != 0) {
 		return (this->Error(this->ResponseStatus));
@@ -25,15 +34,15 @@ void HttpResponse::Response() {
 		}
 	}
 	//проверка на то, можно ли в этом location использовать данный метод
-	uint enableMethod = 0;
-	for (uint i = 0; i < location.methods.size(); i++) {
-		if (location.methods[i] == this->Method) {
-			enableMethod = 1;
-			break;
-		}
-	}
+	//uint enableMethod = is;
+	//for (uint i = 0; i < location.methods.size(); i++) {
+		//if (location.methods[i] == this->Method) {
+			//enableMethod = 1;
+			//break;
+		//}
+	//}
 	//выкидываем 405 если метод не доступен
-	if (!enableMethod) {
+	if (!enableMethod(location.methods, this->Method)) {
 		return (this->Error(405));
 	}
 
