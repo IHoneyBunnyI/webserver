@@ -2,6 +2,7 @@
 #include "Server.hpp"
 #include <sys/socket.h>
 #include <fstream>
+#define BUFSIZE (1 << 20)
 
 void HttpResponse::SendHttp(std::string statusLine, std::string Headers, std::string path) {
 	int ret = 1;
@@ -12,21 +13,16 @@ void HttpResponse::SendHttp(std::string statusLine, std::string Headers, std::st
 		this->CloseConnect = 1;
 	}
 	
-	//слишком много вызовов send
+	char buf[BUFSIZE + 1];
+	std::memset(buf, 0, BUFSIZE);
 	std::ifstream stream(path);
 	while (stream)
 	{
-		int ret = 1;
-		std::string line;
-		std::getline(stream, line);
-		if (line.empty())
-			return;
-		line += "\n";
-		ret = send(this->fd, line.c_str(), line.length(), 0);
+		stream.read(buf, BUFSIZE);
+		ret = send(this->fd, buf, BUFSIZE, 0);
 		if (ret <= 0) {
 			std::cout << "send error page failed" << std::endl;
 			this->CloseConnect = 1;
-			stream.close();
 			break;
 		}
 	}

@@ -1,16 +1,7 @@
 #include "HttpResponse.hpp"
 #include <sys/socket.h>
-#include <fstream>
-#include <sys/stat.h>
 
-bool enableMethod(std::vector<std::string> &methods, std::string &method) {
-	for (uint i = 0; i < methods.size(); i++) {
-		if (methods[i] == method) {
-			return true;
-		}
-	}
-	return false;
-}
+bool enableMethod(std::vector<std::string> &methods, std::string &method);
 
 void HttpResponse::Response() {
 	if (this->ResponseStatus != 0) {
@@ -33,41 +24,23 @@ void HttpResponse::Response() {
 			}
 		}
 	}
-	//проверка на то, можно ли в этом location использовать данный метод
-	//uint enableMethod = is;
-	//for (uint i = 0; i < location.methods.size(); i++) {
-		//if (location.methods[i] == this->Method) {
-			//enableMethod = 1;
-			//break;
-		//}
-	//}
 	//выкидываем 405 если метод не доступен
 	if (!enableMethod(location.methods, this->Method)) {
 		return (this->Error(405));
 	}
 
-	// создаем стрим пытаемся открыть и если директория пробуем открыыть index, иначе открываем файл и отправляем
-	std::ifstream file;
-	file.open(location.root + this->Path);
-	if (file.is_open()) {
-		//std::cout << "OPEN" << std::endl;
-		struct stat buf;
-		std::memset(&buf, 0, sizeof(buf));
-		stat((location.root + this->Path).c_str(), &buf);
-		if (S_ISDIR(buf.st_mode)) {
-			//std::cout << "IS DIR" << std::endl;
-			std::ifstream index;
-			//тут надо найти существующий индекс и вернуть его 
-			//std::string indexPath = findIndex(location.indexes);
-			//index.open(location.root + this->Path + indexPath);
-			//пробуем открыть index в этой dir
-		} else {
-			//std::cout << "IS NOT DIR" << std::endl;
-			//пробуем открыть этот файл 
+	if (this->Method == "GET") {
+		this->Get(location);
+	} else if (this->Method == "POST") {
+		this->Get(location);
+	}
+}
+
+bool enableMethod(std::vector<std::string> &methods, std::string &method) {
+	for (uint i = 0; i < methods.size(); i++) {
+		if (methods[i] == method) {
+			return true;
 		}
 	}
-	else {
-		//std::cout << "NOT OPEN" << std::endl;
-		this->Error(404);
-	}
+	return false;
 }

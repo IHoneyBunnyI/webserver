@@ -22,7 +22,7 @@ class HttpResponse {
 		HttpResponse(HttpRequest &request, ServerConfig &server, int fd);
 		~HttpResponse();
 		void Response();
-		void Get();
+		void Get(Location &location);
 		//void Post();
 		//void Delete();
 		void Error(int ResponseStatus);

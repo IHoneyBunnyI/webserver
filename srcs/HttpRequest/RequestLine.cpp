@@ -35,10 +35,15 @@ void HttpRequest::RequestLine(std::string line) {
 		this->State = ALL;
 		return;
 	}
+	if (tokens[2].find("HTTP/") == std::string::npos) {
+		this->ResponseStatus = 400;
+		this->State = ALL;
+		return;
+	}
 	if (tokens[2] == "HTTP/1.1") {
 		this->Version = tokens[2];
 	} else {
-		this->ResponseStatus = 400;
+		this->ResponseStatus = 505;
 		this->State = ALL;
 		return;
 	}
