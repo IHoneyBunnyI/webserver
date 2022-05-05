@@ -1,32 +1,6 @@
 #include "HttpResponse.hpp"
-#include <fstream>
 #include <sys/socket.h>
-
-unsigned long long lengthFile(std::string path) {
-	unsigned long long length = 0;
-
-	std::string file;
-	std::ifstream stream(path);
-	while (stream)
-	{
-		std::string line;
-		std::getline(stream, line);
-		if (line == "")
-			break;
-		line += "\n";
-		length += line.length();
-	}
-	return length;
-}
-
-std::string GenHeaders(std::string path) {
-	std::string Headers;
-	Headers += "Server: webserver\n";
-	Headers += "Content-Type: text/html\n";
-	Headers += "Content-Length: " + std::to_string(lengthFile(path)) + "\n";
-	Headers += "Connection: close\n\n";
-	return Headers;
-}
+#include <fstream>
 
 void HttpResponse::Error(int ResponseStatus) {
 	std::string path_file;

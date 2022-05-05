@@ -1,6 +1,8 @@
 #include "HttpResponse.hpp"
 #include "Parser.hpp"
 #include <sys/socket.h>
+#include <fstream>
+unsigned long long lengthFile(std::string path);
 
 std::string setResponseStatus(int ResponseStatus) {
 	std::string statusLine;
@@ -18,6 +20,15 @@ std::string setResponseStatus(int ResponseStatus) {
 		statusLine = "HTTP Version Not Supported\n";
 	}
 	return statusLine;
+}
+
+std::string GenHeaders(std::string pathTofileForContentLength) {
+	std::string Headers;
+	Headers += "Server: webserver\n";
+	Headers += "Content-Type: text/html\n";
+	Headers += "Content-Length: " + std::to_string(lengthFile(pathTofileForContentLength)) + "\n";
+	Headers += "Connection: close\n\n";
+	return Headers;
 }
 
 std::string GenStatusLine(int ResponseStatus) {
@@ -71,4 +82,21 @@ void HttpResponse::SendDefaultError(int ResponseStatus) {
 	std::string error_page = defaultPage(ResponseStatus);
 	std::string Headers = GenDefaultHeaders(error_page);
 	SendDefaultErrorPage(statusLine, Headers, error_page);
+}
+
+unsigned long long lengthFile(std::string path) {
+	unsigned long long length = 0;
+
+	std::string file;
+	std::ifstream stream(path);
+	while (stream)
+	{
+		std::string line;
+		std::getline(stream, line);
+		if (line == "")
+			break;
+		line += "\n";
+		length += line.length();
+	}
+	return length;
 }

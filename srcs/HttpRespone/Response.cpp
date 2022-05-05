@@ -15,7 +15,6 @@ void HttpResponse::Response() {
 	for (uint i = 0; i < locations.size(); i++) {
 		if (this->Path.find(locations[i].location) != std::string::npos) {
 			location = locations[i];
-			std::cout << location.location << std::endl;
 			if (this->Path == location.location) {
 				break;
 			}
@@ -24,6 +23,7 @@ void HttpResponse::Response() {
 			}
 		}
 	}
+	//std::cout << "LOCATION: " << location.location << std::endl;
 	//выкидываем 405 если метод не доступен
 	if (!enableMethod(location.methods, this->Method)) {
 		return (this->Error(405));

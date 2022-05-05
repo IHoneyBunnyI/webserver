@@ -35,4 +35,5 @@ class HttpResponse {
 };
 
 std::string GenStatusLine(int ResponseStatus);
+std::string GenHeaders(std::string path);
 #endif
