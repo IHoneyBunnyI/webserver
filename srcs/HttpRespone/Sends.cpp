@@ -2,7 +2,6 @@
 #include "Server.hpp"
 #include <sys/socket.h>
 #include <fstream>
-#define BUFSIZE (1 << 20)
 
 void HttpResponse::SendHttp(std::string statusLine, std::string Headers, std::string path) {
 	int ret = 1;

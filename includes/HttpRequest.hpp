@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <map>
+#define BUFSIZE (1 << 20)
 
 class HttpRequest {
 	friend class HttpResponse;

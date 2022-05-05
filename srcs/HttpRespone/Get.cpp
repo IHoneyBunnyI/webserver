@@ -39,7 +39,7 @@ void HttpResponse::Get(Location &location) {
 	if (pathFile == "") {
 		this->Error(404);
 	}
-	//std::cout << pathFile << std::endl;
+	std::cout << pathFile << std::endl;
 	std::string statusLine = GenStatusLine(200);
 	std::string Headers = GenHeaders(pathFile);
 	SendHttp(statusLine, Headers, pathFile);

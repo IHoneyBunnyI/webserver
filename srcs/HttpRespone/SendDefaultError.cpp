@@ -89,14 +89,15 @@ unsigned long long lengthFile(std::string path) {
 
 	std::string file;
 	std::ifstream stream(path);
+	char buf[BUFSIZE + 1];
+	std::memset(buf, 0, BUFSIZE);
 	while (stream)
 	{
-		std::string line;
-		std::getline(stream, line);
-		if (line == "")
-			break;
-		line += "\n";
-		length += line.length();
+		stream.read(buf, BUFSIZE);
+		std::string tmp(buf);
+		length += tmp.size();
+		std::memset(buf, 0, BUFSIZE);
 	}
+	stream.close();
 	return length;
 }
