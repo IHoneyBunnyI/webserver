@@ -15,13 +15,13 @@ struct Location {
 	std::string cgi_path;
 	std::vector<std::string> cgi_extensions;
 	std::string upload_pass;
-	unsigned char rootExist;
-	unsigned char aliasExist;
-	unsigned char methodsExist;
-	unsigned char cgi_pathExist;
-	unsigned char cgi_extensionsExist;
-	unsigned char upload_passExist;
-	unsigned char indexExist;
+	bool rootExist;
+	bool aliasExist;
+	bool methodsExist;
+	bool cgi_pathExist;
+	bool cgi_extensionsExist;
+	bool upload_passExist;
+	bool indexExist;
 };
 
 struct ErrorPage {
@@ -39,11 +39,11 @@ struct ServerConfig {
 	std::string root;
 	std::vector<Location> locations;
 	std::vector<ErrorPage> error_pages;
-	unsigned char autoindex;
-	unsigned char listenExist;
-	unsigned char client_max_body_sizeExist;
-	unsigned char autoindexExist;
-	unsigned char rootExist;
+	bool autoindex;
+	bool listenExist;
+	bool client_max_body_sizeExist;
+	bool autoindexExist;
+	bool rootExist;
 	std::vector<int> sockets;
 	std::vector<pollfd> fds;
 

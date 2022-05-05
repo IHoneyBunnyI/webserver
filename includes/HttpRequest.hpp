@@ -15,13 +15,12 @@ class HttpRequest {
 		std::string Version;
 		std::map<std::string, std::string> Headers;
 		std::string Body;
-		int CloseConnect;
-		unsigned char RequestLineExist;
-		unsigned char HeadersExist;
+		bool CloseConnect;
+		bool RequestLineExist;
+		bool HeadersExist;
 		int ResponseStatus;
 		uint State;
 		uint First;
-		//все хэдэры в реализации не нуждаются, только HTPP/1.1
 	public:
 		HttpRequest();
 		~HttpRequest();
@@ -31,11 +30,11 @@ class HttpRequest {
 		std::string GetPath();
 		std::string GetVersion();
 		void UpdateFirst();
-		unsigned char GetHeadersExist();
+		bool GetHeadersExist();
 		int GetResponseStatus();
-		int NeedCloseConnect();
-		int NeedParse();
-		int WaitBody();
+		bool NeedCloseConnect();
+		bool NeedParse();
+		bool WaitBody();
 		void SetCloseConnection(int CloseConnect);
 		std::map<std::string, std::string> GetHeaders();
 

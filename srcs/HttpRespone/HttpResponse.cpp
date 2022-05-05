@@ -23,7 +23,7 @@ HttpResponse::HttpResponse():
 	Headers(),
 	Body(),
 	ResponseStatus(),
-	CloseConnect(*(new(int))),
+	CloseConnect(*(new(bool))),
 	Server(*(new(ServerConfig)))
 	{}
 

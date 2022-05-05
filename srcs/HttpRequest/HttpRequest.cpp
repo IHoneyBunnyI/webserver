@@ -7,9 +7,9 @@ HttpRequest::HttpRequest():
 	Path(""),
 	Version(""),
 	Headers(),
-	CloseConnect(0),
-	RequestLineExist(0),
-	HeadersExist(0),
+	CloseConnect(false),
+	RequestLineExist(false),
+	HeadersExist(false),
 	ResponseStatus(0),
 	State(0),
 	First(0)
@@ -61,12 +61,36 @@ std::string HttpRequest::GetVersion() {
 std::map<std::string, std::string> HttpRequest::GetHeaders() {
 	return (this->Headers);
 }
+
 void HttpRequest::SetCloseConnection(int CloseConnect) {
 	this->CloseConnect = CloseConnect;
 }
 
-unsigned char HttpRequest::GetHeadersExist() {
+bool HttpRequest::GetHeadersExist() {
 	return (this->HeadersExist);
+}
+
+bool HttpRequest::NeedParse() {
+	if (this->State == ALL) {
+		return false;
+	}
+	return true;
+}
+
+bool HttpRequest::WaitBody() {
+	if (this->State == NEED_BODY) {
+		this->State = ALL;
+		return true;
+	}
+	return false;
+}
+
+void HttpRequest::UpdateFirst() {
+	this->First = 0;
+}
+
+int HttpRequest::GetResponseStatus() {
+	return this->ResponseStatus;
 }
 
 std::ostream& operator << (std::ostream& cout, const std::map<std::string, std::string> c) {
@@ -78,26 +102,4 @@ std::ostream& operator << (std::ostream& cout, const std::map<std::string, std::
 		cout << "\t" << begin->first << " : " << begin->second << std::endl;
 	cout << "}";
 	return (cout);
-}
-
-int HttpRequest::NeedParse() {
-	if (this->State == ALL) {
-		return 0;
-	}
-	return 1;
-}
-int HttpRequest::WaitBody() {
-	if (this->State == NEED_BODY) {
-		this->State = ALL;
-		return 1;
-	}
-	return 0;
-}
-
-void HttpRequest::UpdateFirst() {
-	this->First = 0;
-}
-
-int HttpRequest::GetResponseStatus() {
-	return this->ResponseStatus;
 }

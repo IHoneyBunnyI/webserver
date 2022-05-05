@@ -15,7 +15,7 @@ class HttpResponse {
 		std::map<std::string, std::string> Headers;
 		std::string Body;
 		int ResponseStatus;
-		int &CloseConnect;
+		bool &CloseConnect;
 		ServerConfig& Server;
 		int fd;
 	public:
@@ -28,7 +28,6 @@ class HttpResponse {
 		void Error(int ResponseStatus);
 		void SendDefaultError(int ResponseStatus);
 		int GetResponseStatus();
-
 
 		void SendHttp(std::string statusLine, std::string Headers, std::string path);
 

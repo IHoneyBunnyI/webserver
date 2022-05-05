@@ -8,11 +8,11 @@ ServerConfig::ServerConfig():
 	root("html"),
 	locations(),
 	error_pages(),
-	autoindex(0),
-	listenExist(0),
-	client_max_body_sizeExist(0),
-	autoindexExist(0),
-	rootExist(0),
+	autoindex(false),
+	listenExist(false),
+	client_max_body_sizeExist(false),
+	autoindexExist(false),
+	rootExist(false),
 	sockets(0),
 	fds(0)
 {
@@ -34,13 +34,13 @@ Location::Location():
 	cgi_path(""),
 	cgi_extensions(),
 	upload_pass(""),
-	rootExist(0),
-	aliasExist(0),
-	methodsExist(0),
-	cgi_pathExist(0),
-	cgi_extensionsExist(0),
-	upload_passExist(0),
-	indexExist(0)
+	rootExist(false),
+	aliasExist(false),
+	methodsExist(false),
+	cgi_pathExist(false),
+	cgi_extensionsExist(false),
+	upload_passExist(false),
+	indexExist(false)
 {
 	this->indexes.push_back("index");
 	this->indexes.push_back("index.html");
