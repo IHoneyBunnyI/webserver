@@ -13,8 +13,9 @@ ServerConfig::ServerConfig():
 	client_max_body_sizeExist(false),
 	autoindexExist(false),
 	rootExist(false),
-	sockets(0),
-	fds(0)
+	FdSet(0),
+	ServerSockets(0),
+	ClientSockets(0)
 {
 	ips.push_back("0.0.0.0");
 	ports.push_back(80);

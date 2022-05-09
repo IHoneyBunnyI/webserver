@@ -19,11 +19,6 @@ int main(int argc, char** av)
 	if (argc == 2)
 		configFile = av[1];
 
-	//идея заключается в том, чтобы парсер брал все данные о серверах (а их может быть любое кол-во)
-	//Server со всеми данными, где будет вектор портов, location'ов и т.д.
-	//поэтому было принято решение вынести класс Parser из поля класса Server,
-	//далее внутри класса Server будет поле класса HttpRequest, который уже будет парсить каждый запрос отдельно
-	
 	Parser config(configFile);
 	try {
 		config.ParseConfig();
@@ -33,7 +28,7 @@ int main(int argc, char** av)
 	}
 
 	Server server(config);
-	server.CreateListenSockets();
+	server.CreateServerSockets();
 	server.Start();
-	std::cout << "AXAXA" << std::endl;
+	std::cout << "END" << std::endl;
 }

@@ -20,17 +20,12 @@ static int createListenSocket(int port, std::string ip)
 		close(sock_fd);
 	}
 
-	//if ((fcntl(sock_fd, F_SETFL, O_NONBLOCK)) < 0) { //Делаем сокет не блокирующим
-		//Server::Log("fcntl() error");
-		//close(sock_fd);
-	//}
-
 	memset(&socket_in, 0, sizeof(socket_in));
 	socket_in.sin_family = PF_INET;
 	socket_in.sin_port = htons(port); //Задаем порт, который будем слушать
 	socket_in.sin_addr.s_addr = inet_addr(ip.c_str()); //IP
 
-	if (bind(sock_fd, (const struct sockaddr *)&socket_in, sizeof(socket_in)) < 0) { // связываем сокет с адрессом и портом
+	if (bind(sock_fd, (const struct sockaddr *)&socket_in, sizeof(socket_in)) < 0) { // связываем сокет с адресом и портом
 		Server::Log("bind() error");
 		close(sock_fd);
 	}
@@ -42,16 +37,12 @@ static int createListenSocket(int port, std::string ip)
 	return (sock_fd);
 }
 
-void Server::CreateListenSockets() {
+void Server::CreateServerSockets() {
 	for (uint i = 0; i < this->servers.size(); i++) {
 		for (uint j = 0; j < this->servers[i].ports.size(); j++) {
-			servers[i].sockets.push_back(createListenSocket(servers[i].ports[j], servers[i].ips[j]));
-			Server::Log("Socket create with PORT: " + std::to_string(servers[i].ports[j]) + " IP: " + servers[i].ips[j]);
-		}
-	}
-	for (uint i = 0; i < this->servers.size(); i++) {
-		for (uint j = 0; j < this->servers[i].ports.size(); j++) {
-			servers[i].fds.push_back((pollfd){servers[i].sockets[j], POLLIN, 0});
+			int fd = createListenSocket(servers[i].ports[j], servers[i].server_names[j]);
+			servers[i].FdSet.push_back((pollfd){fd, POLLIN, 0});
+			servers[i].ServerSockets.push_back(&(servers[i].FdSet[j]));
 		}
 	}
 }

@@ -44,8 +44,9 @@ struct ServerConfig {
 	bool client_max_body_sizeExist;
 	bool autoindexExist;
 	bool rootExist;
-	std::vector<int> sockets;
-	std::vector<pollfd> fds;
+	std::vector<pollfd> FdSet;
+	std::vector<pollfd*> ServerSockets;
+	std::vector<pollfd> ClientSockets;
 
 	ServerConfig();
 };

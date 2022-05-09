@@ -18,7 +18,7 @@ public:
 
 	static void Log(std::string message);
 	void Start();
-	void CreateListenSockets();
+	void CreateServerSockets();
 	void CloseConnection(std::vector<pollfd> &fds, int i);
 	void OpenConnection(ServerConfig &server, int i);
 
