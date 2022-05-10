@@ -15,11 +15,17 @@ ServerConfig::ServerConfig():
 	rootExist(false),
 	FdSet(0),
 	ServerSockets(0),
-	ClientSockets(0)
+	Clients(0)
 {
 	ips.push_back("0.0.0.0");
 	ports.push_back(80);
 }
+
+Client::Client():
+	clientSocket(0),
+	request(),
+	connected(true)
+{}
 
 ErrorPage::ErrorPage():
 	errors(),

@@ -19,13 +19,15 @@ void Server::OpenConnection(ServerConfig &server, pollfd *ServerFd)
 	fd.fd = new_sd;
 	fd.events = POLLIN;
 	server.FdSet.push_back(fd);
-	server.ClientSockets.push_back(&(server.FdSet.back()));
-	std::cout << GREEN "New connection with fd: " << new_sd << WHITE << std::endl;
+	Client newClient;
+	newClient.clientSocket = &server.FdSet.back();
+	server.Clients.push_back(newClient);
+	//std::cout << GREEN "New connection with fd: " << new_sd << WHITE << std::endl;
 
 	char bits[100];
 	memset(&bits, 0, sizeof(bits));
 	inet_ntop(in.sin_family, &in.sin_addr, bits, sizeof(bits));
 	std::string ip(bits);
-	Server::Log("Client with ip: " + ip + " and fd: " + std::to_string(new_sd) + " connected");
+	//Server::Log("Client with ip: " + ip + " and fd: " + std::to_string(new_sd) + " connected");
 	this->fd_ip[server.FdSet.back().fd] = ip;
 }

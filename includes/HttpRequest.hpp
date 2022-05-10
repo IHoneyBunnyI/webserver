@@ -8,8 +8,6 @@
 class HttpRequest {
 	friend class HttpResponse;
 	private:
-		HttpRequest(const HttpRequest& ref);
-		HttpRequest& operator = (const HttpRequest& ref);
 
 		std::string Method;
 		std::string Path;
@@ -25,6 +23,8 @@ class HttpRequest {
 	public:
 		HttpRequest();
 		~HttpRequest();
+		HttpRequest(const HttpRequest& ref);
+		HttpRequest& operator = (const HttpRequest& ref);
 
 		std::string GetRequest();
 		std::string GetMethod();

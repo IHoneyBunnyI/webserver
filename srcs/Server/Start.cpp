@@ -13,6 +13,19 @@ void erase_fds(std::vector<pollfd> &fds) {
 	}
 }
 
+#include <sys/socket.h>
+void ReadRequest(Client& client) {
+	char buf[BUFSIZE + 1];
+	std::memset(buf, 0, BUFSIZE + 1);
+	int ret = recv(client.clientSocket->fd, buf, BUFSIZE, 0);
+	std::cout << ret << std::endl;
+	if (ret == 0) { //соединение отключено на стороне клиента
+		client.connected = false;
+		return ;
+	}
+	return ;
+}
+
 void Server::Start() {
 	//когда буду переписывать ядро
 	//
@@ -20,7 +33,9 @@ void Server::Start() {
 	//в случае, если произошло событие, нужно сделать accept и доавить этот сокет к фдшникам, это будет клиентский сокет
 	//далее необходимо пройти по всем клиентским сокетам и посмотреть на их события, если где-то появилось, значит там надо читать
 	//std::cout << servers[0] << std::endl;
-	Server::Log("Start Server");
+
+
+	//Server::Log("Start Server");
 
 	while (1) {
 		for (uint servCounter = 0; servCounter < this->servers.size(); servCounter++) {
@@ -34,28 +49,26 @@ void Server::Start() {
 			//в случае елси где-то произошло событие это значит что клиент подключился и надо читать
 			for (uint i = 0; i < server.ServerSockets.size(); i++) {
 				if (server.ServerSockets[i]->revents & POLLIN) {
-					std::cout << "NEW" << std::endl;
 					OpenConnection(server, server.ServerSockets[i]);
 				}
 			}
-			for (uint i = 0; i < server.ClientSockets.size(); i++) {
-				std::cout << "READY READ" << std::endl;
-				//HttpRequest Request;
-				//while (Request.NeedParse()) {
-					//Request.ReadRequest(server.ClientSockets[i]->fd);
-					//if (Request.WaitBody()) {
-						//Request.ReadBody(server.ClientSockets[i]->fd);
-						////Если контент не удалось положить в переменную, то отправляем 413, надо еще прочитать, про 413 подробнее
-					//}
-				//}
-				//Request.UpdateFirst();
-				//HttpResponse Response(Request, server, server.ClientSockets[i]->fd);
-				//Response.Response();
-
-				//if (Request.NeedCloseConnect()) {
-					//this->CloseConnection(server.FdSet, i);
-					////need_erase = 1;
-				//}
+			//std::cout << server.Clients.size() << std::endl;
+			for (uint i = 0; i < server.Clients.size(); i++) {
+				Client &client = server.Clients[i];
+				if (client.clientSocket->revents & POLLIN) {
+					ReadRequest(client);
+					if (!client.connected) {
+						close(client.clientSocket->fd);
+						client.clientSocket->fd = -1;
+						continue;
+					}
+				}
+			}
+			//очищаю вектор отключенных клиентов
+			for (uint i = 0; i < server.Clients.size(); i++) {
+				if (server.Clients[i].clientSocket->fd == -1) {
+					server.Clients.erase(server.Clients.begin() + i);
+				}
 			}
 		}
 	}

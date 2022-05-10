@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <poll.h>
+#include "HttpRequest.hpp"
 
 struct Location {
 	Location();
@@ -31,6 +32,14 @@ struct ErrorPage {
 	ErrorPage();
 };
 
+struct Client {
+	Client();
+
+	pollfd* clientSocket;
+	HttpRequest request;
+	bool connected;
+};
+
 struct ServerConfig {
 	std::vector<std::string> server_names;
 	uint client_max_body_size;
@@ -46,7 +55,7 @@ struct ServerConfig {
 	bool rootExist;
 	std::vector<pollfd> FdSet;
 	std::vector<pollfd*> ServerSockets;
-	std::vector<pollfd*> ClientSockets;
+	std::vector<Client> Clients;
 
 	ServerConfig();
 };
