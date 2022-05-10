@@ -20,8 +20,7 @@ void Server::OpenConnection(ServerConfig &server, pollfd *ServerFd)
 	fd.events = POLLIN;
 	server.FdSet.push_back(fd);
 	server.ClientSockets.push_back(&(server.FdSet.back()));
-	////std::cout << GREEN "New connection with fd: " << new_sd << WHITE << std::endl;
-	//server.fds.push_back(fd);
+	std::cout << GREEN "New connection with fd: " << new_sd << WHITE << std::endl;
 
 	char bits[100];
 	memset(&bits, 0, sizeof(bits));

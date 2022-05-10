@@ -30,10 +30,32 @@ void Server::Start() {
 				std::cout << "ERROR" << std::endl;
 				break;
 			}
+			//проходим по всем фд сервера для проверки
+			//в случае елси где-то произошло событие это значит что клиент подключился и надо читать
 			for (uint i = 0; i < server.ServerSockets.size(); i++) {
 				if (server.ServerSockets[i]->revents & POLLIN) {
+					std::cout << "NEW" << std::endl;
 					OpenConnection(server, server.ServerSockets[i]);
 				}
+			}
+			for (uint i = 0; i < server.ClientSockets.size(); i++) {
+				std::cout << "READY READ" << std::endl;
+				//HttpRequest Request;
+				//while (Request.NeedParse()) {
+					//Request.ReadRequest(server.ClientSockets[i]->fd);
+					//if (Request.WaitBody()) {
+						//Request.ReadBody(server.ClientSockets[i]->fd);
+						////Если контент не удалось положить в переменную, то отправляем 413, надо еще прочитать, про 413 подробнее
+					//}
+				//}
+				//Request.UpdateFirst();
+				//HttpResponse Response(Request, server, server.ClientSockets[i]->fd);
+				//Response.Response();
+
+				//if (Request.NeedCloseConnect()) {
+					//this->CloseConnection(server.FdSet, i);
+					////need_erase = 1;
+				//}
 			}
 		}
 	}
