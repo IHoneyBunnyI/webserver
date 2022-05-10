@@ -20,7 +20,7 @@ public:
 	void Start();
 	void CreateServerSockets();
 	void CloseConnection(std::vector<pollfd> &fds, int i);
-	void OpenConnection(ServerConfig &server, int i);
+	void OpenConnection(ServerConfig &server, pollfd *ServerFd);
 
 private:
 	std::vector<ServerConfig> servers;

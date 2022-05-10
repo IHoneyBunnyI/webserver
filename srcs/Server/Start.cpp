@@ -23,24 +23,18 @@ void Server::Start() {
 	Server::Log("Start Server");
 
 	while (1) {
-		for (std::vector<ServerConfig>::iterator server = servers.begin(); server != servers.end(); server++) {
-			int ret = poll(server->FdSet.data(), server->FdSet.size(), 1000);
-			//std::cout << server->FdSet.size() << std::endl;
+		for (uint servCounter = 0; servCounter < this->servers.size(); servCounter++) {
+			ServerConfig &server = this->servers[servCounter];
+			int ret = poll(server.FdSet.data(), server.FdSet.size(), 1);
 			if (ret < 0) {
 				std::cout << "ERROR" << std::endl;
 				break;
 			}
-			for (uint i = 0; i < server->ServerSockets.size(); i++) {
-				//std::cout << "A" << std::endl;
-				std::cout << server->ServerSockets[i]->revents << std::endl;
-				std::cout << POLLIN << std::endl;
-				if (server->ServerSockets[i]->revents & POLLIN) {
-					std::cout << "OPEN NEW CLIENT" << std::endl;
-					server->ServerSockets[i]->revents &= ~POLLIN;
-					//acceptClient(server->ServerSockets[i]);
+			for (uint i = 0; i < server.ServerSockets.size(); i++) {
+				if (server.ServerSockets[i]->revents & POLLIN) {
+					OpenConnection(server, server.ServerSockets[i]);
 				}
 			}
-			//std::cout << "AAAAAAAAAAAAA" << std::endl;
 		}
 	}
 	std::cout << "Сюда не должен был зайти" << std::endl;

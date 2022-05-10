@@ -15,11 +15,10 @@ void Parser::ParseConfig()
 	while (stream) {
 		Parser::getLine(stream, line);
 		Parser::trim(line);
-		ServerConfig serv;
 		if (line == "" || (line.find("/*") != std::string::npos && line.find("*/") != std::string::npos))
 			continue;
 		if (line == "server") {
-			serv = ParseServer(stream);
+			ServerConfig serv = ParseServer(stream);
 			this->servers.push_back(serv);
 		} else {
 			throw UnknownDirective(line);

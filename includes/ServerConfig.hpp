@@ -46,7 +46,7 @@ struct ServerConfig {
 	bool rootExist;
 	std::vector<pollfd> FdSet;
 	std::vector<pollfd*> ServerSockets;
-	std::vector<pollfd> ClientSockets;
+	std::vector<pollfd*> ClientSockets;
 
 	ServerConfig();
 };

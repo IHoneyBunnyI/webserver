@@ -40,9 +40,9 @@ static int createListenSocket(int port, std::string ip)
 void Server::CreateServerSockets() {
 	for (uint i = 0; i < this->servers.size(); i++) {
 		for (uint j = 0; j < this->servers[i].ports.size(); j++) {
-			int fd = createListenSocket(servers[i].ports[j], servers[i].server_names[j]);
+			int fd = createListenSocket(servers[i].ports[j], servers[i].ips[j]);
 			servers[i].FdSet.push_back((pollfd){fd, POLLIN, 0});
-			servers[i].ServerSockets.push_back(&(servers[i].FdSet[j]));
+			servers[i].ServerSockets.push_back(&(servers[i].FdSet.back()));
 		}
 	}
 }

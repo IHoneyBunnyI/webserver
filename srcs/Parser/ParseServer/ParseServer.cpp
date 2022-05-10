@@ -1,6 +1,7 @@
 #include "Parser.hpp"
 
 ServerConfig ParseServer(std::ifstream &stream) {
+	//std::cout << "BIBA" << std::endl;
 	ServerConfig server;
 
 	std::string line;
@@ -33,7 +34,6 @@ ServerConfig ParseServer(std::ifstream &stream) {
 		}
 
 	}
-	//std::cout << server;
 	return server;
 }
 
