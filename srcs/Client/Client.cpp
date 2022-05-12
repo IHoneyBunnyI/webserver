@@ -6,6 +6,7 @@ Client::Client():
 	Method(""),
 	Path(""),
 	Version(""),
+	Tmp(""),
 	connected(true),
 	full(false)
 {}

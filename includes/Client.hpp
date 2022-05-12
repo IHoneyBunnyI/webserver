@@ -2,7 +2,8 @@
 #define CLIENT_HPP
 #include <poll.h>
 #include <iostream>
-#define BUFSIZE (1 << 20)
+//#define BUFSIZE (1 << 20)
+#define BUFSIZE (3)
 
 class Client {
 	private:
@@ -10,6 +11,7 @@ class Client {
 		std::string Method;
 		std::string Path;
 		std::string Version;
+		std::string Tmp;
 		bool connected;
 		bool full;
 

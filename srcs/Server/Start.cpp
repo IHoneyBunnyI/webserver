@@ -18,6 +18,7 @@ void ReadRequest(Client& client) {
 	char buf[BUFSIZE + 1];
 	std::memset(buf, 0, BUFSIZE + 1);
 	int ret = recv(client.Fd(), buf, BUFSIZE, 0);
+	//std::cout << "VISOV: "<< buf << std::endl;
 	//std::cout << ret << std::endl;
 	if (ret == 0) { //соединение отключено на стороне клиента
 		client.SetConnected(false);
@@ -27,6 +28,7 @@ void ReadRequest(Client& client) {
 		client.SetConnected(false);
 	}
 	else if (ret > 0) {
+		//std::cout << ret << std::endl;
 		client.ParseRequest(buf);
 	}
 }

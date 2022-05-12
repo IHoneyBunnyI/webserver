@@ -1,11 +1,28 @@
 #include "Client.hpp"
+#include "Parser.hpp"
 
 void Client::ParseRequest(std::string buf) {
-	std::string line;
-	size_t index = buf.find('\n');
-	while (index != std::string::npos) {
-			line = buf.substr(0, index);
-			buf = buf.substr(index + 1);
+	//std::string line;
+	std::cout << "NEW CALL" << std::endl;
+	std::vector<std::string> lines;
+	if (!this->Tmp.empty()) {
+		buf = Tmp + buf;
+		Tmp = "";
 	}
-	std::cout << "OSTATOK: "<< buf << std::endl;
+	if (buf.find('\n') != std::string::npos) {
+		lines = Parser::split(buf, "\n");
+	} else {
+		this->Tmp = buf;
+		return;
+	}
+	//std::cout << "NEW CALL" << std::endl;
+	//std::cout << lines.size() << std::endl;
+	for (uint i = 0; i < lines.size(); i++) {
+		std::cout << "lines " << i << ") " << lines[i] << std::endl;
+	}
+	//while (buf.find('\n') != std::string::npos) {
+		//line = buf.substr(0, buf.find('\n'));
+		//buf = buf.substr(buf.find('\n'));
+	//}
+	//std::cout << "OSTATOK: "<< buf << std::endl;
 }
