@@ -17,11 +17,14 @@ void erase_fds(std::vector<pollfd> &fds) {
 void ReadRequest(Client& client) {
 	char buf[BUFSIZE + 1];
 	std::memset(buf, 0, BUFSIZE + 1);
-	int ret = recv(client.clientSocket->fd, buf, BUFSIZE, 0);
+	int ret = recv(client.Fd(), buf, BUFSIZE, 0);
 	//std::cout << ret << std::endl;
-	if (ret <= 0) { //соединение отключено на стороне клиента
-		client.connected = false;
+	if (ret == 0) { //соединение отключено на стороне клиента
+		client.SetConnected(false);
 		return ;
+	}
+	if (ret < 0) {
+		client.SetConnected(false);
 	}
 	else if (ret > 0) {
 		//client.ParseRequest();
@@ -49,12 +52,11 @@ void Server::Start() {
 			//std::cout << server.Clients.size() << std::endl;
 			for (uint i = 0; i < server.Clients.size(); i++) {
 				Client &client = server.Clients[i];
-				if (client.clientSocket->revents & POLLIN) {
-					if (!client.full) {
+				if (client.Revents() & POLLIN) {
+					if (!client.Full()) {
 						ReadRequest(client);
-						if (!client.connected) {
-							close(client.clientSocket->fd);
-							client.clientSocket->fd = -1;
+						if (!client.Connected()) {
+							client.Close();
 							continue;
 						}
 					}
@@ -62,7 +64,7 @@ void Server::Start() {
 			}
 			//очищаю вектор отключенных клиентов
 			for (uint i = 0; i < server.Clients.size(); i++) {
-				if (server.Clients[i].clientSocket->fd == -1) {
+				if (server.Clients[i].Fd() == -1) {
 					server.Clients.erase(server.Clients.begin() + i);
 				}
 			}

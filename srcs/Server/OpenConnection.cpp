@@ -19,8 +19,12 @@ void Server::OpenConnection(ServerConfig &server, pollfd *ServerFd)
 	fd.fd = new_sd;
 	fd.events = POLLIN;
 	server.FdSet.push_back(fd);
+
 	Client newClient;
-	newClient.clientSocket = &server.FdSet.back();
+
+	newClient.SetSocket(&server.FdSet.back());
+	//newClient.clientSocket = &server.FdSet.back();
+
 	server.Clients.push_back(newClient);
 	//std::cout << GREEN "New connection with fd: " << new_sd << WHITE << std::endl;
 
