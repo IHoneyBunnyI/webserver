@@ -3,7 +3,6 @@
 #include "webserv.hpp"
 #include <sstream>
 #include <sys/socket.h>
-#define BUFSIZE (1 << 20)
 
 std::string HttpRequest::ReadRequest(int fd) {
 	char buf[BUFSIZE + 1];

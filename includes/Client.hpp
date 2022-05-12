@@ -2,6 +2,7 @@
 #define CLIENT_HPP
 #include <poll.h>
 #include <iostream>
+#define BUFSIZE (1 << 20)
 
 class Client {
 	private:
@@ -23,6 +24,7 @@ class Client {
 		void Close();
 		short Revents();
 		int Fd();
+		void ParseRequest(std::string buf);
 
 };
 

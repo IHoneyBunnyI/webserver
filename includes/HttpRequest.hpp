@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <map>
-#define BUFSIZE (1 << 20)
 
 class HttpRequest {
 	friend class HttpResponse;
@@ -39,7 +38,7 @@ class HttpRequest {
 		void SetCloseConnection(int CloseConnect);
 		std::map<std::string, std::string> GetHeaders();
 
-		void ParseRequest(std::string line);
+		void ParseRequest_old(std::string line);
 		void RequestLine(std::string line);
 		void AddHeader(std::string line);
 		std::string ReadRequest(int fd);

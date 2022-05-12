@@ -10,9 +10,7 @@ Client::Client():
 	full(false)
 {}
 
-Client::~Client() {
-
-}
+Client::~Client() {}
 
 void Client::SetSocket(pollfd *socket) {
 	this->Socket = socket;

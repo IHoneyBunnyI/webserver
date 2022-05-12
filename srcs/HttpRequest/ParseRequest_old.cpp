@@ -1,7 +1,7 @@
 #include "HttpRequest.hpp"
 #include "webserv.hpp"
 
-void HttpRequest::ParseRequest(std::string line) {
+void HttpRequest::ParseRequest_old(std::string line) {
 	if (this->RequestLineExist == 0) {
 		RequestLine(line);
 		this->RequestLineExist = 1;

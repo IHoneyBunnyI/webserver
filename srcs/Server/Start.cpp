@@ -27,7 +27,7 @@ void ReadRequest(Client& client) {
 		client.SetConnected(false);
 	}
 	else if (ret > 0) {
-		//client.ParseRequest();
+		client.ParseRequest(buf);
 	}
 }
 

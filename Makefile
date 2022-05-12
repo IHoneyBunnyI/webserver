@@ -13,7 +13,6 @@ CPP_FILES = CGI.cpp\
 			AddHeader.cpp\
 			HttpRequest.cpp\
 			NeedCloseConnect.cpp\
-			ParseRequest.cpp\
 			ReadBody.cpp\
 			ReadRequest.cpp\
 			RequestLine.cpp\
