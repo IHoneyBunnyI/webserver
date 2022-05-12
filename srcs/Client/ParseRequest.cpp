@@ -11,6 +11,10 @@ void Client::ParseRequest(std::string buf) {
 	}
 	if (buf.find('\n') != std::string::npos) {
 		lines = Parser::split(buf, "\n");
+		if (buf[buf.length() - 1] != '\n') {
+			this->Tmp = lines[lines.size() - 1];
+			lines.erase(lines.end() - 1);
+		}
 	} else {
 		this->Tmp = buf;
 		return;
