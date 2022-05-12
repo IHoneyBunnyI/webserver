@@ -21,12 +21,6 @@ ServerConfig::ServerConfig():
 	ports.push_back(80);
 }
 
-Client::Client():
-	clientSocket(0),
-	request(),
-	connected(true)
-{}
-
 ErrorPage::ErrorPage():
 	errors(),
 	error_page("")

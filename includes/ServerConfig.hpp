@@ -4,6 +4,7 @@
 #include <vector>
 #include <poll.h>
 #include "HttpRequest.hpp"
+#include "Client.hpp"
 
 struct Location {
 	Location();
@@ -30,14 +31,6 @@ struct ErrorPage {
 	std::string error_page;
 
 	ErrorPage();
-};
-
-struct Client {
-	Client();
-
-	pollfd* clientSocket;
-	HttpRequest request;
-	bool connected;
 };
 
 struct ServerConfig {

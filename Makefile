@@ -8,6 +8,8 @@ INCLUDES = -Iincludes/
 CXXFLAGS = $(INCLUDES)  -g -std=c++98 -fsanitize=address -Wall -Wextra -Werror
 
 CPP_FILES = CGI.cpp\
+			Client.cpp\
+			ParseRequest.cpp\
 			AddHeader.cpp\
 			HttpRequest.cpp\
 			NeedCloseConnect.cpp\
@@ -48,6 +50,7 @@ CPP_FILES = CGI.cpp\
 			main.cpp\
 
 HPP_FILES = CGI.hpp\
+			Client.hpp\
 			HttpRequest.hpp\
 			HttpResponse.hpp\
 			Parser.hpp\
@@ -65,6 +68,7 @@ INDEX = 0
 
 VPATH = srcs/\
 		srcs/CGI/\
+		srcs/Client/\
 		srcs/HttpRequest/\
 		srcs/HttpRespone/\
 		srcs/Parser/\
