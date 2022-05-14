@@ -9,22 +9,24 @@ void Client::ParseRequest(std::string buf) {
 		buf = this->Tmp + buf;
 		Tmp = "";
 	}
-	while (buf.find('\n') != std::string::npos) {
-			line = buf.substr(0, buf.find('\n'));
-			buf = buf.substr(buf.find('\n') + 1);
-			if (line == "" || line == "\r") {
-				this->full = true;
-				break;
-			}
-			ParseLineFromRequest(line);
+	if (!this->full) {
+		while (buf.find('\n') != std::string::npos) {
+				line = buf.substr(0, buf.find('\n'));
+				buf = buf.substr(buf.find('\n') + 1);
+				if (line == "" || line == "\r") {
+					this->full = true;
+					break;
+				}
+				ParseLineFromRequest(line);
+		}
 	}
 	if (!buf.empty()) {
 		this->Tmp = buf;
 	}
 	if (this->full && this->Headers.count("Content-Length") > 0) {
 		this->body = this->body + this->Tmp;
-		//if (body.size() > server.client_max_body_size) {
-			//this->ResponseStatus = 413;
-		//}
+		if (this->body.size() > this->ClientMaxBodySize) {
+			this->ResponseStatus = 413;
+		}
 	}
 }

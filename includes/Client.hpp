@@ -7,7 +7,8 @@
 //#define BUFSIZE (3)
 
 class Client {
-	private:
+	//private:
+	public:
 		pollfd* Socket;
 		std::string Method;
 		std::string Path;
@@ -16,6 +17,7 @@ class Client {
 		std::string body;
 		std::map<std::string, std::string> Headers;
 		uint ResponseStatus;
+		uint ClientMaxBodySize;
 		bool connected;
 		bool full;
 		bool FirstRequestLineExist;
@@ -26,6 +28,7 @@ class Client {
 
 		void SetSocket(pollfd *socket);
 		void SetConnected(bool connected);
+		void SetClientMaxBodySize(uint num);
 		bool Full();
 		bool Connected();
 		void Close();
@@ -34,6 +37,7 @@ class Client {
 		void ParseRequest(std::string buf);
 		void ParseLineFromRequest(std::string line);
 		void FirstRequestLine(std::string line);
+		void AddHeader(std::string line);
 
 };
 

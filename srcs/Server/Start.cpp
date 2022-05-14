@@ -18,8 +18,6 @@ void ReadRequest(Client& client) {
 	char buf[BUFSIZE + 1];
 	std::memset(buf, 0, BUFSIZE + 1);
 	int ret = recv(client.Fd(), buf, BUFSIZE, 0);
-	//std::cout << "VISOV: "<< buf << std::endl;
-	//std::cout << ret << std::endl;
 	if (ret == 0) { //соединение отключено на стороне клиента
 		client.SetConnected(false);
 		return ;
@@ -28,8 +26,13 @@ void ReadRequest(Client& client) {
 		client.SetConnected(false);
 	}
 	else if (ret > 0) {
-		//std::cout << ret << std::endl;
 		client.ParseRequest(buf);
+	}
+}
+
+void pMap(std::map<std::string, std::string> &map) {
+	for (std::map<std::string, std::string>::iterator it = map.begin(); it != map.end(); it++) {
+		std::cout << it->first << ":" << it->second << std::endl;
 	}
 }
 
@@ -55,13 +58,12 @@ void Server::Start() {
 			for (uint i = 0; i < server.Clients.size(); i++) {
 				Client &client = server.Clients[i];
 				if (client.Revents() & POLLIN) {
-					if (!client.Full()) {
-						ReadRequest(client);
-						if (!client.Connected()) {
-							client.Close();
-							continue;
-						}
+					ReadRequest(client);
+					if (!client.Connected()) {
+						client.Close();
+						continue;
 					}
+					pMap(client.Headers);
 				}
 			}
 			//очищаю вектор отключенных клиентов

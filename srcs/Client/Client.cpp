@@ -10,6 +10,7 @@ Client::Client():
 	body(""),
 	Headers(),
 	ResponseStatus(0),
+	ClientMaxBodySize(0),
 	connected(true),
 	full(false),
 	FirstRequestLineExist(false)
@@ -23,6 +24,10 @@ void Client::SetSocket(pollfd *socket) {
 
 void Client::SetConnected(bool connected) {
 	this->connected = connected;
+}
+
+void Client::SetClientMaxBodySize(uint num) {
+	this->ClientMaxBodySize = num;
 }
 
 bool Client::Full() {

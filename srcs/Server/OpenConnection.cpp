@@ -21,6 +21,7 @@ void Server::OpenConnection(ServerConfig &server, pollfd *ServerFd)
 	server.FdSet.push_back(fd);
 
 	Client newClient;
+	newClient.SetClientMaxBodySize(server.client_max_body_size);
 
 	newClient.SetSocket(&server.FdSet.back());
 	//newClient.clientSocket = &server.FdSet.back();
