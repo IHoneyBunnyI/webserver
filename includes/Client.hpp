@@ -2,8 +2,9 @@
 #define CLIENT_HPP
 #include <poll.h>
 #include <iostream>
-//#define BUFSIZE (1 << 20)
-#define BUFSIZE (3)
+#include <map>
+#define BUFSIZE (1 << 20)
+//#define BUFSIZE (3)
 
 class Client {
 	private:
@@ -12,8 +13,11 @@ class Client {
 		std::string Path;
 		std::string Version;
 		std::string Tmp;
+		std::map<std::string, std::string> Headers;
+		uint ResponseStatus;
 		bool connected;
 		bool full;
+		bool RequestLineExist;
 
 	public:
 		Client();
@@ -27,6 +31,8 @@ class Client {
 		short Revents();
 		int Fd();
 		void ParseRequest(std::string buf);
+		void ParseLineFromRequest(std::string line);
+		void RequestLine(std::string line);
 
 };
 

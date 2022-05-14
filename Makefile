@@ -9,12 +9,8 @@ CXXFLAGS = $(INCLUDES)  -g -std=c++98 -fsanitize=address -Wall -Wextra -Werror
 
 CPP_FILES = CGI.cpp\
 			Client.cpp\
+			ParseLineFromRequest.cpp\
 			ParseRequest.cpp\
-			AddHeader.cpp\
-			HttpRequest.cpp\
-			NeedCloseConnect.cpp\
-			ReadBody.cpp\
-			ReadRequest.cpp\
 			RequestLine.cpp\
 			Error.cpp\
 			Get.cpp\
@@ -50,7 +46,6 @@ CPP_FILES = CGI.cpp\
 
 HPP_FILES = CGI.hpp\
 			Client.hpp\
-			HttpRequest.hpp\
 			HttpResponse.hpp\
 			Parser.hpp\
 			Server.hpp\
@@ -68,7 +63,6 @@ INDEX = 0
 VPATH = srcs/\
 		srcs/CGI/\
 		srcs/Client/\
-		srcs/HttpRequest/\
 		srcs/HttpRespone/\
 		srcs/Parser/\
 		srcs/Parser/ParseServer/\

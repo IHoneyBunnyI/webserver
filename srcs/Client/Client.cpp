@@ -7,8 +7,11 @@ Client::Client():
 	Path(""),
 	Version(""),
 	Tmp(""),
+	Headers(),
+	ResponseStatus(0),
 	connected(true),
-	full(false)
+	full(false),
+	RequestLineExist(false)
 {}
 
 Client::~Client() {}
