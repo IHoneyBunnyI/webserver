@@ -13,6 +13,7 @@ class Client {
 		std::string Path;
 		std::string Version;
 		std::string Tmp;
+		std::string body;
 		std::map<std::string, std::string> Headers;
 		uint ResponseStatus;
 		bool connected;

@@ -13,11 +13,11 @@ std::string setResponseStatus(int ResponseStatus) {
 	} else if (ResponseStatus == 404) {
 		statusLine += "Not Found\n";
 	} else if (ResponseStatus == 405) {
-		statusLine = "Method Not Allowed\n";
+		statusLine += "Method Not Allowed\n";
 	} else if (ResponseStatus == 413) {
-		statusLine = "Payload Too Large\n";
+		statusLine += "Payload Too Large\n";
 	} else if (ResponseStatus == 505) {
-		statusLine = "HTTP Version Not Supported\n";
+		statusLine += "HTTP Version Not Supported\n";
 	}
 	return statusLine;
 }

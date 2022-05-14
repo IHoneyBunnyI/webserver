@@ -7,6 +7,7 @@ Client::Client():
 	Path(""),
 	Version(""),
 	Tmp(""),
+	body(""),
 	Headers(),
 	ResponseStatus(0),
 	connected(true),

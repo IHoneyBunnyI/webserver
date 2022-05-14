@@ -3,7 +3,7 @@
 
 void Client::ParseRequest(std::string buf) {
 	std::string line;
-	std::cout << "NEW CALL" << std::endl;
+	//std::cout << "NEW CALL" << std::endl;
 	//std::vector<std::string> lines;
 	if (!this->Tmp.empty()) {
 		buf = this->Tmp + buf;
@@ -20,5 +20,11 @@ void Client::ParseRequest(std::string buf) {
 	}
 	if (!buf.empty()) {
 		this->Tmp = buf;
+	}
+	if (this->full && this->Headers.count("Content-Length") > 0) {
+		this->body = this->body + this->Tmp;
+		//if (body.size() > server.client_max_body_size) {
+			//this->ResponseStatus = 413;
+		//}
 	}
 }
