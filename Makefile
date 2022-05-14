@@ -11,7 +11,7 @@ CPP_FILES = CGI.cpp\
 			Client.cpp\
 			ParseLineFromRequest.cpp\
 			ParseRequest.cpp\
-			RequestLine.cpp\
+			FirstRequestLine.cpp\
 			Error.cpp\
 			Get.cpp\
 			HttpResponse.cpp\

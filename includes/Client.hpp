@@ -17,7 +17,7 @@ class Client {
 		uint ResponseStatus;
 		bool connected;
 		bool full;
-		bool RequestLineExist;
+		bool FirstRequestLineExist;
 
 	public:
 		Client();
@@ -32,7 +32,7 @@ class Client {
 		int Fd();
 		void ParseRequest(std::string buf);
 		void ParseLineFromRequest(std::string line);
-		void RequestLine(std::string line);
+		void FirstRequestLine(std::string line);
 
 };
 

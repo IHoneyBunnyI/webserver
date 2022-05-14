@@ -8,8 +8,8 @@ static int AvailableMethod(std::string token) {
 	return 0;
 }
 
-void Client::RequestLine(std::string line) {
-	this->RequestLineExist = true;
+void Client::FirstRequestLine(std::string line) {
+	this->FirstRequestLineExist = true;
 	Parser::replace_all(line, "\t", " ");
 	Parser::replace_all(line, "\r", " ");
 	Parser::trim(line);
@@ -31,5 +31,4 @@ void Client::RequestLine(std::string line) {
 		this->ResponseStatus = 505;
 		return;
 	}
-	std::cout << this->ResponseStatus << std::endl;
 }

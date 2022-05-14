@@ -11,7 +11,7 @@ Client::Client():
 	ResponseStatus(0),
 	connected(true),
 	full(false),
-	RequestLineExist(false)
+	FirstRequestLineExist(false)
 {}
 
 Client::~Client() {}
