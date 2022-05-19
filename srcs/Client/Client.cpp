@@ -11,6 +11,7 @@ Client::Client():
 	Headers(),
 	ResponseStatus(0),
 	ClientMaxBodySize(0),
+	ContentLength(0),
 	connected(true),
 	full(false),
 	FullHeaders(false),

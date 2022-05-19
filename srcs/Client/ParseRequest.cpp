@@ -21,18 +21,18 @@ void Client::ParseRequest(std::string buf) {
 	if (!buf.empty()) {
 		this->Tmp = buf;
 	}
-	if (this->FullHeaders && this->Headers.count("Content-Length") > 0) {
+	if (this->FullHeaders && (this->Headers.count("Content-Length") > 0 || this->Headers.count("Transfer-Encoding") > 0)) {
+		this->ContentLength = static_cast<unsigned long>(std::stol(this->Headers["Content-Length"]));
 		this->body = this->body + this->Tmp;
 		if (this->body.size() > this->ClientMaxBodySize) {
 			this->ResponseStatus = 413;
 			this->body = "";
 			this->full = true;
 		}
-		unsigned long ContentLength = static_cast<unsigned long>(std::stol(this->Headers["Content-Length"]));
-		if (this->body.size() >= ContentLength) { //Проверям полностью ли дошел нам боди
+		if (this->body.size() >= this->ContentLength) { //Проверям полностью ли дошел нам боди
 			this->full = true;
-			if (this->body.size() > ContentLength) { //Если боди пришло много отрезаем до ContentLength
-				this->body = this->body.substr(0, ContentLength);
+			if (this->body.size() > this->ContentLength) { //Если боди пришло много отрезаем до ContentLength
+				this->body = this->body.substr(0, this->ContentLength);
 				//std::cout << "SIZE " << this->body.size() << std::endl;
 				//std::cout << "BODY " << body << std::endl;
 			}

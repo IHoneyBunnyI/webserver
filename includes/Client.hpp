@@ -18,6 +18,7 @@ class Client {
 		std::map<std::string, std::string> Headers;
 		uint ResponseStatus;
 		uint ClientMaxBodySize;
+		uint ContentLength;
 		bool connected;
 		bool full;
 		bool FullHeaders;
@@ -39,7 +40,6 @@ class Client {
 		void ParseLineFromRequest(std::string line);
 		void FirstRequestLine(std::string line);
 		void AddHeader(std::string line);
-
 };
 
 #endif // CLIENT_HPP
