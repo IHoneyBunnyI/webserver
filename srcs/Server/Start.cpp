@@ -63,7 +63,10 @@ void Server::Start() {
 						client.Close();
 						continue;
 					}
-					pMap(client.Headers);
+					if (client.Full()) {
+						std::cout << "RESPONSE" << std::endl;
+					}
+					//pMap(client.Headers);
 				}
 			}
 			//очищаю вектор отключенных клиентов

@@ -20,6 +20,7 @@ class Client {
 		uint ClientMaxBodySize;
 		bool connected;
 		bool full;
+		bool FullHeaders;
 		bool FirstRequestLineExist;
 
 	public:

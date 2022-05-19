@@ -13,6 +13,7 @@ Client::Client():
 	ClientMaxBodySize(0),
 	connected(true),
 	full(false),
+	FullHeaders(false),
 	FirstRequestLineExist(false)
 {}
 

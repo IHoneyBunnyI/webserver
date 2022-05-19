@@ -3,18 +3,16 @@
 
 void Client::ParseRequest(std::string buf) {
 	std::string line;
-	//std::cout << "NEW CALL" << std::endl;
-	//std::vector<std::string> lines;
 	if (!this->Tmp.empty()) {
 		buf = this->Tmp + buf;
 		Tmp = "";
 	}
-	if (!this->full) {
+	if (!this->FullHeaders) {
 		while (buf.find('\n') != std::string::npos) {
 				line = buf.substr(0, buf.find('\n'));
 				buf = buf.substr(buf.find('\n') + 1);
 				if (line == "" || line == "\r") {
-					this->full = true;
+					this->FullHeaders = true;
 					break;
 				}
 				ParseLineFromRequest(line);
@@ -23,10 +21,23 @@ void Client::ParseRequest(std::string buf) {
 	if (!buf.empty()) {
 		this->Tmp = buf;
 	}
-	if (this->full && this->Headers.count("Content-Length") > 0) {
+	if (this->FullHeaders && this->Headers.count("Content-Length") > 0) {
 		this->body = this->body + this->Tmp;
 		if (this->body.size() > this->ClientMaxBodySize) {
 			this->ResponseStatus = 413;
+			this->body = "";
+			this->full = true;
 		}
+		unsigned long ContentLength = static_cast<unsigned long>(std::stol(this->Headers["Content-Length"]));
+		if (this->body.size() >= ContentLength) { //Проверям полностью ли дошел нам боди
+			this->full = true;
+			if (this->body.size() > ContentLength) { //Если боди пришло много отрезаем до ContentLength
+				this->body = this->body.substr(0, ContentLength);
+				//std::cout << "SIZE " << this->body.size() << std::endl;
+				//std::cout << "BODY " << body << std::endl;
+			}
+		}
+	} else if (this->FullHeaders) {
+		this->full = true;
 	}
 }

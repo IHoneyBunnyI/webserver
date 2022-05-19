@@ -2,17 +2,17 @@
 #include "webserv.hpp"
 #include "HttpResponse.hpp"
 
-HttpResponse::HttpResponse(HttpRequest &request, ServerConfig &server, int fd):
-	Method(request.Method),
-	Path(request.Path),
-	Version(request.Version),
-	Headers(request.Headers),
-	Body(request.Body),
-	ResponseStatus(request.ResponseStatus),
-	CloseConnect(request.CloseConnect),
-	Server(server),
-	fd(fd) {
-}
+//HttpResponse::HttpResponse(HttpRequest &request, ServerConfig &server, int fd):
+	//Method(request.Method),
+	//Path(request.Path),
+	//Version(request.Version),
+	//Headers(request.Headers),
+	//Body(request.Body),
+	//ResponseStatus(request.ResponseStatus),
+	//CloseConnect(request.CloseConnect),
+	//Server(server),
+	//fd(fd) {
+//}
 
 HttpResponse::~HttpResponse(){};
 

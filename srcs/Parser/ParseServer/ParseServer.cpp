@@ -32,7 +32,6 @@ ServerConfig ParseServer(std::ifstream &stream) {
 		} else {
 			throw Parser::UnknownDirective(line);
 		}
-
 	}
 	return server;
 }

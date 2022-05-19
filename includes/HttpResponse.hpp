@@ -19,7 +19,7 @@ class HttpResponse {
 		ServerConfig& Server;
 		int fd;
 	public:
-		HttpResponse(HttpRequest &request, ServerConfig &server, int fd);
+		//HttpResponse(HttpRequest &request, ServerConfig &server, int fd);
 		~HttpResponse();
 		void Response();
 		void Get(Location &location);
