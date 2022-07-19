@@ -5,3 +5,4 @@ First you need to configure the config file, if there is no such, then the serve
 ```
 ./webserver <path_to_file>
 ```
+To view all available config directives, watch: [this file](./example.conf)
